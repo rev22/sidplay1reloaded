@@ -1,196 +1,188 @@
-//
-// /home/ms/sources/sidplay/libsidplay/include/RCS/smart.h,v
-//
+// Simple smart pointer class.
 
-#ifndef SMART_H
-#define SMART_H
+#ifndef smart_h
+#define smart_h
 
-
-#include <iostream.h>
-#include <iomanip.h>
-#include <ctype.h>
-#include "mytypes.h"
-
+typedef unsigned long int ulint;
 
 template <class T>
 class smartPtrBase
 {
  public:  // ----------------------------------------------------------------
-	
-	// --- constructors ---
-	
-	smartPtrBase(T* pBuffer, udword bufferLen, bool bufOwner = false) : dummy(0)
-	{
-		doFree = bufOwner;
-		if ( bufferLen >= 1 )
-		{
-			pBufCurrent = ( pBufBegin = pBuffer );
-			pBufEnd = pBufBegin + bufferLen;
-			bufLen = bufferLen;
-			status = true;
-		}
-		else
-		{
-			pBufCurrent = ( pBufBegin = ( pBufEnd = 0 ));
-			bufLen = 0;
-			status = false;
-		}
-	}
-	
-	// --- destructor ---
-	
-	virtual ~smartPtrBase()
-	{
-		if ( doFree && (pBufBegin != 0) )
-		{
-			delete[] pBufBegin;
-		}
-	}
-	
-	// --- public member functions ---
-	
-	virtual T* tellBegin()  { return pBufBegin;	}
-	virtual udword tellLength()  { return bufLen; }
-	virtual udword tellPos()  { return (udword)(pBufCurrent-pBufBegin); }
-  
-	virtual bool reset()
-	{
-		if ( bufLen >= 1 )
-		{
-			pBufCurrent = pBufBegin;
-			return (status = true);
-		}
-		else
-		{
-			return (status = false);
-		}
-	}
-
-	virtual bool good()
-	{
-		if ( pBufCurrent < pBufEnd )
-			return true;
-		else
-			return false;
-	}
-	
-	virtual bool fail()  
-	{
-		if ( pBufCurrent == pBufEnd )
-			return true;
-		else
-			return false;
-	}
-	
-	virtual void operator ++()
-	{
-		if ( status && !fail() )
-		{
-			pBufCurrent++;
-		}
-		else
-		{
-			status = false;
-		}
-	}
-	
-	virtual void operator ++(int)
-	{
-		if ( status && !fail() )
-		{
-			pBufCurrent++;
-		}
-		else
-		{
-			status = false;
-		}
-	}
-	
-	virtual void operator --()
-	{
-		if ( status && (pBufCurrent > pBufBegin) )
-		{
-			pBufCurrent--;
-		}
-		else
-		{
-			status = false;
-		}
-	}
-	
-	virtual void operator --(int)
-	{
-		if ( status && (pBufCurrent > pBufBegin) )
-		{
-			pBufCurrent--;
-		}
-		else
-		{
-			status = false;
-		}
-	}
-	
-	virtual void operator +=(udword offset)
-	{
-		if ( status && ((pBufCurrent + offset) < pBufEnd) )
-		{
-			pBufCurrent += offset;
-		}
-		else
-		{
-			status = false;
-		}
-	}
-	
-	virtual void operator -=(udword offset)
-	{
-		if ( status && ((pBufCurrent - offset) >= pBufBegin) )
-		{
-			pBufCurrent -= offset;
-		}
-		else
-		{
-			status = false;
-		}
-	}
-	
-	T operator*()
-	{
-		if ( status && good() )
-		{
-			return *pBufCurrent;
-		}
-		else
-		{
-			status = false;
-			return dummy;
-		}
-	}
-
-	T& operator [](udword index)
-	{
-		if ( status && ((pBufCurrent + index) < pBufEnd) )
-		{
-			return pBufCurrent[index];
-		}
-		else
-		{
-			status = false;
-			return dummy;
-		}
+    
+    // --- constructors ---
+    
+    smartPtrBase(T* buffer, ulint bufferLen, bool bufOwner = false) : dummy(0)
+    {
+        doFree = bufOwner;
+        if ( bufferLen >= 1 )
+        {
+            pBufCurrent = ( bufBegin = buffer );
+            bufEnd = bufBegin + bufferLen;
+            bufLen = bufferLen;
+            status = true;
         }
+        else
+        {
+            pBufCurrent = ( bufBegin = ( bufEnd = 0 ));
+            bufLen = 0;
+            status = false;
+        }
+    }
+    
+    // --- destructor ---
+    
+    virtual ~smartPtrBase()
+    {
+        if ( doFree && (bufBegin != 0) )
+        {
+            delete[] bufBegin;
+        }
+    }
+    
+    // --- public member functions ---
+    
+    virtual T* tellBegin()  { return bufBegin; }
+    virtual ulint tellLength()  { return bufLen; }
+    virtual ulint tellPos()  { return (ulint)(pBufCurrent-bufBegin); }
 
-	virtual operator bool()  { return status; }
-	
+    virtual bool checkIndex(ulint index)
+    {
+        return ((pBufCurrent+index)<bufEnd);
+    }
+    
+    virtual bool reset()
+    {
+        if ( bufLen >= 1 )
+        {
+            pBufCurrent = bufBegin;
+            return (status = true);
+        }
+        else
+        {
+            return (status = false);
+        }
+    }
+
+    virtual bool good()
+    {
+        return (pBufCurrent<bufEnd);
+    }
+    
+    virtual bool fail()  
+    {
+        return (pBufCurrent==bufEnd);
+    }
+    
+    virtual void operator ++()
+    {
+        if ( good() )
+        {
+            pBufCurrent++;
+        }
+        else
+        {
+            status = false;
+        }
+    }
+    
+    virtual void operator ++(int)
+    {
+        if ( good() )
+        {
+            pBufCurrent++;
+        }
+        else
+        {
+            status = false;
+        }
+    }
+    
+    virtual void operator --()
+    {
+        if ( !fail() )
+        {
+            pBufCurrent--;
+        }
+        else
+        {
+            status = false;
+        }
+    }
+    
+    virtual void operator --(int)
+    {
+        if ( !fail() )
+        {
+            pBufCurrent--;
+        }
+        else
+        {
+            status = false;
+        }
+    }
+    
+    virtual void operator +=(ulint offset)
+    {
+        if (checkIndex(offset))
+        {
+            pBufCurrent += offset;
+        }
+        else
+        {
+            status = false;
+        }
+    }
+    
+    virtual void operator -=(ulint offset)
+    {
+        if ((pBufCurrent-offset) >= bufBegin)
+        {
+            pBufCurrent -= offset;
+        }
+        else
+        {
+            status = false;
+        }
+    }
+    
+    T operator*()
+    {
+        if ( good() )
+        {
+            return *pBufCurrent;
+        }
+        else
+        {
+            status = false;
+            return dummy;
+        }
+    }
+
+    T& operator [](ulint index)
+    {
+        if (checkIndex(index))
+        {
+            return pBufCurrent[index];
+        }
+        else
+        {
+            status = false;
+            return dummy;
+        }
+    }
+
+    virtual operator bool()  { return status; }
+    
  protected:  // -------------------------------------------------------------
-	
-	T* pBufBegin;
-	T* pBufEnd;
-	T* pBufCurrent;
-	udword bufLen;
-	bool status;
-	bool doFree;
-	T dummy;
+    
+    T* bufBegin;
+    T* bufEnd;
+    T* pBufCurrent;
+    ulint bufLen;
+    bool status;
+    bool doFree;
+    T dummy;
 };
 
 
@@ -198,14 +190,35 @@ template <class T>
 class smartPtr : public smartPtrBase<T>
 {
  public:  // ----------------------------------------------------------------
-	
-	// --- constructors ---
-	
-	smartPtr(T* pBuffer, udword bufferLen, bool bufOwner = false) : smartPtrBase<T>(pBuffer, bufferLen, bufOwner)
-	{
-	}
-	
+    
+    // --- constructors ---
+    
+    smartPtr(T* buffer, ulint bufferLen, bool bufOwner = false)
+        : smartPtrBase<T>(buffer, bufferLen, bufOwner)
+    {
+    }
+    
+    smartPtr()
+        : smartPtrBase<T>(0,0)
+    {
+    }
+
+    void setBuffer(T* buffer, ulint bufferLen)
+    {
+        if ( bufferLen >= 1 )
+        {
+            pBufCurrent = ( bufBegin = buffer );
+            bufEnd = bufBegin + bufferLen;
+            bufLen = bufferLen;
+            status = true;
+        }
+        else
+        {
+            pBufCurrent = bufBegin = bufEnd = 0;
+            bufLen = 0;
+            status = false;
+        }
+    }
 };
 
-
-#endif
+#endif  // smart_h

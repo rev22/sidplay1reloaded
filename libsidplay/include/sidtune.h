@@ -1,6 +1,10 @@
 //
 // /home/ms/source/sidplay/libsidplay/include/RCS/sidtune.h,v
 //
+// This class is independent from the rest of the emulator engine
+// and therefore can be used separately.
+// It provides an interface to sidtunes in various file formats.
+//
 
 #ifndef SIDTUNE_H
 #define SIDTUNE_H
@@ -25,10 +29,10 @@ const int SIDTUNE_CLOCK_NTSC = 1;  // emulator engine!
 // and from the ``sidTune-class'';
 struct sidTuneInfo
 {
-	// Consider the following fields as read-only!
-	//
+	// Consider the following fields as read-only, because the sidTune class
+	// does not provide an implementation of: bool setInfo(sidTuneInfo&).
 	// Currently, the only way to get the class to accept values which
-	// were written to these fields is creating a derived class.
+	// are written to these fields is by creating a derived class.
 	//
 	const char* formatString;   // the name of the identified file format
 	const char* speedString;    // describing the speed a song is running at
@@ -81,7 +85,17 @@ class sidTune
 
 	// --- constructors ---
 
+	// If your opendir() and readdir()->d_name return path names
+    // that contain the forward slash (/) as file separator, but
+    // your operating system uses a different character, there are
+    // extra functions that can deal with this special case. Set
+    // separatorIsSlash to true if you like path names to be split
+    // correctly.
+    // You don't need these extra functions if your systems file
+    // separator is the forward slash.
+    //
 	// Load a sidtune from a file.
+    //
 	// To retrieve data from standard input pass in filename "-".
 	// If you want to override the default filename extensions use this
 	// contructor. Please note, that if the specified ``sidTuneFileName''
@@ -91,7 +105,9 @@ class sidTune
 	// You can specific ``sidTuneFileName = 0'', if you do not want to
 	// load a sidtune. You can later load one with open().
 	sidTune(const char* sidTuneFileName, const char **fileNameExt = 0);
-
+	sidTune(const char* sidTuneFileName, const bool separatorIsSlash,
+            const char **fileNameExt = 0);
+    
 	// Load a single-file sidtune from a memory buffer.
 	// Currently supported: PSID format
 	sidTune(const ubyte* oneFileFormatSidtune, udword sidtuneLength);
@@ -100,9 +116,16 @@ class sidTune
 
 	// --- member functions ---
 
+	// The sidTune class does not copy the list of file name extensions,
+	// so make sure you keep it. If the provided pointer is 0, the
+	// default list will be activated.
+	void setFileNameExtensions(const char **fileNameExt);
+	
 	// Load a sidtune into an existing object.
 	// From a file.
 	bool open(const char* sidTuneFileName);
+	bool open(const char* sidTuneFileName, const bool separatorIsSlash);
+    
 	// From a buffer.
 	bool load(const ubyte* oneFileFormatSidtune, udword sidtuneLength);
 
@@ -171,6 +194,8 @@ class sidTune
 	bool isCached;
 	ubyte* cachePtr;
 	udword cacheLen;
+
+    bool isSlashedFileName;
 
 	// Using external buffers for loading files instead of the interpreter
 	// memory. This separates the sidtune objects from the interpreter.

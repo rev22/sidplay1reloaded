@@ -18,7 +18,6 @@ static sbyte sampleEmuTwo();
 static void GalwayInit();
 static sbyte GalwayReturnSample(void);
 static inline void GetNextFour(void);
-//static void SelectVolume(void);
 
 sbyte (*sampleEmuRout)() = &sampleEmuSilence;
 
@@ -55,6 +54,7 @@ struct sampleChannel
 	
 	uword SamAddr;  // Galway
 	uword SamLen;
+    uword GalLastPos;
 	uword LoopWait;
 	uword NullWait;
 	
@@ -106,6 +106,7 @@ static void channelReset(sampleChannel& ch)
 #else
 	ch.Pos_stp = 0;
 #endif
+    ch.GalLastPos = 0;
 }
 
 inline void channelFree(sampleChannel& ch, const uword regBase)
@@ -388,20 +389,20 @@ static inline void GetNextFour()
 	ch4.Counter--;
 #if defined(DIRECT_FIXPOINT)
 	if ( tempMul != 0 )
-		ch4.Period_stp.l = sampleClock / tempMul;
+		ch4.Period_stp.l = (sampleClock<<1) / tempMul;
 	else
 		ch4.Period_stp.l = 0;
 #elif defined(PORTABLE_FIXPOINT)
 	udword tempDiv; 
 	if ( tempMul != 0 )
-		tempDiv = sampleClock / tempMul;
+		tempDiv = (sampleClock<<1) / tempMul;
 	else
 		tempDiv = 0;
 	ch4.Period_stp = tempDiv >> 16;
 	ch4.Period_pnt = tempDiv & 0xFFFF;
 #else
 	if ( tempMul != 0 )
-		ch4.Period_stp = sampleClock / tempMul;
+		ch4.Period_stp = (sampleClock<<1) / tempMul;
 	else
 		ch4.Period_stp = 0;
 #endif
@@ -433,12 +434,11 @@ static void GalwayInit()
   
 	if ( c64mem2[0xd43d] == 0 )
 		return;
-	ch4.SamLen = (((uword)c64mem2[0xd43d])+1) & 0xfffe;
+	ch4.SamLen = (uword)c64mem2[0xd43d];
   
 	ch4.Active = true;
 	ch4.Mode = FM_GALWAYON;
   
-	//GalwayFourStart:
 #if defined(DIRECT_FIXPOINT)
 	ch4.Pos_stp.l = 0;
 #elif defined(PORTABLE_FIXPOINT)
@@ -447,9 +447,7 @@ static void GalwayInit()
 #else
 	ch4.Pos_stp = 0;
 #endif
-	//SelectNewVolume();
 	GetNextFour();
-	ch4.Counter++;
   
 	sampleEmuRout = &GalwayReturnSample;
 }
@@ -457,12 +455,13 @@ static void GalwayInit()
 static sbyte GalwayReturnSample()
 {
 #if defined(DIRECT_FIXPOINT)
-	sbyte tempSample = galwayNoiseTab2[ ch4.SamAddr + (ch4.Pos_stp.w[HI] & 15) ];
+    uword samAddr = ch4.SamAddr+((ch4.GalLastPos+ch4.Pos_stp.w[HI])&63);
 #elif defined(PORTABLE_FIXPOINT)
-	sbyte tempSample = galwayNoiseTab2[ ch4.SamAddr + ( ch4.Pos_stp & 15 )];
+    uword samAddr = ch4.SamAddr+((ch4.GalLastPos+ch4.Pos_stp)&63);
 #else
-	sbyte tempSample = galwayNoiseTab2[ ch4.SamAddr + ((ch4.Pos_stp >> 16) & 15) ];
+    uword samAddr = ch4.SamAddr+((ch4.GalLastPos+(ch4.Pos_stp>>16))&63);
 #endif
+    sbyte tempSample = galwayNoiseTab2[samAddr];
 	
 #if defined(DIRECT_FIXPOINT)
 	ch4.Pos_stp.l += ch4.Period_stp.l;
@@ -484,33 +483,25 @@ static sbyte GalwayReturnSample()
 #endif
 	{
 #if defined(DIRECT_FIXPOINT)
+        ch4.GalLastPos = ch4.Pos_stp.w[HI];
 		ch4.Pos_stp.w[HI] = 0;
 #elif defined(PORTABLE_FIXPOINT)
+        ch4.GalLastPos = ch4.Pos_stp;
 		ch4.Pos_stp = 0;
 #else
+        ch4.GalLastPos = (ch4.Pos_stp>>16);
 		ch4.Pos_stp &= 0xFFFF;
 #endif
-	//GalwayFour:
-	GetNextFour();
-	if ( ch4.Counter == 0xff )  {
-	  //GalwayFourEnd:
-	  //SelectVolume();
-	  ch4.Active = false;
-	  ch4.Mode = FM_GALWAYOFF;
-	  sampleEmuRout = &sampleEmuSilence;
-	}
-  }
-  return tempSample;
+        if ( ch4.Counter == 0xff )
+        {
+            ch4.Active = false;
+            ch4.Mode = FM_GALWAYOFF;
+            sampleEmuRout = &sampleEmuSilence;
+        }
+        else  
+        {
+            GetNextFour();
+        }
+    }
+    return tempSample;
 }
-
-//static void SelectVolume()
-//{
-//	(c64mem2[0xd418] & 15) << 2;
-//}
-
-//static void SelectNewVolume()
-//{
-//	if (( c64mem2[0xd418] & 15 ) < 12 )
-//	{
-//	}
-//}

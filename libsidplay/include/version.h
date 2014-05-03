@@ -6,7 +6,7 @@
 #define VERSION_H
 
 
-#define emu_version "1.36.28"
+#define emu_version "1.36.35"
 
 
 #endif

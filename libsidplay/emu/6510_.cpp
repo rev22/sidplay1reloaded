@@ -315,7 +315,7 @@ static bool isKernal;  // address operand
 
 static ubyte* bankSelReg;  // pointer to RAM[1], bank-select register
 
-static ubyte fakeReadTimer;
+static udword fakeReadTimer;
 
 
 inline void evalBankSelect()
@@ -415,7 +415,8 @@ static ubyte readData_bs(uword addr)
 						 case 0xdc04:
 						 case 0xdc05:
 							{
-								return (fakeReadTimer = c64mem2[addr]+fakeReadTimer*13+1);
+                                fakeReadTimer = fakeReadTimer*13+1;
+								return (ubyte)(fakeReadTimer>>3);
 							}
 						 default:
 							{
@@ -491,7 +492,8 @@ static ubyte readData_transp(uword addr)
 						 case 0xdc04:
 						 case 0xdc05:
 							{
-								return (fakeReadTimer = c64mem2[addr]+fakeReadTimer*13+1);
+                                fakeReadTimer = fakeReadTimer*13+1;
+								return (ubyte)(fakeReadTimer>>3);
 							}
 						 default:
 							{
@@ -1828,8 +1830,7 @@ bool interpreter(uword p, ubyte ramrom, ubyte a, ubyte x, ubyte y)
 
 void c64memReset(int clockSpeed, ubyte randomSeed)
 {
-	static ubyte fakeRndSeed = fakeRndSeed*13+randomSeed;
-	fakeReadTimer = fakeRndSeed;
+	fakeReadTimer += randomSeed;
 	
 	if ((c64mem1 != 0) && (c64mem2 != 0))
 	{

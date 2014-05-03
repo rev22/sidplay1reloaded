@@ -1,6 +1,6 @@
 # Makefile template for libsidplay.
 
-version 		= 1.36.28
+version 		= 1.36.35
 majorversion 	= 1.36
 
 SHELL			= /bin/sh
@@ -30,7 +30,8 @@ INCLUDES		= -I$(SRCDIR) -I$(SRCDIR)/emu -I$(SRCDIR)/include
 
 LIBM			= @LIBM@
 LIBIOS			= @LIBIOS@
-LIBS			= @LIBS@ $(LIBM) $(LIBIOS)
+LIBAUDIO		= @LIBAUDIO@
+LIBS			= @LIBS@ $(LIBM) $(LIBIOS) $(LIBAUDIO)
 
 #--------------------------------------------------------------
 
@@ -76,8 +77,13 @@ libsidplay.so: $(srcobjs)
 .PHONY: clean
 clean:
 		@for subdir in $(srcdirs); do \
-			(cd $$subdir && $(RM) -f *.d *.o *~ *.a *.so) || exit 1; \
+			(cd $$subdir && $(RM) -f *.d *.o *.bak *~ *.a *.so) || exit 1; \
 		done
+
+.PHONY: distclean
+distclean:
+		$(MAKE) clean
+		$(RM) -f Makefile include/config.h
 
 .PHONY: depend
 depend:

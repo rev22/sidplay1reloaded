@@ -38,13 +38,27 @@ AC_CHECK_FUNCS(strcasecmp stricmp strncasecmp strnicmp)
 AC_CHECK_HEADERS(limits.h)
 AC_CHECK_HEADERS(strstream.h strstrea.h fstream.h iostream.h iomanip.h)
 AC_CHECK_HEADERS(sys/ioctl.h linux/soundcard.h machine/soundcard.h  \
-  sys/audio.h sun/audioio.h sun/dbriio.h sys/audioio.h  \
+  soundcard.h sys/audio.h sun/audioio.h sun/dbriio.h sys/audioio.h  \
   audio.h dmedia/audio.h)
 
 AC_CHECK_LIB(m,main,[LIBM=-lm],) dnl For FreeBSD.
 AC_SUBST(LIBM)
+AC_CHECK_LIB(ossaudio,main,[LIBAUDIO=-lossaudio],) dnl For NetBSD.
+AC_SUBST(LIBAUDIO)
 AC_CHECK_LIB(iostream,main,[LIBIOS=-liostream],) dnl For old systems.
 AC_SUBST(LIBIOS)
+
+AC_MSG_CHECKING(whether standard member ios::binary is available)
+AC_CACHE_VAL(ac_cv_have_ios_binary,
+	AC_TRY_COMPILE(
+	    [#include <fstream.h>],
+		[ifstream myTest(ios::in|ios::binary)],
+		[ac_cv_have_ios_binary=yes],
+		[ac_cv_have_ios_binary=no]))
+AC_MSG_RESULT($ac_cv_have_ios_binary)
+if test "$ac_cv_have_ios_binary" = no; then
+  AC_DEFINE(HAVE_IOS_BIN)
+fi
 
 AC_CHECK_PROG(MAKE,gmake,gmake,make)
 if test "$MAKE" = "make"; then
@@ -69,12 +83,12 @@ AC_PROG_INSTALL
 AC_MSG_CHECKING(which audio driver to install)
 case "$host" in 
   *linux*) AC_DEFINE(HAVE_LINUX,1)
-    $CP console/audio/linux/* console
-    AC_MSG_RESULT(linux)
+    $CP console/audio/oss/* console
+    AC_MSG_RESULT(oss)
        ;;
   *freebsd*) AC_DEFINE(HAVE_FREEBSD,1)
-    $CP console/audio/linux/* console
-    AC_MSG_RESULT(freebsd)
+    $CP console/audio/oss/* console
+    AC_MSG_RESULT(oss)
        ;;
   *hpux*) AC_DEFINE(HAVE_HPUX,1)
     $CP console/audio/hpux/* console
@@ -92,19 +106,11 @@ case "$host" in
     $CP console/audio/sparc/* console
     AC_MSG_RESULT(sparc)
        ;;
+  *netbsd*) AC_DEFINE(HAVE_NETBSD,1)
+    $CP console/audio/oss/* console
+    AC_MSG_RESULT(oss)
+       ;;
 esac
-
-AC_MSG_CHECKING(whether standard member ios::binary is available)
-AC_CACHE_VAL(have_member_ios_binary,
-	AC_TRY_COMPILE(
-	    [#include <fstream.h>],
-		[ifstream myTest(ios::in|ios::binary)],
-		[have_member_ios_binary=yes],
-		[have_member_ios_binary=no]))
-AC_MSG_RESULT($have_member_ios_binary)
-if test "$have_member_ios_binary" = no; then
-  AC_DEFINE(HAVE_IOS_BIN)
-fi
 
 AC_OUTPUT(console/Makefile libsidplay/Makefile Makefile)
 

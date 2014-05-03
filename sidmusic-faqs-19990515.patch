@@ -1,0 +1,1510 @@
+diff -crN sidmusic-faqs-orig/STIL.faq sidmusic-faqs-19990515/STIL.faq
+*** sidmusic-faqs-orig/STIL.faq	Thu Jan  1 01:00:00 1970
+--- sidmusic-faqs-19990515/STIL.faq	Sat May 15 01:56:56 1999
+***************
+*** 0 ****
+--- 1,1007 ----
++ 
++ -------------------------------------------------------------------------------
++                         SID Tune Information List (STIL)
++                         -> Frequently Asked Questions <-
++                                      v3.1
++ -------------------------------------------------------------------------------
++ 
++ General Questions
++ 
++ [ 1] What is the SID Tune Information List (STIL)?
++ [ 2] Why was STIL created? What is STIL good for?
++ [ 3] Where is the latest version of STIL available from?
++ [ 4] What is the format of STIL?
++     [ 4.1] Conventions used in the format description of STIL
++     [ 4.2] Description of the STIL block
++     [ 4.3] Description of the complete STIL entries
++     [ 4.4] Description of the STIL fields
++         [ 4.4.1] Description of the TITLE field
++         [ 4.4.2] Description of the album subfield
++         [ 4.4.3] Description of the ARTIST field
++         [ 4.4.4] Description of the COMMENT field
++         [ 4.4.5] Description of the TIMESTAMP subfield
++     [ 4.5] Some general guidelines to STIL entries and the STIL.txt file
++ [ 5] Who maintains the STIL? (In other words, who to complain to? :)
++ 
++ Submitting STIL entries and the STIL Heroes
++ 
++ [ 6] What if I find incorrect or missing STIL entries?
++ [ 7] How do I submit STIL entries?
++     [ 7.1] General guidelines for submitting entries
++     [ 7.2] Submitting new STIL entries
++     [ 7.3] Submitting modifications to specific STIL entries
++     [ 7.4] Submitting general modifications
++     [ 7.5] Requesting deletion of a STIL entry
++     [ 7.6] Adding personal comments to STIL entries
++ [ 8] Who is a STIL Hero?
++ [ 9] What is a STIL Hero point?
++ [10] Who are the current STIL Heroes?
++ [11] Acknowledgments
++ 
++ Miscellaneous
++ 
++ [12] Are there any tools available that can show STIL entries in a better way?
++ [13] Gimme some fun statistics about STIL!
++ 
++ -------------------------------------------------------------------------------
++ 
++ 
++ [ 1] What is the SID Tune Information List (STIL)?
++ -------------------------------------------------------------------------------
++ 
++ The SID Tune Information List (STIL) contains information about the SID tunes
++ found in the HVSC beyond the standard TITLE, AUTHOR, and COPYRIGHT information.
++ STIL goes a little deeper listing SID tune information that only a true SID
++ freak would enjoy. Such information listed in STIL includes cover information,
++ interesting facts, useless trivia, comments on the tunes by the composers
++ themselves, etc. The STIL, though, is limited to factual data and does not try
++ to provide an encyclopedia about every original artist.
++ 
++ 
++ [ 2] Why was STIL created? What is STIL good for?
++ -------------------------------------------------------------------------------
++ 
++ The High Voltage SID Collection's (HVSC) Crew sincerely believes in creating
++ the most accurate and comprehensive SID collection possible. We also believe in
++ giving proper credit to all composers regardless if they ever composed on the
++ Commodore 64. How many times have you asked yourself, "Where have I heard this
++ tune before?!" STIL helps to ease some of those questions.
++ 
++ STIL is also extremely valuable for the future of SID music collections.
++ Imagine years ahead when the HVSC maintainers are no longer available for input
++ for whatever reasons. Wouldn't it be a shame if someone began to alter the
++ credit fields of the tunes in HVSC based on incorrect data?
++ 
++ Another feature of STIL is that it contains information and/or quotes about
++ certain tunes that the creators of the SID tunes provided themselves. We strive
++ to include such information in STIL whenever possible, which we believe
++ enhances the value of HVSC and gives a more historical sense to this great
++ archive. If you are a SID composer and your SID tunes are in HVSC and you wish
++ to provide comments on some of them, don't hesitate to contact any of us!
++ 
++ Most of the SIDPlay programs available on various platforms nowadays can also
++ display information found in the STIL for a given SID tune along with the SID
++ that is being played. Obviously, they get the info from the STIL.txt file
++ itself.
++ 
++ NOTE: Although initially STIL did list bugs that were present in certain tunes
++ within HVSC, the current HVSC administration team felt that it is better to
++ provide a separate list of them. Since the list's creation, more and more
++ bugged SIDs got fixed. If you think you can help (either listing bugs or
++ providing bugfixed SID files), please refer to BUGlist.txt in the DOCUMENTS
++ directory of HVSC.  However, if a SID sounds bugged and the original released
++ game or demo that the SID was extracted from was also bugged (for example:
++ /Ouwehand_Reyn/Last_Ninja_3.sid subtune #3), STIL in this case would notify you
++ of this as technically it is not a bug that was caused by a bad rip.
++ 
++ 
++ [ 3] Where is the latest version of STIL available from?
++ -------------------------------------------------------------------------------
++ 
++ The latest OFFICIAL version of STIL is always distributed along with the latest
++ version of HVSC and is given a version number that matches that of HVSC. This
++ version of STIL can be found in /DOCUMENTS/STIL.txt in your HVSC.
++ 
++ The latest (not necessarily official) version of STIL is always available
++ online at the STIL Home Page:
++ 
++     http://www.stil.c64.org
++ 
++ This version is always given the version number of the latest HVSC
++ distribution, with a minor version added to the hundredths. Furthermore, the
++ STIL is also available in easy-browsable HTML format from:
++ 
++     http://www.stil.c64.org/html/
++ 
++ 
++ [ 4] What is the format of STIL?
++ -------------------------------------------------------------------------------
++ 
++ To better present the information contained in STIL and to make it easier for
++ programs and scripts to process and maintain the list of entries in it, STIL
++ has a strict format that is outlined below.
++ 
++ As you can see, STIL is a so-called flat text-file, which is readable by
++ humans. But it is formatted in a way that machines (programs) can parse it,
++ too.
++ 
++ In summary, STIL is more or less like a flat database.
++ 
++ 
++     [ 4.1] Conventions used in the format description of STIL
++     ---------------------------------------------------------------------------
++ 
++ /Path_in_HVSC/ - The relative directory containing the SID that this STIL
++                  entry refers to, starting with a "/", subdirs separated by
++                  "/", given as long pathnames (with correct small and capital
++                  letters)
++ 
++ Full_Title.sid - The long filename of the SID as it appears in the directory.
++ 
++ #y             - Tune #y of the SID.
++ 
++ 
++     [ 4.2] Description of the STIL block
++     ---------------------------------------------------------------------------
++ 
++ In general, STIL entries are built up of one or more "blocks", depending on how
++ many subtunes a given SID has and how many of those have information attached
++ to them.
++ 
++ The general format of a STIL block is:
++ 
++   TITLE: Title field [from Album]
++  ARTIST: Artist field
++ COMMENT: Comment field.
++ 
++ Or for tunes that contain multiple covers:
++ 
++ COMMENT: *Optional* tune-global comment goes here.
++   TITLE: Title field [from Album] (TIMESTAMP)
++  ARTIST: Artist field
++ COMMENT: Comment field.
++   TITLE: Title field [from Album] (TIMESTAMP)
++  ARTIST: Artist field
++ COMMENT: Comment field.
++ .
++ .
++ .
++ 
++ There can be as many covers listed within a STIL block for tunes that cover
++ more than one piece of music as needed - there is no maximum limit.
++ 
++ Please, see the STIL field descriptions below for details about the individual
++ fields found in a STIL block.
++ 
++ All of the fields in the STIL block are optional, but at least one field must
++ be present. Eg. if only a comment is provided for a tune that has no subtunes,
++ the following entry is perfectly fine:
++ 
++ /Path_in_HVSC/Full_Title.sid.sid
++ COMMENT: This should be some relevant comment here.
++ 
++ However, if more than one field is present, they must be in the order as
++ outlined above (TITLE first, then ARTIST, then COMMENT).
++ 
++ 
++     [ 4.3] Description of the complete STIL entries
++     ---------------------------------------------------------------------------
++ 
++ Each STIL entry comprises of one or more STIL blocks:
++ 
++ ---- FOR SID FILES CONTAINING ONLY A SINGLE TUNE -----
++ 
++ /Path_in_HVSC/Full_Title.sid
++ {STIL block}
++ 
++ ---- FOR SID FILES CONTAINING MORE THAN ONE TUNE -----
++ 
++ /Path_in_HVSC/Full_Title.sid
++ COMMENT: *Optional* file-global comment goes here.
++ (#1)
++ {STIL block}
++ (#2)
++ {STIL block}
++ (#3)
++ {STIL block}
++ .
++ .
++ .
++ etc.
++ 
++ Of course, STIL entries need to be provided only for those tunes that need it,
++ so the following is perfectly fine, too:
++ 
++ /Path_in_HVSC/Full_Title.sid
++ COMMENT: *Optional* file-global comment goes here.
++ (#8)
++ {STIL block}
++ (#11)
++ {STIL block}
++ 
++ However, the STIL blocks for the subtunes must be sorted by ascending order of
++ the tune numbers of the subtunes.
++ 
++ 
++     [ 4.4] Description of the STIL fields
++     ---------------------------------------------------------------------------
++ 
++ The fields within STIL also follow a strict format outlined below.
++ 
++ 
++         [ 4.4.1] Description of the TITLE field
++         -----------------------------------------------------------------------
++ 
++ Purpose
++ -------
++ 
++ This field is used to denote the title of the tune that a given SID tune
++ covers.
++ 
++ The titles should be listed in their original language of publication, with
++ the correct spelling observed in that language.
++ 
++ If the SID tune covers another SID tune, the title of the covered C64 tune
++ should be given, with the tune number specified if needed.
++ 
++ Format
++ ------
++ 
++   TITLE: Title field [from Album] (TIMESTAMP)
++ or
++   TITLE: <Title of the covered C64 tune>, Tune #y (TIMESTAMP)
++ 
++ Note that there are TWO (2) spaces (not a tab!) before the word TITLE, which is
++ followed by a colon and another space. This is followed by the actual title of
++ the tune that the given SID tune covers, followed by a field that describes
++ which album the given song is from.
++ 
++ Length
++ ------
++ 
++ The whole field must be 79 characters long or less. If it doesn't fit into 79
++ characters, try to abbreviate the album subfield. If that is still not enough,
++ try to abbreviate the title information. In no case should you abbreviate the
++ TIMESTAMP or the field name!
++ 
++ Subfields
++ ---------
++ 
++ The album info is an optional subfield within the TITLE field (and within
++ the TITLE field *only*). The TIMESTAMP is also an optional subfield, and it is
++ described later, as it can also be used in conjunction with other STIL fields.
++ 
++ 
++         [ 4.4.2] Description of the album subfield
++         -----------------------------------------------------------------------
++ 
++ Purpose
++ -------
++ 
++ This is a subfield within TITLE identifying on which album was this particular
++ tune published originally. For classical compositions the use of this subfield
++ is discouraged, but for non-classical tunes it is strongly encouraged.
++ 
++ The same subfield can be used to identify which movie or TV series the given
++ tune was composed for. In these cases the wording should be: "[from the movie
++ XYZ]" or "[from the TV series XYZ]". The title of the movie/TV series does NOT
++ have to be identified if it is the same as that of the title of the actual
++ tune. For example:
++ 
++   TITLE: Airwolf Theme [from the TV series]
++ 
++ which obviously means that this is from the TV series titled "Airwolf".
++ 
++ A very good source for finding what album/movie/TV series certain tunes come
++ from is the excellent All Music Guide (AMG) on the Web:
++ 
++     http://www.allmusic.com
++ 
++ Format
++ ------
++ 
++ [from Album]
++ 
++ The album info should appear in the TITLE field right after the actual title.
++ 
++ Length
++ ------
++ 
++ If the combination of the actual title of the tune and the album subfield is
++ longer than the allowed maximum of 79 characters, try to provide the FULL title
++ of the tune, and a shortened version of the album info with ellipses (... = 3
++ dots) indicating that this is the shortened title. For example:
++ 
++   TITLE: I Want You [from The Covenant The Sword...] (3:10)
++ 
++ 
++         [ 4.4.3] Description of the ARTIST field
++         -----------------------------------------------------------------------
++ 
++ Purpose
++ -------
++ 
++ This field is used to denote the composer(s) of the tune that a given SID tune
++ covers.
++ 
++ The name of the artist(s) (or: composer(s)) should be listed exactly as they
++ were credited for the given tune that is covered in the SID tune.
++ 
++ Format
++ ------
++ 
++  ARTIST: Artist field (TIMESTAMP)
++ 
++ Note that there is ONE space (not a tab!) before the word ARTIST, which is
++ followed by a colon and another space. This is followed by the name of the
++ actual composer(s) of the tune that the given SID tune covers.
++ 
++ Length
++ ------
++ 
++ The whole field must be less than 79 characters long. If it doesn't fit into
++ 79 characters, try to abbreviate the name of the composer(s). In no case should
++ you abbreviate the TIMESTAMP or the field name!
++ 
++ Subfield
++ --------
++ 
++ The TIMESTAMP is an optional subfield, and it is described later, as it can
++ also be used in conjunction with other STIL fields.
++ 
++ 
++         [ 4.4.4] Description of the COMMENT field
++         -----------------------------------------------------------------------
++ 
++ Purpose
++ -------
++ 
++ This field can be used for any general comment or information with regards to
++ the given SID tune.
++ 
++ Please, keep the comments to be factual. Opinions expressed in the form of
++ comments are not welcome at all and will be thrown out - except if they come
++ from the composers themselves when they are commenting their own tunes.
++ 
++ Format
++ ------
++ 
++ COMMENT: Comment field. (TIMESTAMP)
++          This is the optional second line of the comment field.
++          This is the optional third line of the comment field.
++ 
++ Note that there is NO space before the word COMMENT, which is followed by a
++ colon and another space. This is followed by the actual comment.
++ 
++ Length
++ ------
++ 
++ There is no restriction on the length of the comment, but if it's longer than
++ 79 characters (together with the COMMENT: field name), it must be broken up
++ into lines that are preceded by NINE (9) spaces, and which lines are also not
++ longer than 79 characters (together with the leading spaces).
++ 
++ Subfield
++ --------
++ 
++ The TIMESTAMP is an optional subfield, and it is described later, as it can
++ also be used in conjunction with other STIL fields.
++ 
++ 
++         [ 4.4.5] Description of the TIMESTAMP subfield
++         -----------------------------------------------------------------------
++ 
++ Purpose
++ -------
++ 
++ The (TIMESTAMP) is an optional subfield within the STIL fields, and it should
++ be used only if the given SID tune covers more than one tune. In this case, the
++ first STIL field gets the (TIMESTAMP) subfield tagged to it.
++ 
++ The TIMESTAMP denotes the time the given cover starts at (based on SIDPlay
++ timestamps!).
++ 
++ Format
++ ------
++ 
++ The TIMESTAMP subfield can be given in two formats:
++ 
++ (X:XX) - means that the cover starts at X:XX and ends at the  next TIMESTAMP
++ found in the same entry, or at the end of the tune (ie. when it starts
++ looping).
++ 
++ (X:XX-Y:YY) - means that the cover starts at X:XX and ends at Y:YY, regardless
++ of whether there's another TIMESTAMP in the entry or not.
++ 
++ You can mix the above two timestamp formats within an entry, just keep in mind
++ what they refer to.
++ 
++ Examples
++ --------
++ 
++ Maybe an example would be useful here, since this sounds rather complicated,
++ even for me. :) So, here are some examples:
++ 
++ TIMESTAMP EXAMPLE #1:
++ 
++ /Path_in_HVSC/Full_Title.sid
++   TITLE: Title field (0:18)
++  ARTIST: Artist field
++ COMMENT: Comment field.
++   TITLE: Title field (0:35)
++  ARTIST: Artist field
++ COMMENT: Comment field.
++ 
++ The first cover starts at 0:18 and ends at 0:35, the second one starts at 0:35
++ and ends when the tune ends or when it starts looping (since there are no
++ other entries following it).
++ 
++ TIMESTAMP EXAMPLE #2:
++ 
++ /Path_in_HVSC/Full_Title.sid
++   TITLE: Title field (0:18-0:35)
++  ARTIST: Artist field
++ COMMENT: Comment field.
++   TITLE: Title field (0:40-0:45)
++  ARTIST: Artist field
++ COMMENT: Comment field.
++ 
++ The first cover starts at 0:18 and ends at 0:35, the second one starts at 0:40
++ and ends at 0:45. The "missing" 5 seconds between 0:35 and 0:40 is either an
++ original composition, or it is an unknown cover, and the same could be said
++ about whatever is after 0:45.
++ 
++ So, this is *WRONG* for the above entry:
++ 
++ /Path_in_HVSC/Full_Title.sid
++   TITLE: Title field (0:18)
++  ARTIST: Artist field
++ COMMENT: Comment field.
++   TITLE: <?> (0:35)                 <=== THIS IS *WRONG* !
++  ARTIST: <?>
++   TITLE: Title field (0:40)
++  ARTIST: Artist field
++ COMMENT: Comment field.
++   TITLE: <?> (0:45)                 <=== THIS IS *WRONG* !
++  ARTIST: <?>
++ 
++ This was the OLD way of doing things and resulted in a whole bunch of empty
++ entries (ie. entries that had only a TITLE and ARTIST field, and both contained
++ unknown info). Please, refrain yourself from submitting such entries.
++ 
++ 
++     [ 4.5] Some general guidelines to STIL entries and the STIL.txt file
++     ---------------------------------------------------------------------------
++ 
++ a)
++ 
++ Regardless of a cover or remix, proper credits are given to the *original*
++ composers. This means that even if a given tune was made popular by a different
++ person or band, STIL still contains information about the original composer(s),
++ whoever that might be.
++ 
++ b)
++ 
++ The same goes for SID tunes covering other SID tunes. If a cover covers another
++ C64 tune that is also a cover itself, the STIL entry for the tune contains the
++ very *ORIGINAL* TITLE/ARTIST info for the STIL entry! A comment may be
++ provided, though, that states that the given cover is really a cover of another
++ cover. (Phew, did you follow that? ;) Here are some examples:
++ 
++ /VARIOUS/Scarlet/Mariah_Carey.sid
++   TITLE: Without You
++  ARTIST: Nilsson
++ COMMENT: This SID covers Mariah Carey's cover version.
++ 
++ /VARIOUS/Alien/Suspiria.sid
++   TITLE: Suspiria [from the movie]
++  ARTIST: Goblin
++ COMMENT: This SID covers Jogeir Liljedahl's MOD cover.
++ 
++ c)
++ 
++ A "<?>" is placed behind (or in place of) every information that is doubtful
++ or missing.
++ 
++ d)
++ 
++ STIL entries are listed in the STIL.txt file by the relative HVSC directory
++ names sorted first case-insensitively in ascending alphabetical order. Within a
++ directory, STIL entries for individual SID files are sorted case-insensitively
++ in ascending alphabetical order.
++ 
++ Before the first entry of each subdirectory a so-called section header line is
++ placed in STIL to indicate that STIL entries following that section header
++ belong to a different directory than the previous entries. The section header
++ line begins with 3 '#' characters, followed by a space, followed by the full
++ name of the composer/group the directory belongs to, followed by a space, then
++ as many '#' characters as it takes to fill out the maximum STIL line length of
++ 79 characters. Here's an example:
++ 
++ ### Jeroen Tel ################################################################
++ 
++ /Tel_Jeroen/Filename.sid
++ COMMENT: This is the first STIL entry in the directory of Jeroen Tel.
++ 
++ If an HVSC directory has further subdirectories, the first section header found
++ in that directory is preceded by an (opening) section header given for the
++ directory that contains the subdirectories, and the last STIL entry that
++ belongs to this directory is followed by another (closing) section header.
++ 
++ The opening and closing section headers look much like a regular section
++ header, but they contain the name of the directory instead of the name of the
++ composer or group, and the name is followed immediately by a forward slash
++ ('/') for an opening section header and a backward slash ('\') for a closing
++ section header. For example:
++ 
++ ### VARIOUS/ ##################################################################
++ 
++ ### First Composer in this dir ################################################
++ 
++ <STIL entries for the first composer go here>
++ 
++ ### Second Composer in this dir ###############################################
++ 
++ <STIL entries for the second composer go here>
++ 
++ ### VARIOUS\ ##################################################################
++ 
++ So, in effect, all the entries that belong to subdirectories of an HVSC root
++ directory (/VARIOUS/ in the above example) are enclosed by the opening and
++ closing section headers.
++ 
++ Please note that the example given above is simplified compared to the real
++ structure of the STIL. As of HVSC v3.1, the /VARIOUS hierachy has been 
++ subdivided into four groups, /VARIOUS/A-F, /VARIOUS/G-L, /VARIOUS/M-R, and
++ /VARIOUS/S-Z, to reflect the change in the HVSC directory structure. Therefore
++ there are no STIL entries directly below /VARIOUS.
++ 
++ [ 5] Who maintains the STIL? (In other words, who to complain to? :)
++ -------------------------------------------------------------------------------
++ 
++ The STIL is maintained by the STIL Administrator (also known as the HOSTILE
++ (High Official STIL Executioner) ;-), who is currently:
++ 
++ Laust Brock-Nannestad <laustbn@diku.dk>
++ 
++ Below is a full list of people who contribute to the STIL and help maintaining
++ it:
++ 
++ THE HVSC/STIL TEAM
++ ==================
++ 
++ HOSTILE (High Official STIL Executioner) (= STIL Administrator ;)
++ ----------------------------------------
++ Laust Brock-Nannestad <laustbn@diku.dk>
++ 
++ 
++ HVSC Administrators:
++ -------------------
++ Warren Pilkington <wazzaw@freeuk.com>
++ Jan Diabelez Arnt Harries <rambones@get2net.dk>
++ 
++ Main contributors:
++ ------------------
++ Wilfred Bos <wbos@worldonline.nl>
++ Darren Hagan <darren@talent.demon.co.uk>
++ InGE HP <448@c2i.net>
++ Kristoffer Johansson <d3johkri@dtek.chalmers.se>
++ LaLa <LaLa@C64.org>
++ Dennis Lindroos <deadman@penti.sit.fi>
++ Adam Lorentzon <d93-alo@nada.kth.se>
++ Gabriele Priarone <g.knight@iol.it>
++ Michael "The Mage" Schwendt <sidplay@geocities.com>
++ The Shark of International Network of Chaos <shark@dhp.com>
++ Andreas Varga <sid@skater.htu.tuwien.ac.at>
++ 
++ 
++ [ 6] What if I find incorrect or missing STIL entries?
++ -------------------------------------------------------------------------------
++ 
++ STIL is a living document about SID tunes, changing and growing with each
++ subsequent HVSC Update pack. We attempted to make it as accurate as possible,
++ but there can be mistakes and missing information here and there.
++ 
++ If we have missed any information about the tunes in HVSC, of if you want to
++ provide correction to any of the information contained in STIL, please send an
++ email to the STIL Administrator. Please, read the section below about how to
++ submit STIL entries before sending any entries, though!
++ 
++ 
++ [ 7] How do I submit STIL entries?
++ -------------------------------------------------------------------------------
++ 
++ If you would like to submit new STIL entries, or you would like to submit
++ modifications for existing entries, or you would like to have certain STIL
++ entries deleted, simply send an email to the STIL Administrator. But please,
++ try to follow the instructions provided below.
++ 
++ If you do decide to send us STIL entries in email, please adhere to our
++ standard so that we can effortlessly paste your data into STIL (see the section
++ about the format of STIL for details). It is also important to stick to the
++ strict STIL format as the STIL is checked and processed by programs (actually,
++ Perl scripts), and also, some versions of SIDPlay now show STIL entries (with
++ the help of STIL View) when playing SID tunes. Since all of these programs
++ expect STIL and the STIL entries to be in a certain format, *PLEASE*, follow
++ the outlined standard of STIL entries if you ever decide to send us new
++ entries! This will make the life of the STIL Administrator easier, because this
++ way no entries will have to be manually processed.
++ 
++ This may look like a lot of restrictions that are hard to understand and
++ follow, but we think they are quite logical and follow common sense. Remember,
++ though, that anything in this section should be treated as a guideline, and
++ submissions to the STIL Administrator will be processed *REGARDLESS* whether
++ they are in the format specified below or not. However, it would be nice for
++ the STIL Administrator to receive them in this format, since it makes the job
++ of STIL administration that much easier.
++ 
++ Thank you for your understanding of all these guidelines and rules!
++ 
++ 
++     [ 7.1] General guidelines for submitting entries
++     ---------------------------------------------------------------------------
++ 
++ a)
++ 
++ Anything you submit to the STIL Administrator should be in the format that STIL
++ is using. Please, see the section "The format of STIL" for details on how
++ STIL is formatted and how the fields in the STIL entries should look like.
++ 
++ If you are in doubt about how to format a STIL entry, consult the STIL itself
++ for examples. If *still* in doubt, contact the STIL Administrator for help.
++ 
++ b)
++ 
++ Please, consult the latest version of STIL to make sure that what you are
++ trying to submit (a new entry or a modification request) is not already done.
++ 
++ Also, make sure that your HVSC is up-to-date, so you are not submitting STIL
++ entries for SID files that got moved or deleted during later HVSC updates.
++ 
++ c)
++ 
++ Reports of bugs in SID files are handled separately in the BUGlist.txt file.
++ Please, refer to that file for how to report them (the format is actually very
++ similar to STIL's format). STIL lists bugs only if they were in the original
++ C64 tunes, too.
++ 
++ d)
++ 
++ Please, do not submit entries that are too vague about the cover information.
++ For example, if you think that a given SID tune covers a classical tune by some
++ composer, but you are not sure about it, furthermore, you don't even have an
++ approximate idea about what the title of the covered music might be, and you
++ make up an entry, it will not be accepted. STIL strives to have as accurate
++ info in the entries as possible, and having such vague entries is not prefered.
++ The current STIL may have such entries, but those should be deleted. There used
++ to be a few entries in STIL where such vague comments turned out to be totally
++ untrue, so they are not accepted any more.
++ 
++ e)
++ 
++ If you still have questions and/or problems, do not hesitate to send an email
++ to the STIL Administrator!
++ 
++ 
++     [ 7.2] Submitting new STIL entries
++     ---------------------------------------------------------------------------
++ 
++ To send us an entirely new STIL entry, all you need to do is to send the STIL
++ entry surrounded by empty lines, like this:
++ 
++ /Path_in_HVSC/Full_Title.sid
++   TITLE: Title field [from Album]
++  ARTIST: Artist field
++ COMMENT: Comment field.
++ 
++ Notice how the STIL entry is surrounded by empty lines!
++ 
++ Naturally, you can send more than one new STIL entry in a single email as long
++ as the entries are surrounded by empty lines.
++ 
++ If a STIL entry already exists for the SID file, but not for the given tune
++ number that you want to have added, it is enough to submit only the new part of
++ the STIL entry. For example, let's say that there is already a STIL entry for
++ tune #2 of a given tune and you want to send a new entry for tune #3:
++ 
++ /Path_in_HVSC/Full_Title.sid
++ (#3)
++   TITLE: Title field [from Album]
++  ARTIST: Artist field
++ COMMENT: Comment field.
++ 
++ In other words, you do NOT have to send in the whole STIL entry (tune #2 and
++ tune #3 in the above example), just the new part of it.
++ 
++ 
++     [ 7.3] Submitting modifications to specific STIL entries
++     ---------------------------------------------------------------------------
++ 
++ If you would like to send us corrections or modifications to already existing
++ entries, it is enough to send just the relevant part of the STIL entry
++ containing the corrected or modified fields, with enough info to uniquely
++ identify the part of the STIL entry that should get changed. For example, if
++ the entry looks like this:
++ 
++ /Path_in_HVSC/Full_Title.sid
++ (#1)
++   TITLE: Title field [from Album]
++  ARTIST: Artist field
++ COMMENT: Comment field.
++ (#2)
++   TITLE: Title field [from Album] (0:05)
++  ARTIST: Artist field
++ COMMENT: Comment field.
++   TITLE: Title field [from Album] (1:05)
++  ARTIST: Artist field
++ COMMENT: Comment field.
++ 
++ it is perfectly fine to send the STIL Administrator only this:
++ 
++ /Path_in_HVSC/Full_Title.sid
++ (#1)
++  ARTIST: The corrected artist field
++ 
++ Here (#1) uniquely identifies the ARTIST field that should get changed.
++ Another example:
++ 
++ /Path_in_HVSC/Full_Title.sid
++ (#2)
++   TITLE: Title field [from Album] (1:05)
++  ARTIST: The corrected artist field
++ COMMENT: The modified comment field.
++ 
++ Here the combination of (#2) and the (1:05) timestamp uniquely identifies the
++ fields that you think should get changed. In other words, it is no need to send
++ in the whole entry, just the relevant parts of it that you want to see
++ modified.
++ 
++ 
++     [ 7.4] Submitting general modifications
++     ---------------------------------------------------------------------------
++ 
++ If you would like to send a modification that can potentially impact a lot of
++ existing STIL entries (for example, a more precise TITLE field for a tune, or
++ you would like to add album info to a TITLE field, etc.), you do not need to
++ specify all the STIL entries that you would like to see changed, only the field
++ that you want to change. You need to precede it with the command "# ALL", then
++ list the old field, then the command "# TO", and list the new field.
++ 
++ Since this can be confusing, here's an example. Let's say you are sure that the
++ real title of a tune covered by a SID tune is different than that in STIL:
++ 
++ # ALL
++   TITLE: Old Title [from Album X]
++ # TO
++   TITLE: New Title [from Album Y]
++ 
++ This submission requests that every reference to "Old Title" should be changed
++ to "New Title" (with the album info changed, too).
++ 
++ 
++     [ 7.5] Requesting deletion of a STIL entry
++     ---------------------------------------------------------------------------
++ 
++ If you think that a given STIL entry should get deleted, identify what you
++ would like to see deleted (similar to the case when you request modifications
++ to existing entries), and precede the entry with the "# DELETE" command. For
++ example:
++ 
++ # DELETE
++ /Path_in_HVSC/Full_Title.sid
++ (#2)
++ COMMENT: This will be deleted.
++ 
++ This is requesting the deletion of the COMMENT field from the tune #2 of the
++ STIL entry for the given SID file.
++ 
++ # DELETE
++ /Path_in_HVSC/Full_Title.sid
++ 
++ This is requesting the deletion of the whole STIL entry for the given SID file.
++ 
++ 
++     [ 7.6] Adding personal comments to STIL entries
++     ---------------------------------------------------------------------------
++ 
++ If you would like to have only very specific words deleted and modified from
++ STIL entries, or you have some special requests with regards to STIL and/or
++ existing STIL entries that are not covered in the above sections, or you simply
++ want to add a personal comment to an entry you are submitting, you can attach
++ comments to the STIL entries you are submitting by simply putting a '#' in
++ front of each line of your comment, and keeping the comment together with the
++ STIL entry. For example:
++ 
++ /Path_in_HVSC/Full_Title.sid
++ (#3)
++   TITLE: Title field [from Album]
++  ARTIST: Artist field
++ COMMENT: Comment here.
++ # Please, move the COMMENT to be tune-global, as it refers to the whole tune,
++ # not just tune #3.
++ 
++ Another example:
++ 
++ /Path_in_HVSC/Full_Title.sid
++   TITLE: Title field [from Album]
++  ARTIST: Artist field
++ # This is the coolest song I've ever heard! You should listen to it, too!
++ 
++ 
++ [ 8] Who is a STIL Hero?
++ -------------------------------------------------------------------------------
++ 
++ If you are able to submit information about 10 or more SID tunes in HVSC (and
++ they are also all accepted by STIL Administrator), you will become a STIL Hero.
++ This information would include any corrections, additions, and filling in any
++ blanks, and they would count towards your STIL Hero points. All STIL Heroes'
++ names will appear in this FAQ. Although it is *highly unlikely* that you will
++ become a STIL Hero, since we have already listed many of the covers and other
++ such SID information. (*NOTE* the previous sentence was a feeble attempt at
++ some basic psychology... Will it work?)
++ 
++ Should you be able submit information for 100 STIL entries (accounting for at
++ least 100 STIL Hero points), you will become a STIL SuperHero. :-)
++ 
++ 
++ [ 9] What is a STIL Hero point?
++ -------------------------------------------------------------------------------
++ 
++ Occasionally, your friendly STIL Administrator will mumble to you about STIL
++ Hero points. STIL Hero points are simply points that are given for a potential
++ STIL Hero to keep track of how many entries that person have submitted to the
++ STIL. A new STIL entry or a modification to an existing STIL entry accounts for
++ 1 (one) STIL Hero point, and so do deletion requests and general modification
++ submissions (1 each). STIL Hero points are kept track of by a program
++ (actually, a Perl script) to ensure that they are accurate.
++ 
++ 
++ [10] Who are the current STIL Heroes?
++ -------------------------------------------------------------------------------
++ 
++ The number in parentheses before a name is the number of the given person's
++ STIL Hero points.
++ 
++ If you would like to withhold your name or email address for security or
++ personal reasons, let me know ASAP!!! (Oops, too late. :)
++ 
++ STIL HEROES
++ ===========
++ 
++ (236) Petri Keränen <keebo@mbnet.fi> (aka "STIL SuperHero" :-)
++ (108) Teppo Lehtonen <lehto@sci.fi> (aka "STIL SuperHero #2" :-)
++ (100) Vincent Schoettke <fox@aliendesign.net> (aka "STIL SuperHero #3" :-)
++ ************************************
++ ( 53) King Fisher/Triad aka Linus Walleij <triad@df.lth.se>
++ ( 53) Jeremy Smith <jeremyasmith@geocities.com>
++ ( 42) Jacob Gunness <gunness@dorit.ihi.ku.dk>
++ ( 37) Per Bolmstedt <tomten@C64.org>
++ ( 32) Zyron <zyron@algonet.se>
++ ( 30) Kai Lehmann (Ass It)
++ ( 27) Nova (Jan Lönnberg) <lonnberg@mbnet.fi>
++ ( 27) Salmijarvi Janne <jhsa@cs.tut.fi>
++ ( 24) MAD <mad@gera-web.de>
++ ( 23) Craig Grannell <craig@snub.dircon.co.uk>
++ ( 23) Peter Weighill <pweighill@hotmail.com>
++ ( 20) se7en /Digital Excess <seven@crypt.ruhr.de>
++ ( 20) <smmoran@deakin.edu.au>
++ ( 16) Jeroen Mostert <xazziri@gmx.net>
++ ( 16) Jürgen Oppermann <juergen.oppermann@tcpip-gmbh.de>
++ ( 14) Joe Forster/STA <sta@ludens.elte.hu>
++ ( 12) Parsi Karppinen <karppinen.uddevalla@swipnet.se>
++ ( 11) Scott Jones <localh@hotmail.com>
++ ( 11) Ole Kasper Olsen <ole.olsen@ah.telia.no>
++ ( 12) Miron Schmidt <miron@comports.com>
++ ( 10) Daniel Adolfsson <sensei@whoever.com>
++ ( 10) Peter Sandén <peter@formec.com>
++ 
++ ------ The rest below are STIL Hero Wannabes... ------
++ 
++ (  7) Aaron Solomon <solomon@spiretech.com>
++ (  6) Scott <dg3carrols@wombat.admin.bhtafe.edu.au>
++ (  4) Oliver Hermanni <o_hermanni@hotmail.com> (aka Wintermute)
++ (  4) Evert-Jan Slypen <jazz@lobster.demon.nl>
++ (  3) Ulf Härnhammar
++ (  3) Len Pitre
++ (  2) Dominik Deobald <magician@sunshine.domino.de>
++ (  3) Kai Spitzley <heechee@mindless.com>
++ (  1) <abaddon@dlc.fi>
++ (  1) Zoltán Bolla <bolla@mail.matav.hu>
++ (  1) Mattias Bergsten <fnord@fnord.nu>
++ (  1) R.F. Bisschop <rfbcsa@multiweb.nl>
++ (  1) DRAX
++ (  1) Ferrara <maumiu@freenet.hut.fi>
++ (  1) Casper H. <hulshof@edte.utwente.nl>
++ (  1) Andry Joos (Unlock/Albion) <unlock@profzone.ch>
++ (  1) Manfred Linzner <manfred.linzner@munich.netsurf.de>
++ (  1) Joris Portegies Zwart <portegie@wins.uva.nl>
++ (  1) Antti Pyykko <pyksy@atlas.lukio.nivala.fi>
++ (  1) Bernd Schelling <schelle@alpha.fh-furtwangen.de>
++ (  1) Paul Trauth <ptrauth@gte.net>
++ (  1) Felix Winter <DPL-00125@popmail.derpatriot.com>
++ 
++ 
++ [11] Acknowledgments
++ -------------------------------------------------------------------------------
++ 
++ Lots of special thanks fly to:
++ 
++ - Andreas Wallstrom for the interviews he has conducted with Martin Galway, Rob
++   Hubbard and Barry Leitch, from which many of these composers' comments were
++   taken from!
++ - Commodore Zone for the interviews they conducted with Rob Hubbard, Martin
++   Galway and Jeroen Tel from which some of these composers' comments were taken
++   from (lots of thanks to Warren Pilkington for STILizing(tm) them! :)
++ - Happy Computer for the interviews from where some composers' comments were
++   taken from
++ 
++ [12] Are there any tools available that can show STIL entries in a better way?
++ -------------------------------------------------------------------------------
++ 
++ Yes, there are!
++ 
++ Most of the latest versions of SIDPlayer programs on most platforms have some
++ support to show a specific STIL entry for the SID which is being played.
++ Consult the documentation that came with your SIDPlayer to find out how to
++ make the program show STIL entries.
++ 
++ For the programmers, STIL View is a freeware program (or more precisely, piece
++ of code) that is able to show specific STIL entries for a given SID tune. STIL
++ View is available both as a multi-platform C++ class and as a Perl script.
++ 
++ For more details about these programs, visit LaLa's SID pages at:
++ 
++     http://lala.c64.org
++ 
++ You can also find other STIL-related tools at this website.
++ 
++ 
++ [13] Gimme some fun statistics about STIL!
++ -------------------------------------------------------------------------------
++ 
++ FUN STATS ABOUT STIL v3.1
++ ==========================
++ 
++ Created with LaLa's FunStats Perl script. ;)
++ 
++ Top 15 Covered Artists:
++ -----------------------
++ 
++ <?> ....................................................................... 182
++ Rob Hubbard ............................................................... 131
++ Traditional ...............................................................  77
++ Jean Michel Jarre .........................................................  71
++ Jeroen Tel ................................................................  61
++ Martin Galway .............................................................  59
++ Johann Sebastian Bach .....................................................  45
++ John Williams .............................................................  37
++ Depeche Mode ..............................................................  37
++ Pet Shop Boys .............................................................  35
++ Harold Faltermeyer ........................................................  34
++ Jan Hammer ................................................................  29
++ Super Sonic Team (SEGA's inhouse band) ....................................  25
++ Chris Hülsbeck ............................................................  24
++ James Pierpont ............................................................  24
++ 
++ Top 15 Covered Tunes:
++ ----------------------
++ 
++ <?> .......................................................................  53
++ Axel F [from the movie Beverly Hills Cop] .................................  30
++ Jingle Bells ..............................................................  24
++ Blue Monday ...............................................................  19
++ The Star Spangled Banner (American National Anthem) .......................  18
++ James Bond Theme [from the movie] .........................................  17
++ Comic Bakery, Tune #1 .....................................................  17
++ Toccata from Tocatta and Fugue in D Minor (BWV 565) .......................  16
++ Thalamusik (from Sanxion) .................................................  16
++ Popcorn ...................................................................  15
++ Crockett's Theme [from the TV series Miami Vice] ..........................  13
++ Airwolf Theme [from the TV series] ........................................  13
++ Orpheus in the Underworld Overture ........................................  12
++ The Last Ninja, Tune #6 ...................................................  11
++ Magnetic Fields, Part 4 [from Magnetic Fields] ............................  11
++ 
++ -------------------------------------------------------------------------------
++ --- End of STIL FAQ ---
++ -------------------------------------------------------------------------------
+diff -crN sidmusic-faqs-orig/hv_sids.faq sidmusic-faqs-19990515/hv_sids.faq
+*** sidmusic-faqs-orig/hv_sids.faq	Thu Jan  1 01:00:00 1970
+--- sidmusic-faqs-19990515/hv_sids.faq	Sat May 15 01:56:56 1999
+***************
+*** 0 ****
+--- 1,491 ----
++ ------------------------------------------------------------------------------
++                   The High Voltage SID Collection (HVSC)
++                      -> Frequently Asked Questions <-
++                        Last Updated: May 15, 1999
++ ------------------------------------------------------------------------------
++ 
++ Very Common Questions
++ 
++  [1] What is the High Voltage SID Collection (HVSC)?
++  [2] What software and hardware do I need to play the tunes in HVSC?
++  [3] So then, do I need to hook up a SID chip to my PC?  Or what?
++  [4] Isn't Commodore C64 music just silly beep-blop music?
++  [5] Why should I get HVSC when I already have NemeSIDs?
++  [6] Why aren't there any Compute Gazette SIDPlayer tunes in HVSC?
++  [7] What is the SID Tune Information List (STIL)?
++  [8] Why doesn't HVSC support MSDOS's 8.3 filename convention?
++ 
++ Updates
++ 
++  [9] When will the next update be released?
++ [10] Do I have to download all of HVSC after each update?
++ [11] Why isn't the update tool available for my system?
++ [12] Why do the updates sometimes add SIDs that HVSC already has?
++ [13] After I ran the Update, I can no longer find some SIDs.
++      Where did they go?
++ 
++ General Questions
++ 
++ [14] How can I tell what version of HVSC I have?
++ [15] Why should I get HVSC when I can just load up the game/demo and hear
++      the music on a real C64?
++ [16] Why do some tunes sound different compared to how I remember them on
++      the C64?
++ [17] How do I rip SID tunes from games/demos?
++ [18] Why isn't tune X in HVSC?
++ [19] I can't find tune Y in HVSC which was used in an old intro/demo.
++      Can you tell me where it is?
++ [20] Why do some of the tunes in HVSC not play?
++ [21] Why are there some incorrect or ugly-looking credits in HVSC?
++ [22] Why does HVSC take up so much space on my hard drive?
++ [23] Can I just download the individual tunes I want?
++ [24] How is it determined which composers go under the /VARIOUS dir?
++ [25] Do you offer HVSC on CD?
++ [26] Is the High Voltage SID Collection related to the High Voltage CDs?
++ [27] Did you know that my virus checker reports some SIDs as having viruses?
++ [28] When will HVSC be completed?
++ [29] I find myself listening to SID music all the time.  Am I normal?
++ 
++ ------------------------------------------------------------------------------
++ 
++ [1] What is the High Voltage SID Collection (HVSC)?
++ ---------------------------------------------------
++ 
++ HVSC is the ultimate SID tune collection featuring at least 99% of the
++ most requested SIDs from the Commodore 64.  The collection includes SIDs
++ (aka C64 music) from games, demos, intros, etc.  HVSC has been in the
++ making for over 2 years and is the result of many contributors.  
++ 
++ [2] What software and hardware do I need to play the tunes in HVSC?
++ -------------------------------------------------------------------
++ 
++ Lucky for you, there are many devoted SID fans throughout the world.  Many
++ people have created or ported SID emulators to various OSes.  To name a
++ few: Win95, Win3.1, Linux, MSDOS, MacOS, AmigaOS, Atari Falcon, BeOS,
++ OS/2, etc.  For a complete list of which OSs are supported, see the HVSC web
++ page.  You can also listen to the SIDs in HVSC on a real C64 with Real SID
++ Play.  More information is available on the HVSC web page.
++ 
++ As for additional hardware, you only need a sound card.  That's it!
++ 
++ [3] So then, do I need to hook up a SID chip to my PC?  Or what?
++ ----------------------------------------------------------------
++ 
++ Listen to me!  You only need a SID emulator program, some SID tunes, and a
++ sound card!  It's that easy.  
++ 
++ [4] Isn't Commodore C64 music just silly beep-blop music?
++ ---------------------------------------------------------
++ 
++ Absolutely not!  Although the C64 went into production in 1983, do not
++ underestimate the C64's technology.  In fact, Byte Magazine named the C64's
++ Sound Interface Device (SID) as one of the 20 most important chips in
++ computer history along side the PowerPC, Intel 8086, and Pentium.  After all,
++ there has to be a reason why there are so many SID fans.  I should note that
++ there were two distinctive regions for SID music, America and Europe.
++ American SID music is on average lower in quality compared to European SID
++ music.  This is not to say that American SID music is crap, but if you are
++ judging SID music based on the American SID music you have heard, I can
++ understand partially why you might think SID music is silly.  Why is American
++ SID music lacking compared to European SID music?  Mainly this has to do with
++ much information sharing related to the SID composing tools in Europe (not to
++ mention some theft as well).  The best way for you to determine if SID music
++ is or isn't for you is to listen to some of the best.  Take a listen to some
++ Hubbard, Galway, Daglish, Gray (Fred and Matt) and Tel.  If you do not like 
++ any of those artists, then there is a strong chance you will not like any 
++ SID music.
++ 
++ [5] Why should I get HVSC when I already have NemeSIDs?
++ -------------------------------------------------------
++ 
++ NemeSIDs is the only other legitimate, large-scale SID collection available
++ on the Internet.  Primarily created for PLAYSID (Amiga) users, NemeSIDs was
++ a great collection in its time.  HVSC, on the other hand, was built off
++ of all the collections available on the Internet, plus we added over 5000
++ SIDs from various people.  This means that HVSC has all of the tunes found
++ in NemeSIDs, except for NemeSIDs 18-19 (Compute Gazette SIDPlayer SIDs).
++ Further, we have spent many months adding 100% rips, fixing SID credits,
++ and deleting repeated SIDs.  NemeSIDs, formerly maintained by Nemesis1, has
++ not received an update since June 1996.  In addition, NemeSIDs required the
++ user to manually update the collection.  With HVSC, updates are automated.
++ If you doubt what we say, then please, by all means, go download HVSC and
++ compare it to NemeSIDs yourself.  We are confident that if you do such, you
++ will end up keeping HVSC.
++ 
++ [6] Why aren't there any Compute Gazette SIDPlayer tunes in HVSC?
++ -----------------------------------------------------------------
++ 
++ Mainly, because on average they do not sound as good as non-SIDPlayer tunes.
++ SIDPlayer was a public domain SID composer and player available in the early
++ '80s on the C64.  The tool was predominately used by Americans and has a
++ strong following among the public domain audience.  SIDPlayer tunes are
++ usually follow by a ".mus" and can be found on some C64 ftp sites.
++ 
++ The best Compute! Gazette SID tune collection HVSC knows of is maintained by
++ Peter Weighill and the latest version can be found here:
++ 
++ http://members.xoom.com/cbm_files/music.html
++ 
++ (note: do not confuse SIDPlayer with SIDPlay.  SIDPlay is a SID emulator
++ where as SIDPlayer is a SID player for the C64.  Confusion is easy when there
++ is SIDPlay, PLAYSID (Amiga), SIDPlayer (C64), Real SIDPlay (C64), etc.)
++ 
++ [7] What is the SID Tune Information List (STIL)?
++ -------------------------------------------------
++ 
++ The STIL is basically a text file which contains general information about
++ the SIDs in HVSC.  Such information includes the original composer's name,
++ defects in certain tunes, interesting trivia, etc.  Consult the STIL FAQ
++ for more information.  Hopefully your SID emulator has the option to
++ display the STIL information for the current playing SID tune.
++ 
++ [8] Why doesn't HVSC support MSDOS's 8.3 filename convention?
++ -------------------------------------------------------------
++ 
++ We have racked our brains trying to figure out an easy solution to support
++ short filename OSes.  Every solution we came up with required much work
++ from our end.  Since the maintainers of HVSC organise the collection as
++ a hobby, we cannot spend a great amount of time catering to such a small
++ audience.  We have concluded that support for short filename based OSes
++ will have to come from a devoted user of such an OSes.  Keep in mind that
++ the long filenames do not prevent 8.3 OSes from playing the music files.
++ Only the Update tool won't work and the filenames will likely be cluttered
++ with those nasty tildes (~).
++ 
++ [9] When will the next update be released?
++ ------------------------------------------
++ 
++ There is no fixed time schedule as to when each update is released.  Each
++ update is dependent on two factors: available time and available SIDs.  Once
++ enough SIDs have been sent in to equal around 1.44 MBs (compressed) and the
++ HVSC crew has time enough to properly sort the SIDs, the next update will
++ be released.  At present, it takes on average two months to put together a
++ new update.  However, you should note that with the amount of SIDs already
++ present in HVSC, it does become harder to compile updates full of new tunes.
++ 
++ Also, if you wish to be added to the HVSC Update Announcement list, which
++ means you get an email the moment the HVSC website is updated announcing the 
++ new HVSC Update release, then please email Warren Pilkington 
++ <wazzaw@freeuk.com> placing 'Add Me To HVSC Update Announcement List'
++ in the subject line.
++ 
++ [10] Do I have to download all of HVSC after each update?
++ ---------------------------------------------------------
++ 
++ No.  The update comes with a tool that automatically updates HVSC to the
++ next version.  Instructions are provided in each update and within the
++ tool.  In particular, do NOT run the update tool more than once.
++ 
++ [11] Why isn't the update tool available for my system?
++ -------------------------------------------------------
++ 
++ The update tool was made in mind to be portable.  The code at present
++ could use some cleaning up, but one does not have to port the code to his
++ system.  One could instead code the program from scratch.  The update tool
++ is only available for Win95, AmigaOS, OS/2, MacOS, BeOS and Unix systems.  
++ Plans are underway to port the tool to other OSes, but we have no timetable
++ as to when these will be completed (if ever).  If you would like the source code
++ to the tool and information about the format of the HVS data file, email
++ Warren Pilkington <wazzaw@freeuk.com>.
++ 
++ [12] Why do the updates sometimes add SIDs that HVSC already had?
++ -----------------------------------------------------------------
++ 
++ We often replace SIDs in HVSC with better versions.  Reason for replacing
++ SIDs could be (1) more sub-tunes (2) 100% rip (3) significantly smaller
++ (4) merger of several SIDs.  A "100% rip" would include fixed tunes,
++ Real SID Play compatible tunes, Full Bank Switching tunes, etc.  Thus,
++ there is a chance that a new version of a tune could sound identical to
++ the current version in HVSC.  The new rip, however, has some internal
++ changes that does in fact make it superior.  Note that occasionally we do
++ mistakenly add repeated tunes (and please tell us if you spot them.)
++ 
++ [13] After I ran the Update, I can no longer find some SIDs.
++      Where did they go?
++ ------------------------------------------------------------
++ 
++ To find out more details as to where SIDs were moved, why they were
++ deleted, why they were replaced, etc., view the /DOCUMENTS/UpdateXX.hvs
++ file for the current update.  The "XX" in the path mentioned in the
++ previous sentence represents the current update number.  So if after
++ running Update #7 you can no longer find a favorite SID, check
++ /DOCUMENTS/Update07.hvs and search the file for the location where that
++ SID was manipulated.  The UpdateXX.hvs file serves as a data file for the
++ UPDATE tool but is also readable by humanoids and does contain some
++ comments.  The best way to find the section of the file that contains the
++ information you seek is to do a string search on the old SID or the path
++ where the SID resided.
++ 
++ [14] How can I tell what version of HVSC I have?
++ ------------------------------------------------
++ 
++ Look at /DOCUMENTS/hv_sids.txt.  The first few lines will tell you what
++ version you have.
++ 
++ [15] Why should I get HVSC when I can just load up the game/demo and hear
++      the music on a real C64?
++ -------------------------------------------------------------------------
++ 
++ You likely fall in the category "I don't need no stinkin' emulator!"
++ First off, remember that HVSC isn't just for emulator users.  In fact,
++ the tunes in HVSC are still in raw C64 code only prepended by some header
++ information.  To handle this, a tool on the C64 called "Real SID Play"
++ (RSP) is available to play HVSC tunes on the C64.  It plays approximately
++ 96% of the tunes in HVSC.  Of the tunes that do not play in RSP, they
++ could be bad rips, tunes that have overlapping memory with RSP, or tunes
++ that have samples.  Tunes with samples require some non-C64-compatible
++ modifications in order to be playable in some SID emulators.  Another
++ reason C64 users may enjoy HVSC is that it is the largest SID collection
++ on Earth.  It is unlikely that you have all of the programs from where the
++ SIDs in HVSC originated.  Plus, with HVSC, you can select any level tune at
++ any time.  As a final note, it is true that the SID emulators do not sound
++ as splendid as a real SID.  To quote Zardax, "With SID emulators, the soul
++ of the SID is lost."  Of course Zardax has only heard PlaySID which does
++ not emulate SID filters.  Nevertheless, his statement is partially true.
++ SID emulators, however, are getting better all the time.  And for people
++ who no longer own a C64, SID emulators are a _dream_.  Imagine how many C64 
++ disks you would need to store the whole HVSC on!
++ 
++ [16] Why do some tunes sound different compared to how I remember them on
++      the C64?
++ -------------------------------------------------------------------------
++ 
++ SID emulators are very good, but not perfect.  Although SID emulation is
++ not perfect, the actual rip of the SID tune may be corrupt.  There is also
++ the chance that your memory is not 100% accurate.  If you believe you
++ have found a corrupt tune, it would be best if you load up the old tune on
++ a C64/128 and compare it to the HVSC version.  If you then notice a problem
++ with the HVSC version, by all means, let us know.  We strongly recommend
++ that you do not compare the HVSC tune to a tune played in a C64 emulator.
++ Most C64 emulators which emulate the SID are no where as good as the pure
++ SID emulators.  You might also want to check out the STIL which documents
++ any known problems with the SIDs found in HVSC.
++ 
++ [17] How do I rip SID tunes from games/demos?
++ ---------------------------------------------
++ 
++ Consult http://www.geocities.com/SiliconValley/Lakes/5147/
++ 
++ Also, SIDPlay comes with technical information about converting SIDs to
++ PSID format.  The conversion process is surprisingly easy.
++ 
++ [18] Why isn't tune X in HVSC?
++ ------------------------------
++ 
++ Of course, not every SID ever made on the C64 is in HVSC.  We feel that
++ 99% of the most requested tunes are in HVSC.  This does not mean we feel
++ that 99% of _all_ C64 tunes are in HVSC.  The HVSC crew is always busy
++ ripping new SIDs and always receiving more SIDs.  In fact, the crew is
++ extremely back logged with SIDs to rip.  The best thing you can do if you
++ would like to hear a certain tune in HVSC is to check out the HVSC Request
++ web page which can be reached from the main HVSC web site.
++ 
++ [19] I can't find tune Y in HVSC which was used in an old intro/demo.
++      Can you tell me where it is?
++ ---------------------------------------------------------------------
++ 
++ Haha!  Unfortunately, many intro coders and programmers failed to properly
++ give credit to the music they used in their work.  HVSC, thankfully, is very
++ accurate in the credits it gives.  We have worked for months contacting the
++ original composers of tunes to help verify SID credits in HVSC.  I don't
++ think you are going to like what I am leading up to.  C64 musicians have
++ long been ignored on the C64.  Many people will say, "Do you have the music
++ to Commando?" not knowing who made the music.  The time has come that you
++ too should learn these composers' names.  Basically, what I am telling you
++ is that there is a chance that you will have to roll up your sleeves and dig
++ through HVSC searching for your old favorite tunes.  Before you do this,
++ though, you should check out the HVSC search engine at the HVSC web site.
++ With just a fragment of information, you can perhaps find the tune.  Also,
++ note that the professional composers (i.e., ones who received money for their
++ work) are at the root of HVSC.  Some of the lesser known composers and
++ composers from post-1992 are in the "VARIOUS" directory.  Knowing this
++ information should help reduce your search time.
++ Also, note that eventually we will be compiling a text document with names of
++ crack intro tunes and where they appear in HVSC.  If you'd like to help us on
++ this project, email the following people:
++ 
++ The Shark <shark@dhp.com>
++ Warren Pilkington <wazzaw@freeuk.com>
++ 
++ [20] Why do some of the tunes in HVSC not play?
++ -----------------------------------------------
++ 
++ More than likely, a silent tune is a PSID-only tune or the tune doesn't
++ bank-switch properly.  Assuming you are using SIDPlay, you can change the
++ settings and play the tune in PSID environment as well as Transparent ROM
++ mode.  Our goal is to replace all these tunes with versions that will work
++ in Full Bank-Switching mode.
++ 
++ [21] Why are there some incorrect or ugly-looking credits in HVSC?
++ ------------------------------------------------------------------
++ 
++ Slowly but surely we are taking care of this.  With each update, we make
++ at least 200 credit fixes.  So please be patient and if you notice any
++ incorrect credits, email us and we'll try to fix them for the next update.
++ Note also that any documented proof you have of the credit fix will help.
++ 
++ [22] Why does HVSC take up so much space on my hard drive?
++ ----------------------------------------------------------
++ 
++ This is the infamous cluster problem predominately found on Microsoft OSs.
++ Basically, due to a lack of foresight on Microsoft's end, the cluster size
++ for hard drives grows larger as the hard drives grow larger.  (In fact, if
++ the hard drive gets large enough, you actually have to partition it.)  This
++ is a problem since any data written of size less than a cluster size
++ consumes at least the size of a cluster.  For example, if you were to
++ create a one byte file, that file would take up at least the size of one
++ cluster on the hard drive.  Common cluster sizes are 16 & 32 KBs.  Perhaps
++ now you see the problem?  Many SIDs are around 4 KBs which is 4-8 times
++ less than the most common cluster sizes.  This problem affects many people
++ besides HVSC users.  The good news is that Microsoft is using FAT32, their
++ file system for Windows 98, which will fix this.  Further, newer PCs are 
++ sold with a revised version of Win95 which includes Microsoft's FAT32 file
++ system.  Windows 98 also has a conversion tool if your drive has the old FAT16
++ file system to convert easily to FAT32.  There is also one Microsoft
++ published for Win95 OSR2 and above (not that they tell you about it) which
++ you may be able to find on the Internet.  (note: at your own choice/risk).  
++ 
++ If the size of HVSC is a problem for you, there are some space-saving
++ ways to store HVSC.  One method is to keep the collection zipped.  If your
++ uncompressing tool has the capability, you can double click the SID of your
++ choice while in the uncompressing tool and the SID will play.  This assumes
++ that you have associated ".sid" files with a SID emulator.  If you decide
++ to keep HVSC zipped, you may want to create one large zip file instead of
++ having many.  
++ 
++ Another popular technique is to use DriveSpace, which is an included tool
++ with Win95.  DriveSpace allows you to compress partial or entire hard
++ drives, but treats the compressed drive like a normal drive.  Using
++ DriveSpace should reduce the amount of space consumed by HVSC by at least
++ half.  Further, we have noticed no slow down when playing SIDs that reside
++ on a compressed drive.  Consult the on-line DriveSpace help for more
++ information.
++ 
++ [23] Can I just download the individual tunes I want?
++ -----------------------------------------------------
++ 
++ Yes.  HVSC is available unzipped at a few web and ftp sites.  A listing of
++ these sites can be found at the HVSC web page.
++ 
++ [24] How is it determined which composers go under the /VARIOUS dir?
++ --------------------------------------------------------------------
++ 
++ The current rule is:
++ 
++  (1) If the artist has no tunes made in 1992 or earlier, go to step #4
++  (2) If the artist has game tunes (3 must be made in 1992 or earlier), 
++      above Various...  else go to step #3
++  (3) If the artist was a famous demo composer in 1992 or earlier, above
++      Various...else go to step #4
++  (4) Below Various
++ 
++ Note: Rule (2) above has slightly changed.  This is in order that an
++ artist who may have produced only one game tune for a magazine covermount
++ prior to 1992 does not make it above VARIOUS.
++ 
++ Also, as of HVSC 3.1, the /VARIOUS directory has changed structure.  In order
++ to make it manageable chunks, /VARIOUS now has four subdirs, A-F, G-L, M-R and
++ S-Z, so you can look in those to find the composers you seek.
++ 
++ [25] Do you offer HVSC on CD?
++ -----------------------------
++ 
++ Plans are being made to offer HVSC on CD.  No profit will be made on the CD
++ and HVSC will still be freely available on the Internet.  The people who
++ plan to burn the CD are not part of the HVSC crew.  We will, however,
++ assist them as best as we can.  Further, we will only recommend CDs that
++ we feel are a fair deal.  
++ 
++ In addition, the HVSC team have ensured that any programs distributed on a
++ HVSC CD have had written permission from the authors concerned to include their 
++ work, such as Sidplay, PlaySID, APlayer etc as well as Winamp.  
++ 
++ Some of the HVSC team have noted that certain public domain libraries 
++ have placed the HVSC on CD.  They are not officially authorised or
++ sanctioned HVSC releases and furthermore will not be supported by the 
++ HVSC crew.  If you are a public domain library and wish to include HVSC 
++ on a CD-ROM then please email Warren Pilkington <wazzaw@freeuk.com>
++ for permission - that's all we ask.  As long as you are making no profit
++ on the CD, we will be more than willing to support you.
++ 
++ The first three releases of HVSC on CD have been authorised.  Please contact the
++ below if you wish to find out further information:
++ -----------------------------------------------------------------------
++ Jason MacKenzie
++ Binary Zone PD
++ 34 Portland Road
++ Droitwich
++ Worcestershire
++ WR9 7QW
++ ENGLAND
++ 
++ Website: http://www.bzpd.freeserve.co.uk/
++ 
++ Email: Kenz@bzpd.freeserve.co.uk
++ -----------------------------------------------------------------------
++ Imre Olajos Jr.
++ 1651 W Byron Avenue
++ Addison
++ IL 60101
++ USA
++ 
++ Website: http://lala.c64.org
++ 
++ Email: LaLa@c64.org
++ -----------------------------------------------------------------------
++ Bionic Grasshopper
++ 
++ Email: bg_mfc@usa.net
++ -----------------------------------------------------------------------
++ 
++ [26] Is the High Voltage SID Collection related to the High Voltage CDs?
++ ------------------------------------------------------------------------
++ 
++ No.  They are two separate collections.  HVSC specializes in SID music where
++ as HV CDs specialize in C64 games, demos, and music all in emulator format.
++ Due to an early agreement between HVSC and HV CDs, HVSC uses the same name
++ as HV CDs.  HV CD #1 contains a partial NemeSIDs collection where HV CD #2
++ contains HVSC 1.1.  HVSC has changed much since the HV CDs were put together.
++ Therefore, we strongly recommend that you get the newest version HVSC from
++ our web site.
++ 
++ [27] Did you know that my virus checker reports some SIDs as having viruses?
++ ----------------------------------------------------------------------------
++ 
++ Let me guess.  You are using Norton Anti-Virus (NAV)?  Apparently Norton
++ Anti-Virus's method for searching for viruses seems to be somewhat abnormal
++ or inefficient compared to other virus checkers.  No other virus checker that
++ we know of has flagged any SIDs in HVSC as having a virus besides NAV.  More
++ than likely, you should consider NAV's warning a false indication of a virus.
++ Even if NAV was correct about a virus being present in a SID, the virus would
++ be harmless since the SIDs are not an executable or macro.  Infected data
++ files, however, can be an indication that your system does have a virus
++ lurking somewhere.
++ 
++ [28] When will HVSC be completed?
++ ---------------------------------
++ 
++ In all likelihood, never.  Far too many tunes were made on the C64 to
++ reasonably expect that every SID will be collected.  In addition, people
++ are still composing music on the C64 to this day (some of the HVSC
++ team themselves are among them).  Consider HVSC a living
++ collection.
++ 
++ [29] I find myself listening to SID music all the time.  Am I normal?
++ ---------------------------------------------------------------------
++ 
++ No, you are a SID-aholic.  But we consider this a good thing.  ;)
++ 
++ =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
++ 
++ Do you have more questions?  Have you also checked:
++ 
++ (1) The documentation for the SID emulator/player you are using
++ (2) /DOCUMENTS/hv_sids.txt  (describes HVSC in more detail)
++ (3) /DOCUMENTS/STIL.txt & /DOCUMENTS/STIL.faq  (discusses some tunes in HVSC)
++ (4) readme.1st  (information about updating; comes with each update)
++ 
++ If you have checked those documents and have not found the answers you seek,
++ by all means, please email Warren Pilkington <wazzaw@freeuk.com> at any
++ time.  Note that if you think your problem is related to the emulator/player
++ you are using, we suggest you email the party responsible.

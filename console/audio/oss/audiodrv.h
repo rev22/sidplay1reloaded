@@ -1,14 +1,16 @@
-//
-// 1997/09/27 21:38:01
-//
+// --------------------------------------------------------------------------
+// ``Open Sound System (OSS)'' specific audio driver interface.
+// --------------------------------------------------------------------------
 
 #ifndef AUDIODRV_H
 #define AUDIODRV_H
 
 
-#include <unistd.h>
-#include <fcntl.h>
 #include <sys/ioctl.h>
+#include <errno.h>
+#include <fcntl.h>
+#include <stdio.h>
+#include <unistd.h>
 
 #include "compconf.h"
 #include "mytypes.h"
@@ -16,8 +18,10 @@
 
 #if defined(HAVE_LINUX) && defined(HAVE_LINUX_SOUNDCARD_H)
   #include <linux/soundcard.h>
-#elif defined(HAVE_FREEBSD) && defined((HAVE_MACHINE_SOUNDCARD_H)
+#elif defined(HAVE_FREEBSD) && defined(HAVE_MACHINE_SOUNDCARD_H)
   #include <machine/soundcard.h>
+#elif defined(HAVE_NETBSD) && defined(HAVE_SOUNDCARD_H)
+  #include <soundcard.h>
 #else
   #error Audio driver not supported.
 #endif
@@ -105,6 +109,8 @@ class audioDriver
 	int encoding;
 	int precision;
 	int channels;
+    
+    bool swapEndian;
 };
 
 

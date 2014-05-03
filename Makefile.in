@@ -1,6 +1,4 @@
 
-SHELL			= /bin/sh
-
 srcdirs 		= libsidplay console
 
 .PHONY: all
@@ -13,6 +11,14 @@ all:
 clean:
 		@for subdir in $(srcdirs); do \
 			(cd $$subdir && $(MAKE) clean) || exit 1; \
+		done
+
+.PHONY: distclean
+distclean:
+		$(RM) -f config.cache config.status config.log
+		$(RM) -f Makefile *.d *.o *.bak *~
+		@for subdir in $(srcdirs); do \
+			(cd $$subdir && $(MAKE) distclean) || exit 1; \
 		done
 
 .PHONY: depend

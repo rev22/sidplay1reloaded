@@ -45,6 +45,21 @@ char* fileNameWithoutPath(char* s)
 	return( &s[last_slash_pos +1] );
 }
 
+// Return pointer to file name position in complete path.
+// Special version: file separator = forward slash.
+char* slashedFileNameWithoutPath(char* s)
+{
+	int last_slash_pos = -1;
+	for ( uint pos = 0; pos < strlen(s); pos++ )
+	{
+        if ( s[pos] == '/' )
+		{
+			last_slash_pos = pos;
+		}
+	}
+	return( &s[last_slash_pos +1] );
+}
+
 // Return pointer to file name extension in path.
 // The backwards-version.
 char* fileExtOfPath(char* s)

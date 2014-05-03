@@ -1,6 +1,4 @@
 
-SHELL			= /bin/sh
-
 TOPDIR			= @top_srcdir@
 BASEDIR			= @srcdir@
 SRCDIR			= $(BASEDIR)
@@ -36,18 +34,23 @@ sources =  sidplay.cpp audiodrv.cpp sid2wav.cpp sidcon.cpp
 .PHONY: all
 all:	sidplay sid2wav sidcon
 
-sidplay:	sidplay.o audiodrv.o
+sidplay:	sidplay.o audiodrv.o $(TOPDIR)/libsidplay/libsidplay.a
 		$(CXX) -o $@ $(LDFLAGS) sidplay.o audiodrv.o $(LIBS)
 
-sid2wav:	sid2wav.o
+sid2wav:	sid2wav.o $(TOPDIR)/libsidplay/libsidplay.a
 		$(CXX) -o $@ $(LDFLAGS) sid2wav.o $(LIBS)
 
-sidcon:	sidcon.o
+sidcon:	sidcon.o $(TOPDIR)/libsidplay/libsidplay.a
 		$(CXX) -o $@ $(LDFLAGS) sidcon.o $(LIBS)
 
 .PHONY: clean
 clean:
-		rm -f *.d *.o *~ sidplay sid2wav sidcon
+		$(RM) -f *.d *.o *.bak *~ sidplay sid2wav sidcon
+
+.PHONY: distclean
+distclean:
+		$(MAKE) clean
+		$(RM) -f Makefile audiodrv.h audiodrv.cpp
 
 .PHONY: depend
 depend:

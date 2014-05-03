@@ -1363,7 +1363,7 @@ fi
 done
 
 for ac_hdr in sys/ioctl.h linux/soundcard.h machine/soundcard.h  \
-  sys/audio.h sun/audioio.h sun/dbriio.h sys/audioio.h  \
+  soundcard.h sys/audio.h sun/audioio.h sun/dbriio.h sys/audioio.h  \
   audio.h dmedia/audio.h
 do
 ac_safe=`echo "$ac_hdr" | sed 'y%./+-%__p_%'`
@@ -1441,14 +1441,14 @@ else
   echo "$ac_t""no" 1>&6
 fi
  
-echo $ac_n "checking for main in -liostream""... $ac_c" 1>&6
-echo "configure:1446: checking for main in -liostream" >&5
-ac_lib_var=`echo iostream'_'main | sed 'y%./+-%__p_%'`
+echo $ac_n "checking for main in -lossaudio""... $ac_c" 1>&6
+echo "configure:1446: checking for main in -lossaudio" >&5
+ac_lib_var=`echo ossaudio'_'main | sed 'y%./+-%__p_%'`
 if eval "test \"`echo '$''{'ac_cv_lib_$ac_lib_var'+set}'`\" = set"; then
   echo $ac_n "(cached) $ac_c" 1>&6
 else
   ac_save_LIBS="$LIBS"
-LIBS="-liostream  $LIBS"
+LIBS="-lossaudio  $LIBS"
 cat > conftest.$ac_ext <<EOF
 #line 1454 "configure"
 #include "confdefs.h"
@@ -1472,16 +1472,85 @@ LIBS="$ac_save_LIBS"
 fi
 if eval "test \"`echo '$ac_cv_lib_'$ac_lib_var`\" = yes"; then
   echo "$ac_t""yes" 1>&6
+  LIBAUDIO=-lossaudio
+else
+  echo "$ac_t""no" 1>&6
+fi
+ 
+echo $ac_n "checking for main in -liostream""... $ac_c" 1>&6
+echo "configure:1482: checking for main in -liostream" >&5
+ac_lib_var=`echo iostream'_'main | sed 'y%./+-%__p_%'`
+if eval "test \"`echo '$''{'ac_cv_lib_$ac_lib_var'+set}'`\" = set"; then
+  echo $ac_n "(cached) $ac_c" 1>&6
+else
+  ac_save_LIBS="$LIBS"
+LIBS="-liostream  $LIBS"
+cat > conftest.$ac_ext <<EOF
+#line 1490 "configure"
+#include "confdefs.h"
+
+int main() {
+main()
+; return 0; }
+EOF
+if { (eval echo configure:1497: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest; then
+  rm -rf conftest*
+  eval "ac_cv_lib_$ac_lib_var=yes"
+else
+  echo "configure: failed program was:" >&5
+  cat conftest.$ac_ext >&5
+  rm -rf conftest*
+  eval "ac_cv_lib_$ac_lib_var=no"
+fi
+rm -f conftest*
+LIBS="$ac_save_LIBS"
+
+fi
+if eval "test \"`echo '$ac_cv_lib_'$ac_lib_var`\" = yes"; then
+  echo "$ac_t""yes" 1>&6
   LIBIOS=-liostream
 else
   echo "$ac_t""no" 1>&6
 fi
  
 
+echo $ac_n "checking whether standard member ios::binary is available""... $ac_c" 1>&6
+echo "configure:1519: checking whether standard member ios::binary is available" >&5
+if eval "test \"`echo '$''{'ac_cv_have_ios_binary'+set}'`\" = set"; then
+  echo $ac_n "(cached) $ac_c" 1>&6
+else
+  cat > conftest.$ac_ext <<EOF
+#line 1524 "configure"
+#include "confdefs.h"
+#include <fstream.h>
+int main() {
+ifstream myTest(ios::in|ios::binary)
+; return 0; }
+EOF
+if { (eval echo configure:1531: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>&5; }; then
+  rm -rf conftest*
+  ac_cv_have_ios_binary=yes
+else
+  echo "configure: failed program was:" >&5
+  cat conftest.$ac_ext >&5
+  rm -rf conftest*
+  ac_cv_have_ios_binary=no
+fi
+rm -f conftest*
+fi
+
+echo "$ac_t""$ac_cv_have_ios_binary" 1>&6
+if test "$ac_cv_have_ios_binary" = no; then
+  cat >> confdefs.h <<\EOF
+#define HAVE_IOS_BIN 1
+EOF
+
+fi
+
 # Extract the first word of "gmake", so it can be a program name with args.
 set dummy gmake; ac_word=$2
 echo $ac_n "checking for $ac_word""... $ac_c" 1>&6
-echo "configure:1485: checking for $ac_word" >&5
+echo "configure:1554: checking for $ac_word" >&5
 if eval "test \"`echo '$''{'ac_cv_prog_MAKE'+set}'`\" = set"; then
   echo $ac_n "(cached) $ac_c" 1>&6
 else
@@ -1511,7 +1580,7 @@ if test "$MAKE" = "make"; then
   # Extract the first word of "gnumake", so it can be a program name with args.
 set dummy gnumake; ac_word=$2
 echo $ac_n "checking for $ac_word""... $ac_c" 1>&6
-echo "configure:1515: checking for $ac_word" >&5
+echo "configure:1584: checking for $ac_word" >&5
 if eval "test \"`echo '$''{'ac_cv_prog_MAKE2'+set}'`\" = set"; then
   echo $ac_n "(cached) $ac_c" 1>&6
 else
@@ -1544,7 +1613,7 @@ fi;
 # Extract the first word of "makedepend", so it can be a program name with args.
 set dummy makedepend; ac_word=$2
 echo $ac_n "checking for $ac_word""... $ac_c" 1>&6
-echo "configure:1548: checking for $ac_word" >&5
+echo "configure:1617: checking for $ac_word" >&5
 if eval "test \"`echo '$''{'ac_cv_prog_MAKEDEP'+set}'`\" = set"; then
   echo $ac_n "(cached) $ac_c" 1>&6
 else
@@ -1578,7 +1647,7 @@ fi;
 # Extract the first word of "ranlib", so it can be a program name with args.
 set dummy ranlib; ac_word=$2
 echo $ac_n "checking for $ac_word""... $ac_c" 1>&6
-echo "configure:1582: checking for $ac_word" >&5
+echo "configure:1651: checking for $ac_word" >&5
 if eval "test \"`echo '$''{'ac_cv_prog_RANLIB'+set}'`\" = set"; then
   echo $ac_n "(cached) $ac_c" 1>&6
 else
@@ -1607,7 +1676,7 @@ fi
 # Extract the first word of "ar", so it can be a program name with args.
 set dummy ar; ac_word=$2
 echo $ac_n "checking for $ac_word""... $ac_c" 1>&6
-echo "configure:1611: checking for $ac_word" >&5
+echo "configure:1680: checking for $ac_word" >&5
 if eval "test \"`echo '$''{'ac_cv_path_AR'+set}'`\" = set"; then
   echo $ac_n "(cached) $ac_c" 1>&6
 else
@@ -1639,7 +1708,7 @@ fi
 # Extract the first word of "cp", so it can be a program name with args.
 set dummy cp; ac_word=$2
 echo $ac_n "checking for $ac_word""... $ac_c" 1>&6
-echo "configure:1643: checking for $ac_word" >&5
+echo "configure:1712: checking for $ac_word" >&5
 if eval "test \"`echo '$''{'ac_cv_path_CP'+set}'`\" = set"; then
   echo $ac_n "(cached) $ac_c" 1>&6
 else
@@ -1671,7 +1740,7 @@ fi
 # Extract the first word of "rm", so it can be a program name with args.
 set dummy rm; ac_word=$2
 echo $ac_n "checking for $ac_word""... $ac_c" 1>&6
-echo "configure:1675: checking for $ac_word" >&5
+echo "configure:1744: checking for $ac_word" >&5
 if eval "test \"`echo '$''{'ac_cv_path_RM'+set}'`\" = set"; then
   echo $ac_n "(cached) $ac_c" 1>&6
 else
@@ -1701,7 +1770,7 @@ else
 fi
 
 echo $ac_n "checking whether ln -s works""... $ac_c" 1>&6
-echo "configure:1705: checking whether ln -s works" >&5
+echo "configure:1774: checking whether ln -s works" >&5
 if eval "test \"`echo '$''{'ac_cv_prog_LN_S'+set}'`\" = set"; then
   echo $ac_n "(cached) $ac_c" 1>&6
 else
@@ -1732,7 +1801,7 @@ fi
 # SVR4 /usr/ucb/install, which tries to use the nonexistent group "staff"
 # ./install, which can be erroneously created by make from ./install.sh.
 echo $ac_n "checking for a BSD compatible install""... $ac_c" 1>&6
-echo "configure:1736: checking for a BSD compatible install" >&5
+echo "configure:1805: checking for a BSD compatible install" >&5
 if test -z "$INSTALL"; then
 if eval "test \"`echo '$''{'ac_cv_path_install'+set}'`\" = set"; then
   echo $ac_n "(cached) $ac_c" 1>&6
@@ -1783,21 +1852,21 @@ test -z "$INSTALL_DATA" && INSTALL_DATA='${INSTALL} -m 644'
 
 
 echo $ac_n "checking which audio driver to install""... $ac_c" 1>&6
-echo "configure:1787: checking which audio driver to install" >&5
+echo "configure:1856: checking which audio driver to install" >&5
 case "$host" in 
   *linux*) cat >> confdefs.h <<\EOF
 #define HAVE_LINUX 1
 EOF
 
-    $CP console/audio/linux/* console
-    echo "$ac_t""linux" 1>&6
+    $CP console/audio/oss/* console
+    echo "$ac_t""oss" 1>&6
        ;;
   *freebsd*) cat >> confdefs.h <<\EOF
 #define HAVE_FREEBSD 1
 EOF
 
-    $CP console/audio/linux/* console
-    echo "$ac_t""freebsd" 1>&6
+    $CP console/audio/oss/* console
+    echo "$ac_t""oss" 1>&6
        ;;
   *hpux*) cat >> confdefs.h <<\EOF
 #define HAVE_HPUX 1
@@ -1827,40 +1896,14 @@ EOF
     $CP console/audio/sparc/* console
     echo "$ac_t""sparc" 1>&6
        ;;
+  *netbsd*) cat >> confdefs.h <<\EOF
+#define HAVE_NETBSD 1
+EOF
+
+    $CP console/audio/oss/* console
+    echo "$ac_t""oss" 1>&6
+       ;;
 esac
-
-echo $ac_n "checking whether standard member ios::binary is available""... $ac_c" 1>&6
-echo "configure:1834: checking whether standard member ios::binary is available" >&5
-if eval "test \"`echo '$''{'have_member_ios_binary'+set}'`\" = set"; then
-  echo $ac_n "(cached) $ac_c" 1>&6
-else
-  cat > conftest.$ac_ext <<EOF
-#line 1839 "configure"
-#include "confdefs.h"
-#include <fstream.h>
-int main() {
-ifstream myTest(ios::in|ios::binary)
-; return 0; }
-EOF
-if { (eval echo configure:1846: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>&5; }; then
-  rm -rf conftest*
-  have_member_ios_binary=yes
-else
-  echo "configure: failed program was:" >&5
-  cat conftest.$ac_ext >&5
-  rm -rf conftest*
-  have_member_ios_binary=no
-fi
-rm -f conftest*
-fi
-
-echo "$ac_t""$have_member_ios_binary" 1>&6
-if test "$have_member_ios_binary" = no; then
-  cat >> confdefs.h <<\EOF
-#define HAVE_IOS_BIN 1
-EOF
-
-fi
 
 trap '' 1 2 15
 cat > confcache <<\EOF
@@ -2011,6 +2054,7 @@ s%@build_os@%$build_os%g
 s%@CXX@%$CXX%g
 s%@CXXCPP@%$CXXCPP%g
 s%@LIBM@%$LIBM%g
+s%@LIBAUDIO@%$LIBAUDIO%g
 s%@LIBIOS@%$LIBIOS%g
 s%@MAKE@%$MAKE%g
 s%@MAKE2@%$MAKE2%g

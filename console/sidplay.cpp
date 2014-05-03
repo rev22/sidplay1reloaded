@@ -5,11 +5,14 @@
 #include <iostream.h>
 #include <iomanip.h>
 #include <fstream.h>
+#include <signal.h>
 #include <stdlib.h>
+#include <string.h>
 #include <unistd.h>
 
 #include "player.h"
 #include "myendian.h"
+#include "fformat.h"
 #include "audiodrv.h"
 
 #if defined(__amigaos__)
@@ -18,16 +21,56 @@
 #define EXIT_ERROR_STATUS (-1)
 #endif
 
+#if defined(HAVE_SGI)
+#define DISALLOW_16BIT_SOUND
+#define DISALLOW_STEREO_SOUND
+#endif
+
 // Error and status message numbers.
 enum
 {
+    ERR_SYNTAX,
 	ERR_NOT_ENOUGH_MEMORY,
-	ERR_SYNTAX,
-	ERR_ENDIANESS
+    ERR_SIGHANDLER
 };
 
-void error( char*, char* );  // print out a text in "ERROR: string1 'string2'" format.
-void printtext( int messageNum );
+void printError(char* arg0, int messageNum);
+void printSyntax(char* arg0);
+
+bool exitFlag;
+
+void (*oldSigHupHandler)(int);
+void (*oldSigIntHandler)(int);
+void (*oldSigQuitHandler)(int);
+void (*oldSigTermHandler)(int);
+void mysighandler(int signum)
+{
+    switch (signum)
+    {
+     case SIGHUP:
+        {
+            exitFlag = true;
+            break;
+        }
+     case SIGINT:
+        {
+            exitFlag = true;
+            break;
+        }
+     case SIGQUIT:
+        {
+            exitFlag = true;
+            break;
+        }
+     case SIGTERM:
+        {
+            exitFlag = true;
+            break;
+        }
+     default:
+        break;
+    }
+}
 
 static bool verboseOutput = false;
 
@@ -43,11 +86,13 @@ int main(int argc, char *argv[])
 	if ( !myEmuEngine )
 	{
 		// So far the only possible error.
-		printtext(ERR_NOT_ENOUGH_MEMORY);
+		printError(argv[0],ERR_NOT_ENOUGH_MEMORY);
+        exit(EXIT_ERROR_STATUS);
 	}
 	if ( !myEmuEngine.verifyEndianess() )
 	{
-		printtext(ERR_ENDIANESS);
+        cerr << argv[0] << ": Hardware endianess improperly configured during compilation." << endl;
+        exit(EXIT_ERROR_STATUS);
 	}
 
 	// Get the default configuration.
@@ -56,22 +101,16 @@ int main(int argc, char *argv[])
 
 	// ======================================================================
 
-	cout
-		<< endl
-		<< "SIDPLAY   Music player and C64 SID chip emulator   Version " << myEmuEngine.getVersionString() << endl
-		<< "Copyright (c) Michael Schwendt   All rights reserved." << endl
-#if defined(HAVE_SGI)
-		<< "Ported to SGI by <aagero@aage.priv.no>" << endl
-#elif defined(HAVE_HPUX)
-	    << "Ported to HP-UX by <esap@cs.tut.fi>" << endl
-#elif defined(__amigaos__)
-	    << "Ported to AmigaOS by <phillwooller@geocities.com>" << endl
-#endif	
-		<< endl;
-	
-	if ( argc < 2 )             // at least one argument required
-		printtext(ERR_SYNTAX);
+	if ( argc < 2 )  // at least one argument required
+    {
+        printError(argv[0],ERR_SYNTAX);
+        exit(EXIT_ERROR_STATUS);
+    }
 
+    cout
+        << "SIDPLAY   Music player and C64 SID chip emulator   "
+        << "Version " << myEmuEngine.getVersionString() << endl;
+        
 	uword selectedSong = 0;
 	
 	// Default audio settings.
@@ -82,7 +121,7 @@ int main(int argc, char *argv[])
 	uword fragSizeBase = 12;
 	int forceBufSize = 0;  // get it from argument line
     
-	ubyte infile = 0;
+	int infile = 0;
 	
 	// parse command line arguments
 	int a = 1;
@@ -90,7 +129,7 @@ int main(int argc, char *argv[])
 	{
 		if ( argv[a][0] == '-')  
 		{
-			// reading from stdin
+			// Reading from stdin?
 			if ( strlen(argv[a]) == 1 ) 
 				if ( infile == 0 )
 			{
@@ -98,10 +137,18 @@ int main(int argc, char *argv[])
 				break;
 			}
 			else
-				printtext(ERR_SYNTAX);
+            {
+                printError(argv[0],ERR_SYNTAX);
+                exit(EXIT_ERROR_STATUS);
+            }
+            if (strnicmp(argv[a],"--help",6) == 0)
+            {
+                printSyntax(argv[0]);
+                exit(0);
+            }
 			switch ( argv[a][1] )
 			{
-#if defined(HAVE_LINUX) || defined(HAVE_FREEBSD) || defined(__amigaos__)
+#if !defined(DISALLOW_16BIT_SOUND)
 			 case '1':
 				if ( argv[a][2] == '6' )
 					myEmuConfig.bitsPerSample = SIDEMU_16BIT;
@@ -138,8 +185,8 @@ int main(int argc, char *argv[])
 				myEmuConfig.frequency = (udword)atol(argv[a]+2);
 				break;
 			 case 'h':
-				printtext(ERR_SYNTAX);
-				break;
+				printSyntax(argv[0]);
+                exit(0);
 			 case 'n':
 				if ( argv[a][2] == 'f' )  
 					myEmuConfig.emulateFilter = false;
@@ -151,6 +198,7 @@ int main(int argc, char *argv[])
 			 case 'o':
 				selectedSong = atoi(argv[a]+2);
 				break;
+#if !defined(DISALLOW_STEREO_SOUND)
 			 case 'p':
 				if ( argv[a][2] == 'c' )  
 				{
@@ -164,12 +212,13 @@ int main(int argc, char *argv[])
 					myEmuConfig.volumeControl = SIDEMU_STEREOSURROUND;
 				}
 				break;
+#endif
 			 case 'v':
 				verboseOutput = true;
 				break;
 			 default:
-				printtext(ERR_SYNTAX);
-				break;
+				printSyntax(argv[0]);
+				exit(0);
 			}
 		}
 		else  
@@ -177,25 +226,32 @@ int main(int argc, char *argv[])
 			if ( infile == 0 )
 				infile = a;  // filename argument
 			else
-				printtext(ERR_SYNTAX);
+            {
+				printSyntax(argv[0]);
+				exit(0);
+            }
 		}
 		a++;  // next argument
 	};
 	
 	if (infile == 0)
 	{
-		printtext(ERR_SYNTAX);
+        // Neither file nor stdin.
+		printSyntax(argv[0]);
+        exit(0);
 	}
 
 	// ======================================================================
 	// VALIDATE SID EMULATOR SETTINGS
 	// ======================================================================
 	
-	if ((myEmuConfig.autoPanning!=SIDEMU_NONE) && (myEmuConfig.channels==SIDEMU_MONO))
+	if ((myEmuConfig.autoPanning!=SIDEMU_NONE)
+        && (myEmuConfig.channels==SIDEMU_MONO))
 	{
 		myEmuConfig.channels = SIDEMU_STEREO;  // sane
 	}
-	if ((myEmuConfig.autoPanning!=SIDEMU_NONE) && (myEmuConfig.volumeControl==SIDEMU_NONE))
+	if ((myEmuConfig.autoPanning!=SIDEMU_NONE)
+        && (myEmuConfig.volumeControl==SIDEMU_NONE))
 	{
 		myEmuConfig.volumeControl = SIDEMU_FULLPANNING;  // working
 	}
@@ -209,7 +265,7 @@ int main(int argc, char *argv[])
 	myTune.getInfo( mySidInfo );
 	if ( !myTune )  
 	{
-		cerr << "SIDPLAY: " << mySidInfo.statusString << endl;
+		cerr << argv[0] << ": " << mySidInfo.statusString << endl;
 		exit(EXIT_ERROR_STATUS);
 	}
 	else
@@ -254,7 +310,7 @@ int main(int argc, char *argv[])
 	audioDriver myAudio;
 	if ( !myAudio.IsThere() )
 	{
-		cerr << "SIDPLAY: No audio device available !" << endl;
+		cerr << argv[0] << ": No audio device available!" << endl;
 		exit(EXIT_ERROR_STATUS);
 	}
 	// Open() does not accept the "bitsize" value on all platforms, e.g.
@@ -262,7 +318,7 @@ int main(int argc, char *argv[])
 	if ( !myAudio.Open(myEmuConfig.frequency,myEmuConfig.bitsPerSample,
 					   myEmuConfig.channels,fragments,fragSizeBase))
 	{
-		cerr << "SIDPLAY: " << myAudio.GetErrorString() << endl;
+		cerr << argv[0] << ": " << myAudio.GetErrorString() << endl;
 		exit(EXIT_ERROR_STATUS);
 	}
 	if (verboseOutput)
@@ -283,7 +339,10 @@ int main(int argc, char *argv[])
     // Print the relevant settings.
 	if (verboseOutput)
 	{
-		cout << "Frequency    : " << dec << myEmuConfig.frequency << " Hz" << endl;
+		cout << "Frequency    : " << dec << myEmuConfig.frequency << " Hz" 
+            << " (" << ((myEmuConfig.bitsPerSample==SIDEMU_8BIT) ? "8" : "16")
+            << "-bit " << ((myEmuConfig.channels==SIDEMU_MONO) ? "mono" : "stereo")
+            << ")" << endl;
 		cout << "SID Filter   : " << ((myEmuConfig.emulateFilter == true) ? "Yes" : "No") << endl;
 		if (myEmuConfig.memoryMode == MPU_PLAYSID_ENVIRONMENT)
 		{
@@ -305,14 +364,14 @@ int main(int argc, char *argv[])
 
 	if ( !sidEmuInitializeSong(myEmuEngine,myTune,selectedSong) )
 	{
-		cerr << "SIDPLAY: SID Emulator Engine components not ready" << endl;
+		cerr << argv[0] << ": SID Emulator Engine components not ready." << endl;
 		exit(EXIT_ERROR_STATUS);
 	}
 	// Read out the current settings of the sidtune.
 	myTune.getInfo( mySidInfo );
 	if ( !myTune )
 	{
-		cerr << "SIDPLAY: " << mySidInfo.statusString << endl;
+		cerr << argv[0] << ": " << mySidInfo.statusString << endl;
 		exit(EXIT_ERROR_STATUS);
 	}
 	cout << "Setting song : " << mySidInfo.currentSong
@@ -339,68 +398,85 @@ int main(int argc, char *argv[])
 	ubyte* buffer;
 	if ((buffer = new ubyte[bufSize]) == 0)
     {
-		printtext(ERR_NOT_ENOUGH_MEMORY);
+		printError(argv[0],ERR_NOT_ENOUGH_MEMORY);
 	    exit(EXIT_ERROR_STATUS);
     }
+
+    exitFlag = false;
+    if ((signal(SIGHUP,&mysighandler) == SIG_ERR)
+        || (signal(SIGINT,&mysighandler) == SIG_ERR)
+        || (signal(SIGQUIT,&mysighandler) == SIG_ERR)
+        || (signal(SIGTERM,&mysighandler) == SIG_ERR))
+    {
+		printError(argv[0],ERR_SIGHANDLER);
+	    exit(EXIT_ERROR_STATUS);
+    }
+        
 	cout << "Playing, press ^C to stop ..." << endl;
 	for (;;)
 	{
 		sidEmuFillBuffer(myEmuEngine,myTune,buffer,bufSize);
 		myAudio.Play(buffer,bufSize);
+        if (exitFlag)
+            break;
 	}
 
-	// Will possibly never come this far.
+    myAudio.Reset();
+    delete[] buffer;
 	exit(0);
 }
 
-
-void error(char* s1, char* s2 = "")
+void printError(char* arg0, int num)
 {
-	cerr << "SIDPLAY: ERROR: " << s1 << ' ' << "'" << s2 << "'" << endl;
-	exit(EXIT_ERROR_STATUS);
+    switch (num)
+    {
+     case ERR_SYNTAX:
+        {
+            cerr << arg0 << ": command line syntax error" << endl
+                << "Try `" << arg0 << " --help' for more information." << endl;
+            break;
+        }
+     case ERR_NOT_ENOUGH_MEMORY:
+        {
+            cerr << arg0 << ": ERROR: Not enough memory." << endl;
+            break;
+        }
+     case ERR_SIGHANDLER:
+        {
+            cerr << arg0 << ": ERROR: Could not install signal handler." << endl;
+            break;
+        }
+     default:
+        break;
+    }
 }
 
-
-void printtext(int number)
+void printSyntax(char* arg0)
 {
-  switch (number)  
-	{
-	 case ERR_ENDIANESS:
-		{
-			cerr << "SIDPLAY: ERROR: Hardware endianess improperly configured." << endl;
-			exit(EXIT_ERROR_STATUS);
-			break;
-		}
-	 case ERR_NOT_ENOUGH_MEMORY:
-		cerr << "SIDPLAY: ERROR: Not enough memory" << endl;
-		exit(EXIT_ERROR_STATUS);
-	 case ERR_SYNTAX:
-		cout << " syntax: sidplay [-<command>] <datafile>|-" << endl
-			<< " commands: -h       display this screen" << endl
-			<< "           -v       verbose output" << endl
-			<< "           -f<num>  set frequency in Hz (default: 22050)" << endl
-			<< "           -o<num>  set song number (default: preset)" << endl
-			<< "           -a       improve PlaySID compatibility (read the docs !)" << endl
-			<< "           -a2      bank switching mode (overrides -a)" << endl
-#if defined(HAVE_LINUX) || defined(HAVE_FREEBSD) || defined(__amigaos__)
-			<< "           -16      enable 16-bit sample mixing" << endl
+    cout 
+        << "Syntax: " << arg0 << " [-<option>...] <datafile>|-" << endl
+        << "Options:" << endl
+        << " --help|-h    display this screen" << endl
+        << " -v           verbose output" << endl
+        << " -f<num>      set frequency in Hz (default: 22050)" << endl
+        << " -o<num>      set song number (default: preset)" << endl
+        << " -a           strict PlaySID song compatibility (read the docs!)" << endl
+        << " -a2          bank switching mode (overrides -a)" << endl
+#if !defined(DISALLOW_16BIT_SOUND)
+        << " -16          enable 16-bit sample mixing" << endl
 #endif	  
-#if defined(HAVE_LINUX) || defined(HAVE_FREEBSD) || defined(__amigaos__) || defined(HAVE_HPUX)
-			<< "           -s       enable stereo replay" << endl
-			<< "           -ss      enable stereo surround" << endl
-			<< "           -pc      enable centered auto-panning (stereo only)" << endl
+#if !defined(DISALLOW_STEREO_SOUND)
+        << " -s           enable stereo playback" << endl
+        << " -ss          enable stereo surround" << endl
+        << " -pc          enable centered auto-panning (stereo only)" << endl
 #endif
-			<< "           -n       set NTSC clock speed (default: PAL)" << endl
-			<< "           -nf      no SID filter emulation" << endl
-			<< "           -ns      MOS 8580 waveforms (default: MOS 6581)" << endl
-			<< "           -c       force song speed = clock speed (PAL/NTSC)" << endl
-			<< "           -bn<num> set number of audio buffer fragments to use" << endl
-			<< "           -bs<num> set size 2^<num> of audio buffer fragments" << endl
-			<< "           -b<num>  set sample buffer size" << endl
-			<< endl;
-		exit(EXIT_ERROR_STATUS);
-	 default:
-		cerr << "SIDPLAY: ERROR: Internal system error" << endl;
-		exit(EXIT_ERROR_STATUS);
-	}
+        << " -n           set NTSC clock speed (default: PAL)" << endl
+        << " -nf          no SID filter emulation" << endl
+        << " -ns          MOS 8580 waveforms (default: MOS 6581)" << endl
+        << " -c           force song speed = clock speed (PAL/NTSC)" << endl
+        << " -bn<num>     set number of audio buffer fragments to use" << endl
+        << " -bs<num>     set size 2^<num> of audio buffer fragments" << endl
+        << " -b<num>      set sample buffer size" << endl
+        << endl
+        << "Mail comments, bug reports, or contributions to <sidplay@geocities.com>." << endl;
 }
