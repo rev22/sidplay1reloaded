@@ -1,3 +1,21 @@
 #!/bin/sh -e
 
+case "$1" in
+    configure)
+        # continue below
+    ;;
+
+    abort-upgrade|abort-remove|abort-deconfigure)
+        exit 0
+    ;;
+
+    *)
+        echo "postinst called with unknown argument \`$1'" >&2
+        exit 0
+    ;;
+esac
+
 ldconfig
+
+#DEBHELPER#
+

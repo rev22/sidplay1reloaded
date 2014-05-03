@@ -1,0 +1,53 @@
+This file contains any messages produced by compilers while
+running configure, to aid debugging if configure makes a mistake.
+
+configure:571: checking host system type
+configure:592: checking target system type
+configure:610: checking build system type
+configure:639: checking for c++
+configure:670: checking whether the C++ compiler (c++  ) works
+configure:684: c++ -o conftest    conftest.C  1>&5
+configure:710: checking whether the C++ compiler (c++  ) is a cross-compiler
+configure:715: checking whether we are using GNU C++
+configure:739: checking whether c++ accepts -g
+configure:778: checking for bool
+configure:820: checking size of short int
+configure:862: checking size of int
+configure:904: checking size of long int
+configure:947: checking whether byte ordering is bigendian
+configure:1041: checking for long file names
+configure:1085: checking how to run the C++ preprocessor
+configure:1122: checking for ANSI C header files
+configure:1231: checking for strcasecmp
+configure:1231: checking for stricmp
+configure:1231: checking for strncasecmp
+configure:1231: checking for strnicmp
+configure:1290: checking for limits.h
+configure:1330: checking for strstream.h
+configure:1330: checking for strstrea.h
+configure:1330: checking for fstream.h
+configure:1330: checking for iostream.h
+configure:1330: checking for iomanip.h
+configure:1372: checking for sys/ioctl.h
+configure:1372: checking for linux/soundcard.h
+configure:1372: checking for machine/soundcard.h
+configure:1372: checking for sys/audio.h
+configure:1372: checking for sun/audioio.h
+configure:1372: checking for sun/dbriio.h
+configure:1372: checking for sys/audioio.h
+configure:1372: checking for audio.h
+configure:1372: checking for dmedia/audio.h
+configure:1410: checking for main in -lm
+configure:1446: checking for main in -liostream
+configure:1485: checking for gmake
+configure:1515: checking for gnumake
+configure:1548: checking for makedepend
+configure:1582: checking for ranlib
+configure:1611: checking for ar
+configure:1643: checking for cp
+configure:1675: checking for rm
+configure:1705: checking whether ln -s works
+configure:1736: checking for a BSD compatible install
+configure:1787: checking which audio driver to install
+configure:1834: checking whether standard member ios::binary is available
+configure:1846: c++ -c -g -O2  conftest.C 1>&5

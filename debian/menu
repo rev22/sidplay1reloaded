@@ -1,0 +1,7 @@
+?package(libsidplay1.36):needs="dwww" \
+	section="Apps/Sound" \
+	title="SidPlay" \
+	description="Interna of the SidPlay emulation engine, SID tunes\
+	             background and Frequently Asked Questions" \
+	command="/usr/doc/libsidplay1.36/sidplay-info/node1.html"
+

@@ -1,3 +1,60 @@
+sidplay (1.36.28-2) unstable; urgency=low
+
+  * Added target 'distclean' to Makefile.in, use it in
+    'debian/rules clean' (Fixes:#27596).
+
+ -- Ulf Jaenicke-Roessler <ujr@debian.org>  Wed, 14 Oct 1998 22:32:06 +0200
+
+sidplay (1.36.28-1) unstable; urgency=low
+
+  * New version.
+
+ -- Ulf Jaenicke-Roessler <ujr@debian.org>  Mon,  5 Oct 1998 21:42:41 +0200
+
+sidplay (1.36.26-1) unstable; urgency=low
+
+  *  New version.
+
+ -- Ulf Jaenicke-Roessler <ujr@debian.org>  Wed, 30 Sep 1998 20:23:07 +0200
+
+sidplay (1.36.25-2) unstable; urgency=low
+
+  * Compiled and linked with libstdc++2.9.
+
+ -- Ulf Jaenicke-Roessler <ujr@debian.org>  Mon, 14 Sep 1998 23:48:29 +0200
+
+sidplay (1.36.25-1) unstable; urgency=low
+
+  * New upstream version.
+  * Calls ./configure in debian/rules, because it doesn't take long to
+    execute and it may help building the package for other architectures
+    and other compiler environments (eg. gcc instead of egcc) (Fixes:#23931).
+
+ -- Ulf Jaenicke-Roessler <ujr@debian.org>  Sun,  2 Aug 1998 12:58:16 +0200
+
+sidplay (1.36.24-1) unstable; urgency=low
+
+  * New upstream version (small bugfix).
+
+ -- Ulf Jaenicke-Roessler <ujr@debian.org>  Thu,  4 Jun 1998 21:56:36 +0200
+
+sidplay (1.36.23-1) unstable; urgency=low
+
+  * New upstream version.
+  * Reworked debian/rules to make use of autoconf support.
+
+ -- Ulf Jaenicke-Roessler <ujr@debian.org>  Mon,  1 Jun 1998 13:16:14 +0200
+
+sidplay (1.36.18-1) unstable; urgency=low
+
+  * New upstream version.
+  * Moved menu entry for dwww based offline documentation from xsidplay to
+    libsidplay, because this package actually contains the documentation.
+  * Changed major version of the library from 1 to 1.36 in order to
+    synchronize with the upstream sources again.
+
+ -- Ulf Jaenicke-Roessler <ujr@debian.org>  Mon, 27 Apr 1998 22:29:59 +0200
+
 sidplay (1.36.15-2) frozen unstable; urgency=low
 
   * Incorporated diff's by Christian Meder <meder@isr.uni-stuttgart.de>

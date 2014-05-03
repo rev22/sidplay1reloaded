@@ -1,0 +1,13 @@
+
+- In case of problems with the Makefile use ``GNU make'' for compilation.
+  It is often called ``gmake'' if another ``make'' is installed.
+
+- Compiler flag -fPIC plus -O2 produces *bad* code with gcc 2.7.2.3.
+  Hence by default no shared library is built.
+  This seems not to be an issue with egcs 1.0.2.
+
+- An audio driver for the Linux pcsnd driver (PC speaker) is in the
+  subdirectory ``audio/linux-pcsnd''. If you need that one, you have
+  to install it manually before you ran ``make''.
+  # cp console/audio/linux-pcsnd/* console
+
