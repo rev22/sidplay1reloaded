@@ -1,0 +1,121 @@
+#!/usr/bin/make -f
+# debian/rules for sidplay and associated packages, (C) 1998 by ujr.
+# Made using the sample rules from debhelper [GNU copyrighted by Joey Hess].
+
+# Uncomment this to turn on verbose mode.
+#export DH_VERBOSE=1
+# Uncomment this to see what should happen.
+#export DH_NO_ACT=1
+
+build: build-stamp
+build-stamp:
+	dh_testdir debian/rules libsidplay sidplay-console sidplay-info
+	-mkdir debian/tmp
+# FWIW, stop if Makefile.bak exists.
+	[ ! -f libsidplay/Makefile.bak ] 
+	# $(MAKE) -C libsidplay depend
+# Compile the shared library
+# Unfortunately -O2 causes problems with -fPIC for certain tunes.
+# -> using -O1 instead, which seems to work fine.
+# (However, these problems may be solved by using egcs instead of gcc)
+	$(MAKE) -C libsidplay clean	
+#	$(MAKE) -C libsidplay CFLAGS="-pipe -funroll-loops -finline-functions \
+#				     -O1 -Wall -D_REENTRANT -fPIC" \
+#				     LDFLAGS="-lc" libsidplay.so
+	$(MAKE) -C libsidplay CFLAGS="-pipe -funroll-loops -finline-functions \
+				     -O2 -g -Wall -D_REENTRANT -fPIC" \
+				     LDFLAGS="-lc" libsidplay.so
+	install libsidplay/libsidplay.so debian/tmp/libsidplay.so
+# Compile it again without '-fPIC' for the static library
+# Problems with -O2 are not found yet for static libraries (especially
+# because there is no -fPIC), but for overall consistency -O1 is used here too
+# (well, using egcs here too with -O2)
+	$(MAKE) -C libsidplay clean	
+#	$(MAKE) -C libsidplay CFLAGS="-pipe -funroll-loops -finline-functions \
+#				     -O1 -Wall -D_REENTRANT" \
+#				     LDFLAGS="-lc" libsidplay.a
+	$(MAKE) -C libsidplay CFLAGS="-pipe -funroll-loops -finline-functions \
+				     -O2 -g -Wall -D_REENTRANT" \
+				     LDFLAGS="-lc" libsidplay.a
+	install libsidplay/libsidplay.a debian/tmp/libsidplay.a
+# This is necessary for compiling static and shared libraries in the same dir
+	$(MAKE) -C libsidplay clean	
+	install debian/tmp/libsidplay.a libsidplay/libsidplay.a
+	install debian/tmp/libsidplay.so libsidplay/libsidplay.so
+	-rm -rf debian/tmp
+# FWIW, stop if Makefile.bak exists.
+	[ ! -f sidplay-console/Makefile.bak ] 
+	# $(MAKE) -C sidplay-console depend
+# Compile sidplay for console
+	$(MAKE) -C sidplay-console clean
+# -O2 should be perfectly ok here
+# (anyway, using egcs as well)
+	$(MAKE) -C sidplay-console CFLAGS="-O2 -g -Wall" LDFLAGS="-lc"
+	touch build-stamp
+
+clean:
+	dh_testdir debian/rules libsidplay sidplay-console sidplay-info
+	dh_testroot
+	-rm -f build-stamp
+# FWIW, stop if Makefile.bak exists.
+	[ ! -f libsidplay/Makefile.bak ] 
+	$(MAKE) -C libsidplay clean	
+# FWIW, stop if Makefile.bak exists.
+	[ ! -f sidplay-console/Makefile.bak ] 
+	$(MAKE) -C sidplay-console clean	
+	dh_clean
+
+# Build architecture-independent files here.
+binary-indep: build
+# Nothing to do here.
+
+# Build architecture-dependent files here.
+binary-arch: build
+# libsidplay1: Shared Library
+# libsidplay1-dev: Static Library and development files
+# sidplay: simple Player application for the console
+	dh_testversion 0.74
+	dh_testdir debian/rules libsidplay sidplay-console sidplay-info
+	dh_testroot
+	dh_clean -k
+	dh_installdirs -A {DEBIAN,usr/{bin,lib}}
+# Installation
+	$(MAKE) -C libsidplay DESTPREFIX=`pwd`/debian/tmp/usr install
+	cd debian/tmp/usr && rm -rf include bin lib/*.a lib/*.so
+	$(MAKE) -C libsidplay DESTPREFIX=`pwd`/debian/libsidplay1-dev/usr install
+	cd debian/libsidplay1-dev/usr && rm -rf bin lib/*.so.*
+	$(MAKE) -C sidplay-console DESTPREFIX=`pwd`/debian/sidplay/usr install
+	cd debian/sidplay/usr && rm -rf lib
+# Package organisation
+	dh_installdocs HV_SIDS.FAQ STIL.FAQ sidplay-info
+# alternative audio drivers are not used for Debian (i386-linux), therefore there's
+# no need to install console/audio/README
+#
+# more currently unneeded dh_ scripts from the sample debian/rules file
+#	dh_installexamples
+#	dh_installmenu
+##	dh_installinit
+#	dh_installcron
+#	dh_installmanpages
+	dh_undocumented -psidplay sidplay.1.gz sid2wav.1.gz
+	dh_installchangelogs libsidplay/DEVELOPER
+	-rm -rf debian/libsidplay1-dev/usr/doc/libsidplay1-dev
+	ln -s libsidplay1 debian/libsidplay1-dev/usr/doc/libsidplay1-dev
+	-rm -rf debian/sidplay/usr/doc/sidplay
+	ln -s libsidplay1 debian/sidplay/usr/doc/sidplay
+	dh_strip
+	dh_compress
+	dh_fixperms
+#	dh_suidregister
+	dh_installdeb
+# This trick prevents libsidplay from showing up in shlibs
+	LD_PRELOAD=libsidplay/libsidplay.so dh_shlibdeps
+	dh_gencontrol
+#	dh_makeshlibs -V -plibsidplay1 
+	dh_md5sums
+	dh_builddeb
+	
+binary: binary-indep binary-arch
+
+.PHONY: build clean binary-indep binary-arch binary
+

@@ -1,0 +1,83 @@
+sidplay (1.36.15-2) frozen unstable; urgency=low
+
+  * Incorporated diff's by Christian Meder <meder@isr.uni-stuttgart.de>
+    from his alpha only release (replaced dependence on libg++-dev by
+    dependence on libstdc++-dev; removed 'CC=egcc' from debian/rules).
+
+ -- Ulf Jaenicke-Roessler <ujr@debian.org>  Mon, 20 Apr 1998 18:11:37 +0200
+
+sidplay (1.36.15-1.1) frozen unstable; urgency=low
+
+  * Non maintainer alpha only release
+  * now depends on libstdc++-dev requested by 
+    Ray jdassen@wi.leidenuniv.nl
+  * removed CC=egcc from debian/rules as g++ is now from the 
+    egcs suite
+  * patch forwarded to bug system
+
+ -- Christian Meder <meder@isr.uni-stuttgart.de>  Wed, 15 Apr 1998 13:02:01 +0200
+
+sidplay (1.36.15-1) frozen unstable; urgency=low
+
+  * New upstream version (pristine 1.36.13, with patches).
+  * Compiled with egcs (pre 1.0.2), which solved several problems that
+    gcc had (-O2 and -g, -fPIC and certain tunes).
+  * Explicitly linked with -lc.
+  * The package called ldconfig in postrm only if not upgrading,
+    but I removed this anyway to satisfy lintian.
+  * Includes now the documentation from the SidPlay homepage for
+    offline reading.
+
+ -- Ulf Jaenicke-Roessler <ujr@debian.org>  Mon, 30 Mar 1998 20:27:22 +0200
+
+sidplay (1.36.11-1) unstable; urgency=low
+
+  * New upstream version.
+  * Don't use control file "du" anymore.
+  * Made /usr/doc/sidplay a symlink to /usr/doc/libsidplay1 (Fixes:#18648).
+  * Rewrote the detailed descriptions in debian/control in order to reflect
+    the changed "main" package.
+  * Lintian (0.2.4) approved.
+
+ -- Ulf Jaenicke-Roessler <ujr@debian.org>  Sat,  7 Mar 1998 23:30:00 +0100
+
+sidplay (1.36.10-2) unstable; urgency=low
+
+  * Failing to play certain SID tunes was caused by '-O2' AND '-fPIC',
+    however using '-O1' together with '-fPIC' seems to work fine.
+
+ -- Ulf Jaenicke-Roessler <ujr@debian.org>  Sat, 31 Jan 1998 19:55:27 +0100
+
+sidplay (1.36.10-1) unstable; urgency=low
+
+  * New upstream version.
+  * debian/rules rewritten, use debhelper instead of several
+    'install's and 'cp's.
+  * Changed "main" package from sidplay (kind of sample application)
+    to libsidplay1, yielding simpler dh_* calls.
+  * "Downgraded" policy conformance to 2.3.0.0 :(, in order to match debhelper.
+  * Suggests xsidplay now.
+
+ -- Ulf Jaenicke-Roessler <ujr@debian.org>  Thu, 29 Jan 1998 21:22:29 +0100
+
+sidplay (1.36.9-1) unstable; urgency=low
+
+  * New upstream version.
+  * Added maintainer scripts (postinst, postrm), that merely call
+    ldconfig. This wouldn't be necessary according to the current
+    policy, but was recommended on the debian-mentors mailing list.
+  * Moved *.so link from the shared library package to the dev package.
+
+ -- Ulf Jaenicke-Roessler <ujr@debian.org>  Wed,  7 Jan 1998 22:29:28 +0100
+
+sidplay (1.36.3-1) unstable; urgency=low
+
+  * Initial Release.
+
+ -- Ulf Jaenicke-Roessler <ujr@debian.org>  Sun,  7 Dec 1997 12:35:35 +0100
+
+Local variables:
+mode: debian-changelog
+add-log-mailing-address: "ujr@debian.org"
+End:
+

@@ -19,7 +19,7 @@ CXXFLAGS  =  $(CFLAGS)
 
 #----------------------------------------------------------------------------
 version = 1.36.15
-majorversion = 1.36
+majorversion = 1
 
 INCS += -I. -Iinclude -Iemu
 

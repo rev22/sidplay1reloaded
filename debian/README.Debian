@@ -1,0 +1,49 @@
+sidplay for DEBIAN
+*******************
+
+This package was debianised, prepackaged and is currently maintained
+by me, Ulf Jaenicke-Roessler <ujr@debian.org>, from the sources that
+I obtained from the SidPlay HomePage at
+ http://www.geocities.com/SiliconValley/Lakes/5147/
+
+I'm using pristine sources now (starting with version 1.36.11), that is
+as far as we can still speak of pristine sources after unpacking the
+downloaded src.rpm's.
+ rpm -i sidplay-{version}.src.rpm
+ rpm -bp sidplay-{version}.spec
+completed this task very well.
+Since 1.36.11 the upstream sources use 1.36 instead of 1 as major version
+of the shared library. At the moment I'm sticking with 1 which should cause
+the least problems during the freeze of hamm. However, this'll change in
+future releases.
+
+The only remarkable point while adding support for the Debian package
+maintenance scheme was the execution of the upstream Makefiles with
+CFLAGS including -fPIC and -D_REENTRANT (according to the policy manual).
+At the moment I'm using egcs instead of gcc for the package build, because
+it seems to create stable programs with all necessary commandline options,
+even -fPIC, -g and optimizations (what gcc didn't).
+
+Since this package is only intended (by me) for the i386-linux architecture,
+the patches from the original sources for other machines (sparc,ppc,m68k)
+have not been applied. Actually these patches aren't even included in the
+Debian source package, because the unpacking procedure of the src.rpm auto-
+magically patched the files for i386 and deleted the diffs afterwards.
+If you want to create a package for other architectures and you need the
+patches (e.g. bigendian, audiodrivers) please download the complete src.rpm
+from the location above and install it as described earlier.
+
+There's no documentation in form of a man page or an info file available.
+Because lintian complains about that, I'm using the "undocumented" page.
+Maybe, I'll write a real man page some day.
+Nevertheless, I'm including the sidplay-info files from the SidPlay-Homepage.
+According to the author it needs an update, but its an invaluable piece of
+information for SidPlay interna.
+
+Some things you may want to try:
+. sidplay -h	shows a help screen
+. sid2wav -h	shows another help screen
+. sidplay	can get a tune's data from standard input
+. sid2wav	saves a sid tune as .wav file
+
+Ulf Jaenicke-Roessler <ujr@debian.org>, Mon, 30 Mar 1998 20:27:18 +0200
