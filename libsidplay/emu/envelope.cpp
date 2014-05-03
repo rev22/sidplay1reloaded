@@ -27,8 +27,6 @@
 //
 // Local (or Makefile) definables:
 //
-//   SID_LINENVE  - use linear envelope attack shape (default)
-//   SID_EXPENVE  - use exponential envelope shape
 //   SID_REFTIMES - use rounded envelope times
 //   SID_FPUENVE  - use floating point precision for calculations
 //                  (will override the global DIRECT_FIXPOINT setting !)
@@ -41,19 +39,7 @@
 #include "envelope.h"
 #include "myendian.h"
 #include "opstruct.h"
-
-#if defined(SID_EXPENVE) && defined(SID_LINENVE)
-  #error Select either SID_LINENVE or SID_EXPENVE!
-#elif !defined(SID_EXPENVE) && !defined(SID_LINENVE)
-  #define SID_LINENVE 1
-#endif
-
-#if defined(SID_EXPENVE)
-  #include "enve_ac.h"
-  #include "enve_dc.h"
-#elif defined(SID_LINENVE)
-  #include "enve_dl.h"
-#endif
+#include "enve_dl.h"
 
 extern const ubyte masterVolumeLevels[16] =
 {
@@ -105,12 +91,7 @@ static float decayReleaseTimes[16] =
   static udword decayReleaseRatesP[16];
 #endif
 
-#if defined(SID_LINENVE)
-  const udword attackTabLen = 255;
-#else
-  static udword attackTabLen;
-  static udword attackPos[256];
-#endif
+const udword attackTabLen = 255;
 static udword releaseTabLen;
 static udword releasePos[256];
 
@@ -118,19 +99,6 @@ static udword releasePos[256];
 void enveEmuInit( udword updateFreq, bool measuredValues )
 {
 	udword i, j, k;
-
-#if !defined(SID_LINENVE) && defined(SID_EXPENVE)
-	attackTabLen = sizeof(attackTab);
-	for ( i = 0; i < 256; i++ )
-	{
-		j = 0;
-		while (( j < attackTabLen ) && (attackTab[j] < i) )
-		{
-			j++;
-		}
-		attackPos[i]=j;
-	}
-#endif
 
 	releaseTabLen = sizeof(releaseTab);
 	for ( i = 0; i < 256; i++ )
@@ -511,11 +479,7 @@ inline uword enveEmuAttack(struct sidOperator* pVoice)
 	pVoice->enveStep = (uword)pVoice->fenveStep;
 #endif
 #if defined(DIRECT_FIXPOINT) && !defined(SID_FPUENVE)
-  #if defined(SID_LINENVE)
 	if ( pVoice->enveStep.w[HI] > attackTabLen )
-  #else
-	if ( pVoice->enveStep.w[HI] >= attackTabLen )
-  #endif
 #else
 	if ( pVoice->enveStep >= attackTabLen )
 #endif
@@ -523,17 +487,9 @@ inline uword enveEmuAttack(struct sidOperator* pVoice)
 	else
 	{
 #if defined(DIRECT_FIXPOINT) && !defined(SID_FPUENVE)
-  #if defined(SID_LINENVE)
 		pVoice->enveVol = pVoice->enveStep.w[HI];
-  #else
-		pVoice->enveVol = attackTab[pVoice->enveStep.w[HI]];
-  #endif
 #else
-  #if defined(SID_LINENVE)
 		pVoice->enveVol = pVoice->enveStep;
-  #else
-		pVoice->enveVol = attackTab[pVoice->enveStep];
-  #endif
 #endif
 		enveEmuEnveAdvance(pVoice);
 		return masterAmplModTable[ masterVolumeAmplIndex + pVoice->enveVol ];
@@ -559,24 +515,12 @@ inline uword enveEmuStartAttack(struct sidOperator* pVoice)
 {
 	pVoice->ADSRctrl = ENVE_ATTACK;
 #ifdef SID_FPUENVE
-  #if defined(SID_LINENVE)
 	pVoice->fenveStep = (float)pVoice->enveVol;
-  #else
-	pVoice->fenveStep = attackPos[pVoice->enveVol];
-  #endif
 #elif defined(DIRECT_FIXPOINT)
-  #if defined(SID_LINENVE)
 	pVoice->enveStep.w[HI] = pVoice->enveVol;
-  #else
-	pVoice->enveStep.w[HI] = attackPos[pVoice->enveVol];
-  #endif
 	pVoice->enveStep.w[LO] = 0;
 #else
-  #if defined(SID_LINENVE)
 	pVoice->enveStep = pVoice->enveVol;
-  #else
-	pVoice->enveStep = attackPos[pVoice->enveVol];
-  #endif
 	pVoice->enveStepPnt = 0;
 #endif
 	return enveEmuAlterAttack(pVoice);
@@ -595,13 +539,8 @@ inline uword enveEmuShortAttack(struct sidOperator* pVoice)
 	pVoice->enveStep = (uword)pVoice->fenveStep;
 #endif
 #if defined(DIRECT_FIXPOINT) && !defined(SID_FPUENVE)
-  #if defined(SID_LINENVE)
 	if ((pVoice->enveStep.w[HI] > attackTabLen) ||
 		(pVoice->enveShortAttackCount == 0))
-  #else
-	if ((pVoice->enveStep.w[HI] >= attackTabLen) ||
-		(pVoice->enveShortAttackCount == 0))
-  #endif
 #else
 	if ((pVoice->enveStep >= attackTabLen) ||
 		(pVoice->enveShortAttackCount == 0))
@@ -611,17 +550,9 @@ inline uword enveEmuShortAttack(struct sidOperator* pVoice)
 	else
 	{
 #if defined(DIRECT_FIXPOINT) && !defined(SID_FPUENVE)
-  #if defined(SID_LINENVE)
 		pVoice->enveVol = pVoice->enveStep.w[HI];
-  #else
-		pVoice->enveVol = attackTab[pVoice->enveStep.w[HI]];
-  #endif
 #else
-  #if defined(SID_LINENVE)
 		pVoice->enveVol = pVoice->enveStep;
-  #else
-		pVoice->enveVol = attackTab[pVoice->enveStep];
-  #endif
 #endif
 	    pVoice->enveShortAttackCount--;
 //		cout << hex << pVoice->enveShortAttackCount << " / " << pVoice->enveVol << endl;
@@ -649,24 +580,12 @@ inline uword enveEmuStartShortAttack(struct sidOperator* pVoice)
 {
 	pVoice->ADSRctrl = ENVE_SHORTATTACK;
 #ifdef SID_FPUENVE
-  #if defined(SID_LINENVE)
 	pVoice->fenveStep = (float)pVoice->enveVol;
-  #else
-	pVoice->fenveStep = attackPos[pVoice->enveVol];
-  #endif
 #elif defined(DIRECT_FIXPOINT)
-  #if defined(SID_LINENVE)
 	pVoice->enveStep.w[HI] = pVoice->enveVol;
-  #else
-	pVoice->enveStep.w[HI] = attackPos[pVoice->enveVol];
-  #endif
 	pVoice->enveStep.w[LO] = 0;
 #else
-  #if defined(SID_LINENVE)
 	pVoice->enveStep = pVoice->enveVol;
-  #else
-	pVoice->enveStep = attackPos[pVoice->enveVol];
-  #endif
 	pVoice->enveStepPnt = 0;
 #endif
 	pVoice->enveShortAttackCount = 65535;  // unused

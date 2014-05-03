@@ -1,8 +1,70 @@
-###  A beta release is just a snapshot of my working directory.
-###  Any applied changes have not been further examined.
+NOTES:
+
+The API and emulator are heavily out-of-date and would benefit from changes
+in various places. For instance (but not limited to),
+
+ - configuration constants should be members
+ - the emulator still contains obsolete experimental code and data
+ - the audio drivers (not part of libsidplay though) should be changed
+   to XSIDPLAY-style
+
+Since any of these changes would break available applications, the
+code has not been altered. If there were any noticable changes in the
+emulation, this would justify changes in the API. But as long as there
+are no emulation improvements, we better stick to the current design.
+
+
+CHANGES since 1.36.34:
+
+* Don't allow SID to disable voice 3 if it has filters enabled.
+
+* Improved emulation of Galway Noise based on PlaySID's
+  Extended SID registers.
+
+* Improved random number generator's bit 0.
+
+* Improved ASCII conversion of CHR$-strings in MUS file format.
+  (Peter Weighill)
+
+
+CHANGES since 1.36.33:
+
+* Fixed digiPlayerScans to detect usage of digi registers during song
+  initialization already. (Reported by S.Schneider)
+
++ Merged publicly available patches for NetBSD.
+
+
+CHANGES since 1.36.32:
+
+* New C64 player code for MUS file format fixes non-working MUS files.
+  New player is "Compute's Basic Sidplayer" by Craig Chamberlain.
+  (Peter Weighill and Adam Lorentzon)
+
+* Improved ASCII conversion of CHR$-strings in MUS file format.
 
 
 CHANGES since 1.36:
+
+* Random number generator fixed.  (Spotted by Adam Lorentzon)
+
+* Changed standard input loader to read up to maxSidtuneFileLen.
+
++ Added separate member function for setting the file name extension
+  search list. Else this would only work during initialization with a
+  constructor.
+
++ Added special support for path names from POSIX function readdir().
+  By setting an extra flag you can specify whether a supplied path name
+  has the forward slash (/) as file/directory separator. The class then
+  can successfully split the path name into directory and file name
+  regardless of what the file system's standard file separator is.
+
+* Changed sidTune::open() to allow reading from standard input as well.
+
+- Dropped obsolete experimental envelope code.
+
+* Updated smart.h.
 
 + Added error message for loading empty files.
 

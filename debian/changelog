@@ -1,3 +1,104 @@
+sidplay (1.36.35-2) unstable; urgency=low
+
+  * Adapted to policy 3.0.1 (which essentially needed the FHS compliant
+    move from /usr/doc to /usr/share/doc). Standard version changed.
+  * Link to GPL adjusted for new position.
+
+ -- Ulf Jaenicke-Roessler <ujr@debian.org>  Tue, 12 Oct 1999 23:15:23 +0200
+
+sidplay (1.36.35-1) unstable; urgency=low
+
+  * New upstream version.
+  * HVSC homepage URL in package description updated.
+  * Shortened rules file by removing several outdated comments.
+  * Standards version changed from 2.5.0.0 to 2.5.0.
+
+ -- Ulf Jaenicke-Roessler <ujr@debian.org>  Sat, 19 Jun 1999 12:38:38 +0200
+
+sidplay (1.36.34-oss-1) unstable; urgency=low
+
+  * Upstream patch adds new OSS driver interface. Now 16-bit samples
+    work fine on SPARC/Linux with little-endian sound hardware.
+  * Include all doc files in debian/docs, not debian/rules.
+
+ -- Ulf Jaenicke-Roessler <ujr@debian.org>  Sat, 17 Apr 1999 17:52:28 +0200
+
+sidplay (1.36.34-4) unstable; urgency=low
+
+  * Do not create 'package'/DEBIAN directory - let debhelper do it.
+
+ -- Ulf Jaenicke-Roessler <ujr@debian.org>  Fri,  2 Apr 1999 19:30:02 +0200
+
+sidplay (1.36.34-3) unstable; urgency=low
+
+  * Fixed libsidplay1.36 dependencies to prevent usage of
+    shared libraries compiled against glibc 2.0 which will
+    not work in glibc 2.1 environment.
+  * Removed bashisms in rules file - should build fine with
+    /bin/sh linked to /bin/ash.
+
+ -- Ulf Jaenicke-Roessler <ujr@debian.org>  Fri,  2 Apr 1999 18:58:10 +0200
+
+sidplay (1.36.34-2) unstable; urgency=low
+
+  * Recompiled for glibc 2.1.
+
+ -- Ulf Jaenicke-Roessler <ujr@debian.org>  Mon, 29 Mar 1999 09:40:17 +0200
+
+sidplay (1.36.34-1) unstable; urgency=low
+
+  * New upstream patches.
+  * Reversing an essentially i386 specific patch, which may cause
+    problems on other architectures. ToDo: apply patch architecture
+    dependent.
+
+ -- Ulf Jaenicke-Roessler <ujr@debian.org>  Mon, 15 Mar 1999 21:03:41 +0100
+
+sidplay (1.36.33-990220-2) unstable; urgency=low
+
+  * Updated documentation from upstream sources.
+  * Reversed a small patch in order to avoid the bus error on sparc
+    systems.
+  * Tweaked description a little bit: there are now more than 10.000
+    files in the High Voltage SID Collection (3.0)!
+  * HVSC homepage URL updated.
+
+ -- Ulf Jaenicke-Roessler <ujr@debian.org>  Tue,  9 Mar 1999 23:18:35 +0100
+
+sidplay (1.36.33-990220-1) unstable; urgency=low
+
+  * Upstream patches applied for new version.
+  * Read /usr/doc/libsidplay1.36/1.36.33.txt for information
+    about this particular release.
+  * Changes in the demo player (better ^C handling for current kernels,
+    added '--help').
+  * doc-base registration now handled by dh_installdocs - at least
+    debhelper 1.2.26 needed (doc-base was broken before).
+
+ -- Ulf Jaenicke-Roessler <ujr@debian.org>  Sat, 20 Feb 1999 20:37:54 +0100
+
+sidplay (1.36.31-2) unstable; urgency=low
+
+  * Recompiled with fixed libc.
+  * Registers with doc-base (removed menu file for dwww).
+
+ -- Ulf Jaenicke-Roessler <ujr@debian.org>  Sat, 19 Dec 1998 14:48:24 +0100
+
+sidplay (1.36.31-1) unstable; urgency=low
+
+  * Upstream patches applied for new version.
+  * Policy conformance checked and 'Standards-Version' updated to 2.5.0.0 -
+    hopefully I didn't miss something.
+
+ -- Ulf Jaenicke-Roessler <ujr@debian.org>  Sat,  5 Dec 1998 20:58:57 +0100
+
+sidplay (1.36.29-1) unstable; urgency=low
+
+  * New version.
+  * Major, important ;-) changes to 'Readme.Debian' and 'copyright'.
+
+ -- Ulf Jaenicke-Roessler <ujr@debian.org>  Wed, 18 Nov 1998 19:15:38 +0100
+
 sidplay (1.36.28-2) unstable; urgency=low
 
   * Added target 'distclean' to Makefile.in, use it in

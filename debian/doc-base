@@ -1,0 +1,12 @@
+Document: libsidplay1.36
+Title: SidPlay
+Author: Michael Schwendt
+Abstract: This manual contains interna of the SidPlay
+ emulation engine, SID tunes background and some
+ Frequently Asked Questions.
+Section: Apps/Sound
+
+Format: HTML
+Index: /usr/share/doc/libsidplay1.36/html-info/index.html
+Files: /usr/share/doc/libsidplay1.36/html-info/*.html
+

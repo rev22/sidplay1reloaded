@@ -2,7 +2,7 @@ Source: sidplay
 Section: sound
 Priority: extra
 Maintainer: Ulf Jaenicke-Roessler <ujr@debian.org>
-Standards-Version: 2.3.0.0
+Standards-Version: 3.0.1
 
 Package: libsidplay1.36
 Section: libs
@@ -17,18 +17,18 @@ Description: SID (MOS 6581) emulation library
  This is a (shared) library that implements the emulation of the C64's
  SID chip (MOS 6581) and CPU (6510). It is used by several "player"
  applications, e.g. sidplay, which make it possible to listen to really
- a lot (9200+) of tunes, known from old and new C64 programs (as well
+ a lot (11.600+) of tunes, known from old and new C64 programs (as well
  as Amiga compositions).
  Find most of the available musics from your favourite games or demos
  and more in the High Voltage SID Collection (HVSC). For downloads and
  information about the volunteers, who maintain the collection, look at
- the HVSC homepage http://www.dhp.com/~shark/c64music/.
+ the HVSC homepage http://www.hvsc.c64.org.
 
 Package: libsidplay1.36-dev
 Section: devel
 Priority: extra
 Architecture: any
-Depends: libsidplay1.36 (>= 1.36.28-1), libc6-dev, libstdc++-dev
+Depends: libsidplay1.36 (>= 1.36.35-2), libc6-dev, libstdc++-dev
 Conflicts: libsidplay1-dev
 Replaces: libsidplay1-dev
 Description: SID (MOS 6581) emulation library (development files)
@@ -39,7 +39,7 @@ Package: sidplay
 Section: sound
 Priority: extra
 Architecture: any
-Depends: libsidplay1.36 (>= 1.36.28-1), ${shlibs:Depends}
+Depends: libsidplay1.36 (>= 1.36.35-2), ${shlibs:Depends}
 Description: Music player for tunes from C64 and Amiga (console)
  This is a simple music player for C64 and Amiga tunes, also known as
  SID tunes. The package includes a program (sid2wav) for creating .wav

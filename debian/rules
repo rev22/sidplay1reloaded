@@ -1,5 +1,5 @@
 #!/usr/bin/make -f
-# debian/rules for sidplay and associated packages, (C) 1998 by ujr.
+# debian/rules for sidplay and associated packages, (C) 1998-99 by ujr.
 # Made using the sample rules from debhelper [GNU copyrighted by Joey Hess].
 
 ## Uncomment this to turn on verbose mode.
@@ -10,23 +10,21 @@
 build: build-stamp
 build-stamp:
 # to run 'make depend' is no longer necessary, because ./configure already does it
-	dh_testdir debian/rules libsidplay console sidplay-info
+	dh_testdir debian/rules libsidplay console html-info
+	patch -p1 -s < sidmusic-faqs-19990515.patch
 # well, ./configure isn't interactive here and doesn't take long, so it's
 # carried out in order to assist building the package for people with other
 # architectures and compiler environments
 	./configure --prefix=/usr
 	mkdir debian/tmp
 # Compile the shared library
-# -O2 and -fPIC may cause problems for certain tunes with gcc's g++.
-# Furthermore, -g causes an internal compiler error with gcc's g++.
-# This doesn't happen with egcs, so we should use this one.
+# We should use Debian standard egcs (instead of gcc's g++)
+# in order to prevent problems occuring with '-O2 -fPIC' or '-g'.
 	$(MAKE) -C libsidplay clean	
 	$(MAKE) -C libsidplay CXXFLAGS="-pipe -funroll-loops -O3 -g -Wall -D_REENTRANT -fPIC" \
 	                      LDFLAGS="-lc" libsidplay.so
 	install libsidplay/libsidplay.so debian/tmp/libsidplay.so
 # Compile the static library (without '-fPIC')
-# Similar problems, to that described above, are not known for static
-# libraries (no -fPIC!), but we certainly should use egcs here too.
 	$(MAKE) -C libsidplay clean	
 	$(MAKE) -C libsidplay CXXFLAGS="-pipe -funroll-loops -O3 -g -Wall -D_REENTRANT" \
 	                      LDFLAGS="-lc" libsidplay.a
@@ -43,13 +41,9 @@ build-stamp:
 
 clean:
 	dh_testroot
-	dh_testdir debian/rules libsidplay console sidplay-info
+	dh_testdir debian/rules libsidplay console html-info
 	-rm -f build-stamp
-# remove data file(s) from ./configure, because they may (and do for other
-# architecture than i386) lead to problems when rebuilding the package - so
-# far the upstream sources do not supply a 'distclean' target
-	-rm -f config.cache
-# here we can make use of the main Makefile
+	-rm STIL.faq hv_sids.faq
 	-$(MAKE) distclean	
 	dh_clean
 
@@ -62,11 +56,11 @@ binary-arch: build
 # libsidplay1.36: Shared Library
 # libsidplay1.36-dev: Static Library and development files
 # sidplay: simple Player application for the console
-	dh_testversion 0.88
+	dh_testversion 1.2.26
 	dh_testroot
-	dh_testdir debian/rules libsidplay console sidplay-info
+	dh_testdir debian/rules libsidplay console html-info
 	dh_clean -k
-	dh_installdirs -A {DEBIAN,usr}
+	dh_installdirs -A
 # Installation
 	$(MAKE) -C libsidplay prefix=`pwd`/debian/tmp/usr install-shared
 	$(MAKE) -C libsidplay prefix=`pwd`/debian/libsidplay1.36-dev/usr install-headers install-static
@@ -74,19 +68,19 @@ binary-arch: build
 	install -d -m 755 `pwd`/debian/sidplay/usr/bin
 	$(MAKE) -C console prefix=`pwd`/debian/sidplay/usr install
 # Package organisation
-	dh_installdocs hv_sids.faq STIL.faq sidplay-info NEWS PROBLEMS
+	dh_installdocs
+# unneeded dh_ scripts from the sample debian/rules file
 #	dh_installexamples
-	dh_installmenu
-# more currently unneeded dh_ scripts from the sample debian/rules file
 ##	dh_installinit
 #	dh_installcron
 #	dh_installmanpages
 	dh_undocumented -psidplay sidplay.1.gz sid2wav.1.gz sidcon.1.gz
 	dh_installchangelogs libsidplay/DEVELOPER
-	-rm -rf debian/libsidplay1.36-dev/usr/doc/libsidplay1.36-dev
-	ln -s libsidplay1.36 debian/libsidplay1.36-dev/usr/doc/libsidplay1.36-dev
-	-rm -rf debian/sidplay/usr/doc/sidplay
-	ln -s libsidplay1.36 debian/sidplay/usr/doc/sidplay
+# use the same /usr/share/doc directory for all packages built here
+	-rm -rf debian/libsidplay1.36-dev/usr/share/doc/libsidplay1.36-dev
+	ln -s libsidplay1.36 debian/libsidplay1.36-dev/usr/share/doc/libsidplay1.36-dev
+	-rm -rf debian/sidplay/usr/share/doc/sidplay
+	ln -s libsidplay1.36 debian/sidplay/usr/share/doc/sidplay
 	dh_strip
 	dh_compress
 	dh_fixperms
@@ -102,4 +96,6 @@ binary-arch: build
 binary: binary-indep binary-arch
 
 .PHONY: build clean binary-indep binary-arch binary
+
+# vim:tw=0
 

@@ -1,0 +1,49 @@
+Hi people!
+
+Here's an official but unreleased patch (diff and zip attached). Feel
+free to use it if you think it is necessary. This will be safe as I'll
+not release a different patchlevel 33 of course.
+
+One reason why I don't publish this patch yet is that it is completely
+related to Compute!'s Sidplayer, and I don't have the slightest idea if
+any SIDPLAY/Linux users listen to Sidplayer musics actually. In case
+Peter Weighill's large Sidplayer music collection gets somewhat popular
+I expect users to bug me about any songs that don't work in 1.36.32.
+;-)  Yes, my attitude towards *.MUS files has not changed. I still think
+all those MUS songs lack artistic quality compared to the average
+non-Sidplayer sidtune.
+
+Here's the home page of Compute!'s Sidplayer author Craig Chamberlain:
+  http://www-personal.umich.edu/~craigch/sidplayer/
+
+Another reason is the new Linux kernel 2.2 which no longer causes the
+dirty CTRL+C key combination to exit the player immediately as with the
+2.0 kernel (at least on my machine). Most likely I'll have to find a
+work-around to fix the command line demo player.
+
+Mike
+
+P.S.: This is not a mailing-list. There will not be many announcements
+like this. Your address has been added because a) you have asked me to
+do so, or b) you are the author of a front-end to SIDPLAY, or c) I think
+you might be interested, or d) I've been informed that you've packaged
+SIDPLAY. If you don't want to receive further messages (if any), please
+get back to me, and sorry for any confusion.
+
+-- 
+http://www.geocities.com/SiliconValley/Lakes/5147/
+
+-----BEGIN PGP PUBLIC KEY BLOCK-----
+Version: 2.6.3ia
+
+mQCNAzMYDPsAAAEEAOJv0wbF1NUSyo+WUiQug+9+SxQYFM9fvQaPDl+BxYvdgJnX
+9c+g7m/BOOds6xSB8oKi0XmOZ56bu5FY/cLhlttNZFXoiOP2Qc2HtIxJG19kOcU2
+8QIi3Xt5uiQ+tZm0EMZgfjsI+6MR4fn17Wt4igNsa6PkPJ7CSXRflXVdRQiRAAUR
+tChNaWNoYWVsIFNjaHdlbmR0IDxzaWRwbGF5QGdlb2NpdGllcy5jb20+iQCVAwUQ
+MxgM+3RflXVdRQiRAQHGbAQA25XqI+hYUJQk8WLj70UtmRtTQTelB7RaYyRtvKHT
+t0RWzypn0QSJZDtKWf7oD8XVIeF1V0HVPNyDN0ehh6qX+iddjFCggxIFlo2dYz0N
+K6aw0pdqshZZtSHIZS+00gBRo+Sf3IunG6kXgP14q95e3YyGAh/YdWkX9xu5Z0Ej
+zgc=
+=Zzoo
+-----END PGP PUBLIC KEY BLOCK----
+

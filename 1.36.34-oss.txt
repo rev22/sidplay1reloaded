@@ -1,0 +1,79 @@
+From sidplay@geocities.com  Fri Apr 16 03:54:41 1999
+Received: from RMAIL.urz.tu-dresden.de by physik.phy.tu-dresden.de (AIX 3.2/UCB 5.64/4.03)
+          id AA14801; Fri, 16 Apr 1999 03:54:40 +0200
+Received: from mail1.online.de by rmail with SMTP (IC-PP);
+          Fri, 16 Apr 1999 03:46:45 +0200
+Received: from [62.144.254.253] (helo=faldor.intranet ident=root) 
+          by mail1.online.de with esmtp (Exim 2.05 #15) id 10Xxpd-0001qJ-00;
+          Fri, 16 Apr 1999 03:54:13 +0200
+Received: from geocities.com (ms@localhost [127.0.0.1]) 
+          by faldor.intranet (8.8.8/8.8.8) with ESMTP id CAA04727 
+          for <sidplay-packagers@localhost>; Fri, 16 Apr 1999 02:43:15 +0200
+Sender: ms@faldor.intranet
+Message-Id: <3716857B.540646B6@geocities.com>
+Date: Fri, 16 Apr 1999 02:34:03 +0200
+From: Michael Schwendt <sidplay@geocities.com>
+Organization: Private Linux Intranet
+X-Mailer: Mozilla 4.51 [en] (X11; I; Linux 2.0.36 i586)
+X-Accept-Language: English, en
+Mime-Version: 1.0
+To: sidplay-packagers@faldor.intranet
+Subject: Re: 16-bit sidplay on sparc
+References: <80oglty2wc.fsf@junk.nocrew.org> <36F030F8.48C6B79F@geocities.com> <80ww0f63nu.fsf@junk.nocrew.org>
+Content-Type: multipart/mixed; boundary="------------7263577B46603EFE2C4BBF3A"
+Status: RO
+Content-Length: 1437
+Lines: 51
+
+This is a multi-part message in MIME format.
+--------------7263577B46603EFE2C4BBF3A
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
+
+ 
+-----BEGIN PGP SIGNED MESSAGE-----
+
+ChangeLog
+
+Sun Apr 11 20:01:30 1999  Michael Schwendt  <sidplay@geocities.com>
+
+    * console/audio/linux/: Added new OSS driver interface that
+      includes sample format queries and endian conversion if
+      necessary. Now 16-bit samples work fine on SPARC/Linux with
+      little-endian sound hardware.
+      
+      Renamed directory to audio/oss/.
+      
+    * configure.*: Updated accordingly.
+    
+    * sidplay.cpp: Print out sample precision and mono/stereo next
+      to frequency.
+
+- -- 
+http://www.geocities.com/SiliconValley/Lakes/5147/
+
+-----BEGIN PGP SIGNATURE-----
+Version: 2.6.3ia
+Charset: latin1
+
+iQCVAwUBNxaHV3RflXVdRQiRAQHfjgP+La5kC5CK1jxZyvbC1uyUcJjF9ycOwMRm
+jEC3T6qHpfp3moD+Q9fHKAZJykv8RK/qaG2/CPsdci9abpQjAwGZ22Zh7Y/za/ti
+eyU1FVW07a4XGDZhvRbNCSn7NiRN7WmbhU7NScu+ldMIYoH8hF/Pu1JtdDhD2KA4
+/BNgUtd07w4=
+=zZDJ
+-----END PGP SIGNATURE-----
+
+--------------7263577B46603EFE2C4BBF3A
+Content-Type: message/external-body; access-type=x-mutt-deleted;
+	expiration="Mon, 19 Apr 1999 22:06:38 +0200"; length=5296
+
+Content-Type: application/zip;
+ name="sidplay-1.36.34-oss.patch.gz"
+Content-Transfer-Encoding: base64
+Content-Disposition: inline;
+ filename="sidplay-1.36.34-oss.patch.gz"
+
+
+--------------7263577B46603EFE2C4BBF3A--
+
+

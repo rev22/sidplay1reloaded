@@ -3,17 +3,18 @@ by me, Ulf Jaenicke-Roessler <ujr@debian.org>, from the sources that
 I obtained from the SidPlay HomePage at
  http://www.geocities.com/SiliconValley/Lakes/5147/
 
-No changes, besides adding support for the Debian package maintenance
-scheme by creating various debian/* files, were necessary.
+For information about necessary (small) changes, including remarks about
+adding support for the Debian package maintenance scheme (ie. about creating
+various debian/* files and additional considerations) see Readme.Debian.
 
 
 Copyright:
 
-Modifications for Debian  Copyright (C) 1997-98 Ulf Jaenicke-Roessler.
+Modifications for Debian  Copyright (C) 1997-99 Ulf Jaenicke-Roessler.
 
 sidplay is released under terms of the GNU General Public License
-(see /usr/doc/copyright/GPL for details) with the following additional
-notes and disclaimers by the author:
+(see /usr/share/common-licenses/GPL for details) with the following
+additional notes and disclaimers by the author:
 
 SIDPLAY, a C64 music player and SID chip emulator
 Copyright (c) 1994-1997 Michael Schwendt <sidplay@geocities.com>

@@ -1,0 +1,12 @@
+ToDo list for Debian
+
+* apply patches architecture dependent (especially optimization patches),
+  eg. libsidplay-1.36.25-optimize.patch
+* solving general packaging or compiling problems, if any
+  (there's one not reproducable bug reported with package building 
+   on PowerPC)
+
+
+Ulf Jaenicke-Roessler <ujr@debian.org>, Mon, 15 Mar 1999 21:03:41 +0100
+
+ vim:tw=79

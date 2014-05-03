@@ -1,0 +1,28 @@
+-----BEGIN PGP SIGNED MESSAGE-----
+
+ChangeLog
+
+Sat Feb 20 13:55:30 1999  Michael Schwendt  <sidplay@geocities.com>
+
+    * sidplay.cpp: Added a bit of signal handling code to catch ^C
+    and other exit conditions. Now exits cleanly and smoothly on the
+    new Linux Kernel 2.2 as well.
+    
+    * sidplay.cpp: Added GNU-style --help.
+
+    * sidplay.cpp: Dropped copyright message and changed error msgs.
+
+- -- 
+http://www.geocities.com/SiliconValley/Lakes/5147/
+
+-----BEGIN PGP SIGNATURE-----
+Version: 2.6.3ia
+Charset: latin1
+
+iQCVAwUBNs699HRflXVdRQiRAQHHGwQAqmABNAY6+UuT622AI283h0nlZXiMpOyb
+kDBATMUipuvaTKgU2D7xpQTkemDL3K+YRB6m230rxA9yGjHtQvYFowGmDeNdPvk9
+4ouYzui9dDUjN0dFDLcxDx6XAuscgw01O3qO0dt4JGlqkD/Urg0vgqGTw3qvyvtb
+mHNrXrdwJ2A=
+=WifW
+-----END PGP SIGNATURE-----
+

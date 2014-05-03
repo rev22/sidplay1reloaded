@@ -56,16 +56,11 @@ bool sidEmuInitializeSong(emuEngine & thisEmuEngine,
 			}
 		}
 		
-        // Save the SID registers to allow later comparison.
-		for (int i = 0; i < numberOfC64addr; i++)
-		{
-			oldValues[i] = c64mem2[c64addrTable[i]];
-		}
-		
 		// Run the music player for a couple of player calls and check for
 		// changes in the PlaySID extended SID registers. If no digis are
 		// used, apply a higher amplification on each SID voice. First
-		// check also covers writings of the player INIT routine.
+		// check also covers writings of the player INIT routine. Old values
+        // are stored after song INIT.
 		bool useDigis = false;
 		int loops = thisEmuEngine.config.digiPlayerScans;
 		while (loops)
@@ -184,6 +179,15 @@ bool sidEmuInitializeSongOld(emuEngine & thisEmuEngine,
 			return false;
 		}
 
+        if (thisEmuEngine.config.digiPlayerScans!=0)
+        {
+            // Save the SID registers to allow later comparison.
+            for (int i = 0; i < numberOfC64addr; i++)
+            {
+                oldValues[i] = c64mem2[c64addrTable[i]];
+            }
+        }
+		
 		// In PlaySID-mode the interpreter will ignore some of the parameters.
 		//bool retcode =
 		interpreter(thisTune.info.initAddr,c64memRamRom(thisTune.info.initAddr),reg,reg,reg);

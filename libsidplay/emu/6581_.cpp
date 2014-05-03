@@ -764,21 +764,8 @@ inline void sidEmuSet(struct sidOperator* pVoice, uword sidIndex)
 	pVoice->ADSRproc = enveModeTable[enveTemp>>1];  // shifting out the KEY-bit
 	pVoice->ADSRctrl = enveTemp & (255-ENVE_ALTER-1);
   
-	if ( filterEnabled )
-	{
-		if (( c64mem2[0xd417] & pVoice->filtVoiceMask ) != 0 )
-		{
-			pVoice->filtEnabled = true;
-		}
-		else
-		{
-			pVoice->filtEnabled = false;
-		}
-	}
-	else
-	{
-		pVoice->filtEnabled = false;
-	}
+    pVoice->filtEnabled = filterEnabled && 
+        ((c64mem2[0xd417]&pVoice->filtVoiceMask)!=0);
 }
 
 // -------------------------------------------------- Operator frame set-up 2
@@ -988,10 +975,6 @@ void sidEmuFillBuffer( emuEngine& thisEmu,
 				
 				masterVolume = ( c64mem2[0xd418] & 15 );
 				masterVolumeAmplIndex = masterVolume << 8;
-				if (c64mem2[0xd418]&0x80)
-					optr3.outputMask = 0;     // off
-				else
-					optr3.outputMask = 0xff;  // on
 
 				optr1.gateOnCtrl = sidKeysOn[4];
 				optr1.gateOffCtrl = sidKeysOff[4];
@@ -1003,6 +986,12 @@ void sidEmuFillBuffer( emuEngine& thisEmu,
 				optr3.gateOffCtrl = sidKeysOff[4+14];
 				sidEmuSet( &optr3, 0xd40e );
 				
+				if ((c64mem2[0xd418]&0x80) &&
+                    ((c64mem2[0xd417]&optr3.filtVoiceMask)==0))
+					optr3.outputMask = 0;     // off
+				else
+					optr3.outputMask = 0xff;  // on
+                
 				filterType = c64mem2[0xd418] & 0x70;
 				if (filterType != filterCurType)
 				{

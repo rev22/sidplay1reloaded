@@ -21,6 +21,7 @@
 #undef HAVE_MSDOS
 #undef HAVE_BEOS
 #undef HAVE_RISCOS
+#undef HAVE_NETBSD
 
 /* Define the file/path separator(s) that your filesystem uses:
    FS_IS_COLON_AND_BACKSLASH, FS_IS_COLON_AND_SLASH, FS_IS_BACKSLASH,
@@ -80,6 +81,9 @@
 /* Define if you have the <machine/soundcard.h> header file.  */
 #undef HAVE_MACHINE_SOUNDCARD_H
 
+/* Define if you have the <soundcard.h> header file. */
+#undef HAVE_SOUNDCARD_H
+
 /* Define if you have the <sun/audioio.h> header file.  */
 #undef HAVE_SUN_AUDIOIO_H
 
@@ -105,11 +109,11 @@
  *
  * This option is highly used and tested. A failing little endian system
  * has not been reported so far.  */
-#define DIRECT_FIXPOINT
+#undef DIRECT_FIXPOINT
 
 /* This will cause little(big) endian machines to directly access little(big)
  * endian values in memory structures or arrays, disregarding alignment.  */
-#define OPTIMIZE_ENDIAN_ACCESS
+#undef OPTIMIZE_ENDIAN_ACCESS
 	
 /* --------------------------------------------------------------------------
  * Don't touch these!
@@ -117,9 +121,7 @@
  */
 #undef NO_STDIN_LOADER
 #define SIDEMU_TIME_COUNT
-#undef SID_LINENVE
 #undef SID_REFTIMES
-#undef SID_EXPENVE
 #undef LARGE_NOISE_TABLE
 #undef PORTABLE_FIXPOINT
 #undef NO_RTS_UPON_BRK

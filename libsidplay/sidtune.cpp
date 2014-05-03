@@ -69,6 +69,8 @@ const char *defaultFileNameExt[] =
 sidTune::sidTune( const char* fileName, const char **fileNameExt )
 {
 	safeConstructor();
+	isSlashedFileName = false;
+	setFileNameExtensions(fileNameExt);
 	if ( fileNameExt != 0 )
 	{
 		fileNameExtensions = fileNameExt;
@@ -92,6 +94,30 @@ sidTune::sidTune( const char* fileName, const char **fileNameExt )
 	}
 }
 
+sidTune::sidTune(const char* fileName, const bool separatorIsSlash,
+                 const char **fileNameExt)
+{
+	safeConstructor();
+	isSlashedFileName = separatorIsSlash;
+	setFileNameExtensions(fileNameExt);
+	if (fileName != 0)
+	{
+#if !defined(NO_STDIN_LOADER)
+		// Filename ``-'' is used as a synonym for standard input.
+		if ( strcmp( fileName, "-" ) == 0 )
+		{
+			stdinConstructor();
+		}
+		else
+		{
+#endif
+			filesConstructor( fileName );
+			deleteFileBuffers();
+#if !defined(NO_STDIN_LOADER)
+		}
+#endif
+	}
+}
 
 sidTune::sidTune(const ubyte* data, udword dataLen)
 {
@@ -108,6 +134,14 @@ sidTune::~sidTune()
 
 // -------------------------------------------------- public member functions
 
+void sidTune::setFileNameExtensions(const char **fileNameExt)
+{
+	if (fileNameExt != 0)
+		fileNameExtensions = fileNameExt;
+	else
+		fileNameExtensions = defaultFileNameExt;
+}
+
 bool sidTune::load(const ubyte* data, udword dataLen)
 {
 	safeDestructor();
@@ -120,6 +154,7 @@ bool sidTune::open(const char* fileName)
 {
 	safeDestructor();
 	safeConstructor();
+    isSlashedFileName = false;
 	filesConstructor(fileName);
 	deleteFileBuffers();
 	return status;
@@ -494,21 +529,16 @@ void sidTune::stdinConstructor()
 	status = false;
 	// Assume the memory allocation to fail.
 	info.statusString = text_notEnoughMemory;
-	if (( fileBuf = new ubyte[65536] ) == 0 )
+	if (( fileBuf = new ubyte[maxSidtuneFileLen] ) == 0 )
 		return;
-	uword i = 0;
+	udword i = 0;
 	ubyte datb;
-	while ( cin.get(datb) )
-		fileBuf[i++] = datb; // uword index will wrap when > 65535
-	if (( info.dataFileLen = cin.tellg() ) > 65536 )
-	{
-		info.statusString = text_fileTooLong;
-	}
-	else
-	{
-		getSidtuneFromFileBuffer(fileBuf,info.dataFileLen);
-	}
-	deleteFileBuffers();
+	// We only read as much as fits in the buffer.
+	// This way we avoid choking on huge data.
+	while (cin.get(datb) && i<maxSidtuneFileLen)
+		fileBuf[i++] = datb;
+	info.dataFileLen = i;
+    getSidtuneFromFileBuffer(fileBuf,info.dataFileLen);
 }
 
 #endif
@@ -569,8 +599,16 @@ void sidTune::acceptSidTune(const char* dataFileName, const char* infoFileName,
 	if ( dataFileName != 0 )
 	{
 		info.path = myStrDup(dataFileName);
-        info.dataFileName = myStrDup(fileNameWithoutPath(info.path));
-		*fileNameWithoutPath(info.path) = 0;  // path only
+		if (isSlashedFileName)
+		{
+			info.dataFileName = myStrDup(slashedFileNameWithoutPath(info.path));
+			*slashedFileNameWithoutPath(info.path) = 0;  // path only
+		}
+		else
+		{
+            info.dataFileName = myStrDup(fileNameWithoutPath(info.path));
+            *fileNameWithoutPath(info.path) = 0;  // path only
+        }
 		if ((info.path==0) || (info.dataFileName==0))
 		{
 			info.statusString = text_notEnoughMemory;
@@ -582,7 +620,10 @@ void sidTune::acceptSidTune(const char* dataFileName, const char* infoFileName,
 	if ( infoFileName != 0 )
 	{
 		char* tmp = myStrDup(infoFileName);
-        info.infoFileName = myStrDup(fileNameWithoutPath(tmp));
+		if (isSlashedFileName)
+			info.infoFileName = myStrDup(slashedFileNameWithoutPath(tmp));
+		else
+			info.infoFileName = myStrDup(fileNameWithoutPath(tmp));
 		if ((tmp==0) || (info.infoFileName==0))
 		{
 			info.statusString = text_notEnoughMemory;
