@@ -1,0 +1,227 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.0//EN">
+<!--Converted with LaTeX2HTML 96.1-h (September 30, 1996) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds -->
+<HTML>
+<HEAD>
+<TITLE>2 Frequently asked questions</TITLE>
+<META NAME="description" CONTENT="2 Frequently asked questions">
+<META NAME="keywords" CONTENT="sidplay">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+</HEAD>
+<BODY LANG="EN" BGCOLOR="#FFFFFF" TEXT="#000000" LINK="#0030E0" VLINK="#001870">
+ <A NAME="tex2html93" HREF="node4.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="./next_motif.gif"></A> <A NAME="tex2html91" HREF="sidplay.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="./up_motif.gif"></A> <A NAME="tex2html85" HREF="node2.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="./previous_motif.gif"></A> <A NAME="tex2html95" HREF="node1.html"><IMG WIDTH=65 HEIGHT=24 ALIGN=BOTTOM ALT="contents" SRC="./contents_motif.gif"></A>  <BR>
+<B> Next:</B> <A NAME="tex2html94" HREF="node4.html">3 PlaySID compatibility issues</A>
+<B>Up:</B> <A NAME="tex2html92" HREF="http://www.geocities.com/SiliconValley/Lakes/5147/index.html">SIDPLAY Home Page</A>
+<B> Previous:</B> <A NAME="tex2html86" HREF="node2.html">1 Introduction</A>
+<BR> <P>
+<H1><A NAME="SECTION00300000000000000000">2 Frequently asked questions</A></H1>
+<P>
+<H1><A NAME="SECTION00310000000000000000">2.1 Songs not running in SIDPLAY</A></H1>
+<P>
+If you find a sidtune which does not play, you might have encountered 
+<UL>
+<LI> a socalled <em>PlaySID-specific</em> rip
+<LI> a bad rip, that means the sidtune most likely does not run on a C64 either
+<LI> a sidtune which is set up improperly and has never been verified
+<LI> a rip that requires features that are not emulated
+<LI> a file that just doesn't work at all (yes, this has happened before)
+<LI> a bug in the emulator environment
+</UL>
+In either case try to run the song by enabling the <B>Transparent ROM</B> mode first.
+If it still does not run, try enabling the <B>PlaySID environment</B> mode.
+If it still does not run, make sure 
+<UL>
+<LI> the sidtune is in a known and supported file format and is not rejected by the emulator
+<LI> you can get other sidtunes to work
+<LI> you have really tried the <B>PlaySID environment</B> mode
+<LI> you have the latest update to your favourite sidtune collection
+<LI> the sidtune collection is made for SIDPLAY or a fully compatible SID emulator
+<LI> you have the latest version of SIDPLAY if available
+</UL>
+If all of the above applies, refer to section&nbsp;<A HREF="node3.html#bugreport">2.2</A>.
+<P>
+<H1><A NAME="SECTION00320000000000000000">2.2 How to submit a bug report?</A></H1>
+ <A NAME="bugreport">&#160;</A>
+<P>
+If you happen to encounter a bug or anything unexpected, contact the author(s).
+It is very unlikely that the maintainer of a sidtune collection releases non-working tunes. So if
+you definitely can't get a song to work, try asking the individual maintainer of that collection
+for verification first. But don't forget to provide at least this information
+<UL>
+<LI> the full song name and author of the sidtune
+<LI> the number of the sub-song that doesn't play
+<LI> the complete file name and path, under no circumstances just a short MS-DOS file name
+<LI> the version of the sidtune collection you have taken the sidtune from
+</UL>
+as well as at least the following, which you are supposed to provide when contacting
+the author(s) of SIDPLAY:
+<UL>
+<LI> your operating system and its version
+<LI> the relevant parts of your hardware (CPU, clock speed, soundcard, ...)
+<LI> your SID emulator configuration (frequency, mono/stereo, bits per sample, ...)
+<LI> the type and version of the used SIDPLAY
+<LI> a brief description of what has went wrong and what you have expected to happen
+</UL>
+Send your bug report to the contact address found inside the malfunctioning copy of SIDPLAY.
+Please <em>don't send any sidtunes</em> along unless you are asked to. This helps reducing incoming
+mail overhead in case of major failures. But please take your time and try to be as precise as possible.
+<P>
+<H1><A NAME="SECTION00330000000000000000">2.3 Changes</A></H1>
+<P>
+I have noticed a difference between the latest and a previous version. Is it
+a bug?
+<P>
+If you care, please submit a report according to what is written in
+section&nbsp;<A HREF="node3.html#bugreport">2.2</A>. It is appreciated that you try to be as precise
+as possible upon describing what you think might be wrong.
+<P>
+<H1><A NAME="SECTION00340000000000000000">2.4 Where to get sidtunes?</A></H1>
+ <A NAME="sidcollection">&#160;</A>
+<P>
+The latest and best maintained sidtune collection on the Internet is the
+<B>High Voltage SID Collection</B>. It can be found on the World Wide Web.
+Related information is located at the same site:
+<A HREF=http://www.dhp.com/~shark/c64music/>
+<PRE>The High Voltage SID Collection
+http://www.dhp.com/~shark/c64music/</PRE>
+</A>
+You can choose between download of individual sidtunes, automated updates
+to the collection and always the latest complete collection. Additionally
+you can use a search engine to look up individual sids.
+<P>
+<H1><A NAME="SECTION00350000000000000000">2.5 Where can I find the ASM source code of SIDPLAY?</A></H1>
+<P>
+You can't. Only the DOS version was written in ASM. The source hasn't been
+published, and it won't be published either because the code is outdated.
+With appropriate 32-bit programming tools it should be much easier to use
+the existing emulator engine.
+<P>
+<H1><A NAME="SECTION00360000000000000000">2.6 Can you help me playing SID music in my demo?</A></H1>
+<P>
+Although the SIDPLAY emulator engine is not designed and optimized for
+usage in demos, intros and similar, it is possible to use its platform
+independent code. A 32-bit C++ compiler, soundcard drivers and maybe
+a few portability adjustments are needed.
+<P>
+<H1><A NAME="SECTION00370000000000000000">2.7 How to transfer sidtunes from the C64?</A></H1>
+<P>
+Check the links section on the SIDPLAY home page. There is at least one
+emulator related home page linked that explains how to process C64 files
+and where to get the necessary software and hardware.
+<P>
+<H1><A NAME="SECTION00380000000000000000">2.8 How to replay the same sidtunes on the C64?</A></H1>
+<P>
+Since you ask this question you most certainly don't know 6502 machine code programming.
+There is a sidtune player for the real C64 available. It is compatible to the PlaySID
+one-file format. Else it has nothing much in common with SIDPLAY.
+<A HREF="ftp://utopia.hacktic.nl/pub/c64/Music/SidPlay/">
+<PRE>The Digital Dungeon
+ftp://utopia.hacktic.nl/pub/c64/Music/SidPlay/</PRE>
+</A>
+<P>
+<H1><A NAME="SECTION00390000000000000000">2.9 When will feature X and effect Y be implemented?</A></H1>
+<P>
+If you want special features and improvement in certain parts of the emulator,
+please think about supporting the authors. We do appreciate any kind of sponsoring
+or donations, whether it is free hardware, software or money. Please contact us.
+<P>
+Volunteers of any kind - whether programmers, developers, electronic engineers,
+C64 musicians or team workers - who would be interested in a next generation
+SID emulator are hereby invited to think about a possible joint venture. There
+are many ideas and emulation approaches to discuss. If you would like to start
+your own project I would be happy to support you.
+<P>
+<H1><A NAME="SECTION003100000000000000000">2.10 Would you happen to know what the four tunes from SIDPLAY/DOS v1.10
+are?</A></H1>
+<P>
+<OL>
+<LI> <B>Lightforce</B> by Rob Hubbard
+<LI> <B>Rambo: First Blood Part 2</B> (song #10) by Martin Galway
+<LI> <B>BraveStarr</B> by David Whittaker
+<LI> <B>Glider Rider</B> by David Whittaker
+</OL><H1><A NAME="SECTION003110000000000000000">2.11 How to convert the sidtune file formats?</A></H1>
+<P>
+Notice, you <B>don't</B> need to. In case of sidtunes that consist of more
+than one file, any format conversion is optional. As modern SID music collections
+come in one-file format only, this question might as well be removed from
+this FAQ.
+<P>
+On the contrary, there are still old sidtune packages on the Internet. Such
+packages may contain files in any of the formats described in section&nbsp;<A HREF="node6.html#fileformats">5.2</A>.
+The file naming might be very unusual. And as there is no way to detect plain C64 data
+files, an unknown file might as well contain text or graphics, but just no music data.
+<P>
+By default, but depending on the particular player front end, SIDPLAY searches
+your directory for the following possible file name extensions and tries to
+match a pair of files if the specified file is not in one-file format. This
+list may change at any time:
+<UL>
+<LI> none
+<LI> <TT>*.sid</TT>
+<LI> <TT>*.dat</TT>
+<LI> <TT>*.inf</TT>
+<LI> <TT>*.DAT</TT>
+<LI> <TT>*.SID</TT>
+<LI> <TT>*.INF</TT>
+<LI> <TT>*.c64</TT>
+<LI> <TT>*.prg</TT>
+<LI> <TT>*.C64</TT>
+<LI> <TT>*.PRG</TT>
+<LI> <TT>*.info</TT>
+<LI> <TT>*.INFO</TT>
+<LI> <TT>*.data</TT>
+<LI> <TT>*.DATA</TT>
+</UL>
+You have the possibility to configure other default file extensions. In case of two-file sidtunes
+you only need to provide file names which contain any of the extensions supported by
+the particular version of SIDPLAY you are using. It is recommended that you get accustomed to
+the <B><TT>*.sid</B></TT> extension for one-file sidtunes.
+<P>
+Experienced users of SIDPLAY may want to do optional conversion when working on sidtunes.
+For instance, if you would like to change the song info or modify the ripped data. This may
+either be done from inside the player front end or with external utilities.
+<P>
+<H1><A NAME="SECTION003120000000000000000">2.12 How to extract old collections for PlaySID?</A></H1>
+<P>
+<B>Q</B>: When I downloaded the song archives, I found out that I can't extract the <B><TT>.INF</B></TT>
+files from the <B><TT>.LHA</B></TT> files. Apparently, when I use DOS to extract them, LHA can't handle the
+fact that the files have a four character extension <B><TT>.INFO</B></TT>.  How can I get the info files out
+of the LHA files?
+<P>
+<B>A</B>: Use <TT>LHA x -a -m2</TT> to extract the files from the LHA archives. When the extraction is
+complete you don't need to convert any files for use with SIDPLAY. But before proceeding, make sure
+what types of files the archive contained. This is necessary to successfully complete the following
+probably required renaming procedure:
+<P>
+<UL>
+<LI> If there exist files <TT>*.inf</TT> (long name inside archive is <TT>*.info</TT>), there are
+also corresponding files <TT>*</TT> without extension. Rename the files <TT>*</TT> to
+<B><TT>*.dat</B></TT> or your preferred custom sidtune data file extension! Now SIDPLAY will list those
+files and will automatically make use of the additional <TT>*.inf</TT> files.
+<LI> If there don't exist files <TT>*.inf</TT> (long name inside archive is not <TT>*.info</TT>), you
+can either rename all files to a file extension that is supported by your version of SIDPLAY or
+proceed like described in section&nbsp;<A HREF="node3.html#nemesids">2.13</A>.
+</UL><H1><A NAME="SECTION003130000000000000000">2.13 How to extract the NemeSIDs Collection?</A></H1>
+ <A NAME="nemesids">&#160;</A>
+<P>
+With MS-DOS always use <TT>LHA x -a -m2</TT> to extract the files from the LHA archives. While option
+<TT>-a</TT> allows files with any attributes to be extracted, option <TT>-m2</TT> enables renaming of
+double filenames. Double filenames are caused by LHA, cutting long filenames from the AmigaDOS
+file-system to the limited length of the (MS-)DOS file-system.
+<P>
+When the extraction is complete you find a lot of files named <B><TT>psid.*</B></TT> in each directory.
+In some newer packages the filename is simply the name of the tune. Caution. A few files are
+<em>read only</em> or even <em>hidden</em>. You will have to manually change their file attribute to
+be able to see them. The main job will be to rename the files, so that SIDPLAY is able to find
+and list them. Adding a support file extension to each file should usually be enough.
+<P>
+For some operating systems there are small helper utilities which are capable of renaming
+sidtune files automatically. 4DOS users may like to make use of the <B>Psid EXtracting utility</B>.
+The script and its documentation are available on most C64 emulation FTP servers.
+<P>
+<HR><A NAME="tex2html93" HREF="node4.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="./next_motif.gif"></A> <A NAME="tex2html91" HREF="sidplay.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="./up_motif.gif"></A> <A NAME="tex2html85" HREF="node2.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="./previous_motif.gif"></A> <A NAME="tex2html95" HREF="node1.html"><IMG WIDTH=65 HEIGHT=24 ALIGN=BOTTOM ALT="contents" SRC="./contents_motif.gif"></A>  <BR>
+<B> Next:</B> <A NAME="tex2html94" HREF="node4.html">3 PlaySID compatibility issues</A>
+<B>Up:</B> <A NAME="tex2html92" HREF="http://www.geocities.com/SiliconValley/Lakes/5147/index.html">SIDPLAY Home Page</A>
+<B> Previous:</B> <A NAME="tex2html86" HREF="node2.html">1 Introduction</A>
+</BODY>
+</HTML>

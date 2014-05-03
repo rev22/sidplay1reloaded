@@ -1,0 +1,15 @@
+CONFIGURATION:
+
+By default, this directory is set up for an i386-compatible Linux system
+with an OSS/Free audio driver. Simply run ``make'' to compile.
+
+
+OTHER PLATFORMS:
+
+Activate an appropriate audio driver by copying it from the subdirectory
+``audio/''. Then run ``make''. For example:
+
+# cp audio/sparc_audiodrv.h audiodrv.h
+# cp audio/sparc_audiodrv.cpp audiodrv.cpp
+# make
+

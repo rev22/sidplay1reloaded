@@ -1,0 +1,26 @@
+
++++ This is experimental code +++
+
+Authors: Brian Nielsen, Michael Schwendt, Åge Røbekk, Esa Pulkkinen,
+         Phillip Wooller, and contributors.
+ 
+Porting hints: The longer the sample buffer, the more time the CPU spends
+on consecutively pre-calculating new sample data without feeding the audio
+driver. In case of interruptions due to heavy CPU usage the audio driver
+might run out of data. Filling and sending shorter buffers to the audio
+driver is more likely to keep up a constant data stream. Additionally, the
+OSS/Free driver for Linux provides methods to split its internal audio buffer
+into fragments, which get send to the soundcard separately, but one after each
+other. Hereby the driver can quickly transfer new data to the soundcard,
+whenever the card finished processing previous data. Depending on the
+available CPU power it is recommended to find a mean buffer size. Currently,
+the buffer size is determined by the two (originally OSS/Free-specific)
+parameters ``fragments'' and ``fragSizeBase'', where:
+   bufferSize = fragments * 2^fragSizeBase
+   or without fragmentation: bufferSize = 2^fragSizeBase
+
+This does not necessarily apply to every audio device driver.
+
+The variables ``encoding, precision, channels'' are intended to contain
+SID-Emulator compatible audio configuration values, which can be read out
+to configure the SID-Emulator.

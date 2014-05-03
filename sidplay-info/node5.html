@@ -1,0 +1,65 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.0//EN">
+<!--Converted with LaTeX2HTML 96.1-h (September 30, 1996) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds -->
+<HTML>
+<HEAD>
+<TITLE>4 Forcing a tune to play at NTSC speed</TITLE>
+<META NAME="description" CONTENT="4 Forcing a tune to play at NTSC speed">
+<META NAME="keywords" CONTENT="sidplay">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+</HEAD>
+<BODY LANG="EN" BGCOLOR="#FFFFFF" TEXT="#000000" LINK="#0030E0" VLINK="#001870">
+ <A NAME="tex2html115" HREF="node6.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="./next_motif.gif"></A> <A NAME="tex2html113" HREF="sidplay.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="./up_motif.gif"></A> <A NAME="tex2html107" HREF="node4.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="./previous_motif.gif"></A> <A NAME="tex2html117" HREF="node1.html"><IMG WIDTH=65 HEIGHT=24 ALIGN=BOTTOM ALT="contents" SRC="./contents_motif.gif"></A>  <BR>
+<B> Next:</B> <A NAME="tex2html116" HREF="node6.html">5 Technical information</A>
+<B>Up:</B> <A NAME="tex2html114" HREF="http://www.geocities.com/SiliconValley/Lakes/5147/index.html">SIDPLAY Home Page</A>
+
+<B> Previous:</B> <A NAME="tex2html108" HREF="node4.html">3 PlaySID compatibility issues</A>
+<BR> <P>
+<H1><A NAME="SECTION00500000000000000000">4 Forcing a tune to play at NTSC speed</A></H1>
+<P>
+Setting this switch is done by enabling <B>NTSC Clock Speed</B> plus <B>
+Force Song Speed</B>.
+<P>
+Beware - this setting doesn't make much sense <A NAME="tex2html2" HREF="footnode.html#135"><IMG  ALIGN=BOTTOM ALT="gif" SRC="./foot_motif.gif"></A>, but needs a bit more explanation. This setting forces SIDPLAY
+to pitch up a little bit and replay any sidtune with NTSC timing, regardless of whether the file
+is set up to play at any other intended speed except variable timer speed.
+If you just want the sound of an NTSC C64 (that is the slightly
+different pitch), enable NTSC Clock Speed and disable the Force Song Speed option.
+<P>
+In NTSC Song Speed mode SIDPLAY calls the music replaying routine at 60 Hz like a vertical
+blanking interrupt (VBI) of a NTSC based machine would do. But explicitly forcing this speed
+is not necessary and is most likely the wrong speed for a song, because all sidtunes already
+contain specific information about their original and intended replaying speed. This information
+is supposed to be correct for any existing sidtune that has been set up properly even if the
+corresponding C64 program has been PAL-NTSC fixed or vice versa. Thus, if a game and its music
+have been designed for a NTSC based machine, the extracted music generally has been set up by
+someone to play at 60 Hz by default. You can verify this by taking a look at the speed information
+display or by examining the sidtune file contents. Musics which are called via timer interrupts
+are intended to run at variable timer speed and have not been affected by PAL-NTSC conversion
+anyway. The difference between the PAL and NTSC CIA timer speed is equal to the clock speed
+difference, that is a factor of 1.038 only.
+<P>
+Due to the fact that PAL based screens (TV, monitor, ...) generally are able to display more
+lines of pixels than NTSC based ones, the NTSC screen refresh rate (60 Hz) is 1.2 times faster than
+the PAL (50 Hz) rate. Therefore, on NTSC based machines a VBI driven music routine is called more
+often, thus leading to falsification of the originally intended music timing. Such programs
+require a socalled PAL-NTSC conversion which makes them run at intended speed on another system
+with different clock speed.
+<P>
+Unfortunately, a lot of European games haven't been PAL-NTSC fixed. And as the musics have often
+been played via VBI, they have been played too fast on NTSC based machines. Thus it seems, as if
+former users of NTSC based machines now think that a lot of tunes are played too slow in comparison
+to what they were used to on their old C64 computer <A NAME="tex2html3" HREF="footnode.html#418"><IMG  ALIGN=BOTTOM ALT="gif" SRC="./foot_motif.gif"></A>.
+<P>
+If you don't care whether a tune is playing at its originally intended and correct replaying speed,
+and you are used to listen to tunes that are played too fast, enabling NTSC Clock Speed as well as
+Force Song Speed is a cure. But please believe the fact that any sidtune is supposed to run at proper
+speed <em>without</em> explicitly enabling the NTSC mode. If you are sure the default speed of a sidtune
+is wrong, please contact the maintainer of the respective sidtune collection.
+<P>
+<HR><A NAME="tex2html115" HREF="node6.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="./next_motif.gif"></A> <A NAME="tex2html113" HREF="sidplay.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="./up_motif.gif"></A> <A NAME="tex2html107" HREF="node4.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="./previous_motif.gif"></A> <A NAME="tex2html117" HREF="node1.html"><IMG WIDTH=65 HEIGHT=24 ALIGN=BOTTOM ALT="contents" SRC="./contents_motif.gif"></A>  <BR>
+<B> Next:</B> <A NAME="tex2html116" HREF="node6.html">5 Technical information</A>
+<B>Up:</B> <A NAME="tex2html114" HREF="http://www.geocities.com/SiliconValley/Lakes/5147/index.html">SIDPLAY Home Page</A>
+<B> Previous:</B> <A NAME="tex2html108" HREF="node4.html">3 PlaySID compatibility issues</A>
+</BODY>
+</HTML>

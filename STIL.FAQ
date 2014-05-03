@@ -1,0 +1,287 @@
+
+
+                                   STIL FAQ
+                                     v2.3
+                               February 6, 1998
+
+                           SID Tune Information List
+                           
+                    URL: http://hafnium.prg.dtu.dk/~theis/stil/
+                             (Constantly updated!)
+
+
+                                  STIL Heros 
+                                  ==========
+
+The number in parentheses before a name is the number of STIL 
+additions/modifications submitted by that person.
+
+If you would like to withhold your name or email address for security or 
+personal reasons, let me know ASAP!!! (Oops, too late. :)
+
+
+(123) Petri Keränen <keebo@mbnet.fi> (aka "STIL SuperHero" :-)
+************************************
+
+( 69) Laust Brock-Nannestad <laustbn@diku.dk>
+      (Since he became a member of the STIL crew, his newer STIL entries are
+      considered internal and are not counted here any more.)
+( 25) King Fisher/Triad aka Linus Walleij <ecsliwa@ldecs.ericsson.se>
+( 23) Jacob Gunness <gunness@dorit.ihi.ku.dk>
+( 20) Jeremy Smith <jeremyasmith@lwtcdi.prestel.co.uk>
+( 14) Jürgen Oppermann <joogn@fb1.FHTW-Berlin.de>
+( 11) Pasi Karppinen <karppinen.uddevalla@swipnet.se>
+( 11) Miron Schmidt <miron@comports.com>
+( 10) Daniel Adolfsson <sensei@whoever.com>
+
+------ The rest below are STIL Hero Wannabes... ------
+
+(  7) Aaron Solomon <solomon@spiretech.com>
+(  6) Scott <dg3carrols@wombat.admin.bhtafe.edu.au>
+(  4) Oliver Hermanni <o_hermanni@hotmail.com> (aka Wintermute)
+(  3) Evert-Jan Slypen <jazz@lobster.demon.nl>
+(  2) Dominik Deobald <magician@sunshine.domino.de>
+(  1) Zoltan Bolla - bolla@mail.matav.hu
+(  2) Len Pitre <len.pitre@ns.sympatico.ca>
+(  1) Evert-Jan Slypen <jazz@lobster.demon.nl>
+
+
+                                  ABOUT STIL
+                                  ==========
+
+  The SID Tune Information List (STIL) contains information about the SID
+tunes in the HVSC besides the standard TITLE, AUTHOR, and COPYRIGHT
+information.  STIL goes a little deeper listing SID tune information that
+only a true SID freak would enjoy.  Such information listed in STIL would
+include cover information, interesting facts, useless trivia, etc.  STIL
+will be limited to factual data and will not try to provide an encyclopedia
+about every original artist.
+
+Now some definitions (unofficial):
+
+  cover - a tune not originally composed by the current creating composer.
+          (also known as a rearranged tune)
+
+  remix - a tune where a composer has made some changes to a previously
+          released tune.
+
+Regardless of a cover or remix, proper credit needs to be given to the
+original composer.  For simplicity, we will intend "cover" to be equal to
+"remix".
+
+Why was STIL created?
+
+  The High Voltage SID Collection (HVSC) crew sincerely believes in
+creating the most accurate and comprehensive SID collection possible.  We
+also believe in giving proper credit to all composers regardless if they
+ever composed on the Commodore 64.  How many times have you asked
+yourself, "Where have I heard this tune before?!"  STIL will help ease
+some of those questions.  STIL will also be extremely valuable for the
+future of SID music collections.  Imagine years ahead when the HVSC
+maintainers are no longer available for input for whatever reasons.
+Wouldn't it be a shame if someone began to alter the credit fields of the
+tunes in HVSC based on incorrect data?  And finally, perhaps someday a new
+SID tune file format will emerge allowing relevant SID tune information to
+be available when the tune is played?  If so, STIL will be there to fill
+in the blanks.
+
+  We need your help!  If we have missed any information about the tunes in
+HVSC, please email <lala@interaccess.com>.  If you are able to list
+information about 10 or more SID tunes in HVSC, you will become a STIL
+HERO.  This information would include any corrections, additions, and
+filling in any blanks.  All STIL HEROs will have their name appended to
+the end of this file.  It is _unlikely_ that you will become a STIL HERO
+since we have already listed many of the covers and other such SID
+information. (*NOTE* the previous sentence was my attempt at some basic
+psychology... Will it work?)
+
+  If you do decide to email us STIL data, please adhere to our standard so
+that we can effortlessly paste your data into our list. It is also important 
+to stick to the strict STIL format as the STIL is checked by programs, and 
+also, some versions of SIDPlay now show STIL entries when playing SID tunes. 
+Since all of these programs do strict format-checking, please follow the 
+outlined standard of STIL entries.
+
+Here is a brief summary of the format of STIL entries:
+
+
+SINGLE TUNES:
+
+/Path_in_HVSC/Full_Title.sid #y X:XX
+  TITLE: <Title of Original Tune>
+ ARTIST: <Original Performing Artist>
+COMMENT: <Comment on tune - facts only, no personal opinions!>
+
+
+TUNES WITH MULTIPLE COVERS IN ONE MUSIC:
+
+/Path_in_HVSC/Full_Title.sid #y
+  TITLE: <Title of Original Tune> (X:XX)
+ ARTIST: <Original Performing Artist>
+COMMENT: <Comment on tune - facts only, no personal opinions!>
+  TITLE: <Title of Original Tune> (X:XX)
+ ARTIST: <Original Performing Artist>
+COMMENT: <Comment on tune - facts only, no personal opinions!>
+... etc.
+
+
+FILES WITH MULTIPLE TUNES, ALL BEING COVERS:
+
+/Path_in_HVSC/Full_Title.sid
+  TITLE: <Title of Original Tune> (#y)
+ ARTIST: <Original Performing Artist>
+COMMENT: <Comment on tune - facts only, no personal opinions!>
+  TITLE: <Title of Original Tune> (#y)
+ ARTIST: <Original Performing Artist>
+COMMENT: <Comment on tune - facts only, no personal opinions!>
+... etc.
+
+
+FILES THAT COVER ANOTHER C64 MUSIC'S SUBTUNE
+(Note the subtle difference from above!!!)
+
+/Path_in_HVSC/Full_Title.sid
+  TITLE: <Title of Original C64 Tune>, Tune #y
+ ARTIST: <Original Composer of the C64 Tune>
+
+(This means that name.sid covers the y-th subtune of the given C64 tune.)
+
+NOTES:
+-----
+
+Path_in_HVSC - starting with a "/", subdirs separated by "/", long pathnames
+               (with correct small and capital letters)
+Full_Title.sid - The long filename as appears in the directory               
+#y           - Tune #y within the file
+X:XX         - The time the given cover starts at (based on SIDPLAY 
+               timestamps!)
+
+- Please note that there are TWO spaces before "TITLE", ONE space before
+  "ARTIST", and NO space before "COMMENT". This just makes STIL more readable.
+
+- All fields are optional, except the path and the tune name, but at least one
+  field must be present. Eg. if only a comment is provided for a tune that has 
+  no subtunes, the following entry is perfectly fine:
+
+  /Composer/Tune.sid
+  COMMENT: This should be some relevant comment here.
+
+- The COMMENT field has no restriction on length. Try to keep the other
+  fields within one line ( < 80 chars), if possible.
+
+- The "#y" field is required for files containing multiple subtunes. "X:XX" is
+  optional, and if omitted, assumed to be 0:00.
+
+- Please, place a "<?>" behind (or in place of) every information that is
+  doubtful or missing!
+
+- If a cover covers another C64 tune that is also a cover itself, please 
+  still submit the very *ORIGINAL* tune for the STIL entry! You may provide a 
+  comment, though, that states that the given cover is really a cover of   
+  another cover. (Phiew, did you follow that? ;)
+  
+- If you submit more than one STIL entry, PLEASE, list the tunes in 
+  alphabetical order, sorted on the pathnames.
+
+If still in doubt, consult the STIL itself for examples.
+
+Thank You!
+We hope you find STIL useful!
+
+
+THE HVSC/STIL TEAM
+==================
+
+HOSTILE (High Official STIL Executioner) (= STIL Administrator ;)
+----------------------------------------
+LaLa <LaLa@InterAccess.com>
+
+HTML version of STIL by:
+------------------------
+Laust Brock-Nannestad <laustbn@diku.dk>
+
+HVSC Administrators:
+-------------------
+The Shark of International Network of Chaos <shark@dhp.com>
+Jan Diabelez Arnt Harries <nmioaon@vip.cybercity.dk>
+
+Main contributors:
+------------------
+Wilfred Bos <wbos@worldonline.nl>
+Darren Hagan <darren@talent.demon.co.uk>
+InGE HP <inge.pedersen@bamble.kommune.no>
+Kristoffer Johansson <d3johkri@dtek.chalmers.se>
+Dennis Lindroos <deadman@penti.sit.fi>
+Adam Lorentzon <d93-alo@nada.kth.se>
+Warren Pilkington <wazzaw@globalnet.co.uk>
+Gabriele Priarone <g.knight@iol.it>
+Michael "The Mage" Schwendt <sidplay@geocities.com>
+Andreas Varga <sid@skater.htu.tuwien.ac.at>
+
+
+FUN STATS ABOUT STIL v2.3
+=========================
+
+Top Ten Covered tunes:
+----------------------
+
+NOTE: These figures were derived from the TITLE: fields only. This means
+they are probably slightly too low. Still interesting, though. 
+
+Axel F                            :  20
+The Star Spangled Banner          :  18
+Jingle Bells                      :  16
+James Bond Theme                  :  14
+Blue Monday                       :  11
+Rule Britannia                    :  11
+Comic Bakery                      :  10
+Crockett's Theme                  :  10
+Popcorn                           :  10
+Toccata in D Minor (Gyruss Theme) :  10
+---
+Unknown (<?>)                     : 224
+
+And a few more, just for fun:
+
+Crazy Comets                      :   9
+Orpheus in the Underworld Overture:   9
+Airwolf Theme                     :   8
+Yankee Doodle                     :   8
+Delta                             :   7
+The Model                         :   7
+
+
+Top 15 Covered Artists:
+-----------------------
+
+NOTE: These are mainly based on the ARTIST fields, which means the values are
+slightly too low. 
+
+Rob Hubbard                                :  95
+Jeroen Tel                                 :  45
+Jean Michel Jarre                          :  41
+Martin Galway                              :  40
+John Williams                              :  28
+Johann Sebastian Bach                      :  25
+Depeche Mode                               :  23
+Ben Daglish                                :  22
+Pet Shop Boys                              :  22
+Harold Faltermeyer                         :  20
+Kraftwerk                                  :  19
+Sir Francis Scott Key, John Stafford Smith :  19
+Jan Hammer                                 :  18
+Chris Hülsbeck                             :  18
+James Pierpont                             :  17
+---
+Unknown artist                             : 335
+
+A few more, just for fun:
+
+Traditional (all kinds)                    :  42
+Henry Mancini                              :  13
+John Barry                                 :  13
+Michael Jackson                            :  13
+Arne / James Thompson                      :  10
+Gershon Kingsley                           :  10
+
+--- End of STIL FAQ ---

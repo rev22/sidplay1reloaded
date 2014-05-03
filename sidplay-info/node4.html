@@ -1,0 +1,92 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.0//EN">
+<!--Converted with LaTeX2HTML 96.1-h (September 30, 1996) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds -->
+<HTML>
+<HEAD>
+<TITLE>3 PlaySID compatibility issues</TITLE>
+<META NAME="description" CONTENT="3 PlaySID compatibility issues">
+<META NAME="keywords" CONTENT="sidplay">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+</HEAD>
+<BODY LANG="EN" BGCOLOR="#FFFFFF" TEXT="#000000" LINK="#0030E0" VLINK="#001870">
+ <A NAME="tex2html104" HREF="node5.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="./next_motif.gif"></A> <A NAME="tex2html102" HREF="sidplay.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="./up_motif.gif"></A> <A NAME="tex2html96" HREF="node3.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="./previous_motif.gif"></A> <A NAME="tex2html106" HREF="node1.html"><IMG WIDTH=65 HEIGHT=24 ALIGN=BOTTOM ALT="contents" SRC="./contents_motif.gif"></A>  <BR>
+<B> Next:</B> <A NAME="tex2html105" HREF="node5.html">4 Forcing a tune </A>
+<B>Up:</B> <A NAME="tex2html103" HREF="http://www.geocities.com/SiliconValley/Lakes/5147/index.html">SIDPLAY Home Page</A>
+<B> Previous:</B> <A NAME="tex2html97" HREF="node3.html">2 Frequently asked questions</A>
+<BR> <P>
+<H1><A NAME="SECTION00400000000000000000">3 PlaySID compatibility issues</A></H1>
+<P>
+If you use SIDPLAY together with old music collections which have been
+made especially for PlaySID on Amiga you are likely to find
+troublemakers among the sidtunes. You are advised to stop using such old
+collections. They often contain lots of wrong credits and duplicates.
+<P>
+<H1><A NAME="SECTION00410000000000000000">3.1 Lack of bank switching</A></H1>
+<P>
+If some tunes stay silent or sound strange in an undescribable manner,
+try toggling the <B>PlaySID environment</B> mode. It is a similar memory
+environment like PlaySID uses. It may sometimes be referred to as
+<em>PlaySID compatibility mode</em>. It is just provided to ensure compatibility
+even in the worst case. This mode is disabled by
+default, since it does not provide as flexible emulation as the native SIDPLAY
+mode does. It is <em>not</em> recommended to enable it by default, unless you really
+encounter some PlaySID-specific sidtunes and you know what you are doing.
+In modern sidtune collections you usually don't need to disable any sort of
+bank-switching.
+<P>
+Please note, that PlaySID's one-file format <B><TT>PSID</B></TT> is still the most common
+format used in sidtune collections. The musics in PSID format might have been
+converted from SIDPLAY's ASCII info file format without any loss of
+data. But the playback may cause problems due to a difference in PlaySID's and
+SIDPLAY's emulation and way of handling and initializing the music data.
+<P>
+PlaySID pretends plain 64 kB of C64 random-access-memory to get rid of 
+C64-bank-switching, but does not allow the safe usage of the memory range <em>under</em>
+the SID address space. Some sidtunes use this memory for large data, e.g. 
+samples in Chris H&#252;lsbeck's ``Chip War'', and they sound damaged in PlaySID.
+The C64 uses bank-switching to map parts of the ROM and I/O address space 
+into the limited physical address space of 64 kB. When SIDPLAY was developed
+from scratch, without any knowledge of PlaySID's inner workings, I decided to 
+emulate partial bank-switching as well (although the current implementation level of
+SIDPLAY does not provide full support for code execution in ROM). The benefit
+of this decision is the ability
+<UL>
+<LI> to replay sidtunes that use any part of the C64 memory,
+especially under the I/O area and under the SID chip
+<LI> to successfully distinguish between RAM and ROM access
+<LI> to intercept code branches into ROM
+</UL>
+<P>
+Attracted (or misguided?) by the plain C64 memory of PlaySID, rippers of 
+hundreds of sidtunes totally neglected bank-switching in the changes they did
+to the music players. Luckily, there are only a few tunes where bank-switching
+would be required to successfully run them on a real C64 or SIDPLAY. 
+Concerning the latter, the tunes just stay silent or in the worst case drop
+some notes or voices. For instance, Fred Gray's ``Army Moves'', ``Madballs'',
+``Troll'' or Martin Galway's ``Mikie'' had been PlaySID-specific, but later were
+fixed to work
+correctly. As long as there are still PlaySID-specific sidtunes floating around
+in various packages on the network, you might have to temporarily enable the
+<em>PlaySID environment</em> mode to get a particular tune to work.
+<P>
+<H1><A NAME="SECTION00420000000000000000">3.2 Emulator dependent code</A></H1>
+<P>
+There is another minor problem with PlaySID-specific sidtunes that can cause
+sidtunes to stay silent or malfunction. We discovered
+some sidtunes that assume the processors' registers to contain a constant value
+(zero) upon initialization.
+Those tunes don't run on a real C64 (where the processors' registers contain
+the last active value, which is unlikely to be zero). Inspite of this,
+SIDPLAY provides the song number in all three processor registers upon song
+initialization. This was proposed by some users in the early development
+stage of SIDPLAY/DOS. In <em>PlaySID compatibility mode</em> SIDPLAY behaves like 
+PlaySID and uses only the Accumulator and clears X- and Y-Register.
+Sub-routines should correctly initialize all the registers and addresses
+they use.
+<P>
+<HR><A NAME="tex2html104" HREF="node5.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="./next_motif.gif"></A> <A NAME="tex2html102" HREF="sidplay.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="./up_motif.gif"></A> <A NAME="tex2html96" HREF="node3.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="./previous_motif.gif"></A> <A NAME="tex2html106" HREF="node1.html"><IMG WIDTH=65 HEIGHT=24 ALIGN=BOTTOM ALT="contents" SRC="./contents_motif.gif"></A>  <BR>
+<B> Next:</B> <A NAME="tex2html105" HREF="node5.html">4 Forcing a tune </A>
+<B>Up:</B> <A NAME="tex2html103" HREF="http://www.geocities.com/SiliconValley/Lakes/5147/index.html">SIDPLAY Home Page</A>
+<B> Previous:</B> <A NAME="tex2html97" HREF="node3.html">2 Frequently asked questions</A>
+</BODY>
+</HTML>

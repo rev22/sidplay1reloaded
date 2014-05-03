@@ -1,0 +1,146 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.0//EN">
+<!--Converted with LaTeX2HTML 96.1-h (September 30, 1996) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds -->
+<HTML>
+<HEAD>
+<TITLE>1 Introduction</TITLE>
+<META NAME="description" CONTENT="1 Introduction">
+<META NAME="keywords" CONTENT="sidplay">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+</HEAD>
+<BODY LANG="EN" BGCOLOR="#FFFFFF" TEXT="#000000" LINK="#0030E0" VLINK="#001870">
+ <A NAME="tex2html82" HREF="node3.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="./next_motif.gif"></A> <A NAME="tex2html80" HREF="sidplay.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="./up_motif.gif"></A> <A NAME="tex2html74" HREF="node1.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="./previous_motif.gif"></A> <A NAME="tex2html84" HREF="node1.html"><IMG WIDTH=65 HEIGHT=24 ALIGN=BOTTOM ALT="contents" SRC="./contents_motif.gif"></A>  <BR>
+<B> Next:</B> <A NAME="tex2html83" HREF="node3.html">2 Frequently asked questions</A>
+<B>Up:</B> <A NAME="tex2html81" HREF="http://www.geocities.com/SiliconValley/Lakes/5147/index.html">SIDPLAY Home Page</A>
+<B> Previous:</B> <A NAME="tex2html75" HREF="node1.html">Contents</A>
+<BR> <P>
+<H1><A NAME="SECTION00200000000000000000">1 Introduction</A></H1>
+<P>
+<H1><A NAME="SECTION00210000000000000000">1.1 What is SIDPLAY</A></H1>
+<P>
+Basically, SIDPLAY is just an ordinary music player software. More specifically, SIDPLAY
+emulates the <B>Sound Interface Device</B> chip (MOS 6581, commonly called <B>SID</B>)
+and the Micro Processor Unit (MOS 6510) of the Commodore 64 on your computer. It is a
+platform independent software emulating these hardware components. Therefore it is able
+to load and execute C64 machine code programs which produce music or sound. In general
+these are independent fragments of code and data which have been ripped from games and
+demonstration programs and have been transferred directly from the C64. All you need is
+a supported operating system and audio hardware with average PCM waveform playback
+capabilities. A fast CPU and a 16-bit sound card are recommended for better performance
+and quality.
+<P>
+SID emulation has its roots in the Amiga programs <B>The 100 most remembered C64
+game-tunes</B> and <B>PlaySID</B> by Per H&#229;kan Sundell and Ron Birk.
+<P>
+SIDPLAY itself is <em>not</em> based on any portions of sourcecode for PlaySID.
+It has been developed and programmed from scratch. As a result and also influenced
+by the different hardware that has been used during development, its SID emulator
+architecture differs significantly from PlaySID.
+<P>
+After PlaySID, SIDPLAY was the second publically available SID music player
+world-wide and the first one on multiple operating systems.
+<P>
+SIDPLAY is <em>not</em> related to the music editing and playing programs on the C64, called
+<B>Sidplayer</B> by Craig Chamberlain and <B>Stereo Sidplayer</B> by Mark Dickenson. In
+the early days of the SIDPLAY project I was not aware of the existence of those C64 programs.
+I didn't want to start any confusion by choosing a similar name<A NAME="tex2html1" HREF="footnode.html#26"><IMG  ALIGN=BOTTOM ALT="gif" SRC="./foot_motif.gif"></A>.
+Nevertheless, minor support for Sidplayer .MUS files is implemented, too.
+<P>
+<H1><A NAME="SECTION00220000000000000000">1.2 Disclaimer</A></H1>
+<P>
+Unlike some available C64 emulators SIDPLAY does not claim it would emulate the original
+SID chip perfectly, neither the MOS-6581 revisions nor the later MOS-8580 revisions.
+Better do not replay at frequencies much higher than 48 kHz.
+<P>
+The analogue output of the SID hardware is extremely complex and partially irregular.
+This makes it almost impossible for an emulator author to develop software that calculates
+equivalent output. Additionally, the output of each individual SID chip
+varies not just slightly due to tolerances in its electronical components, such as capacitors
+for instance. To give you an impression of the extent of a possible difference between two
+SID chips, it is possible that you are hardly able to notice a low-pass filter
+effect on one chip whereas the same filter effect sounds way too strong on
+another chip.
+<P>
+<H1><A NAME="SECTION00230000000000000000">1.3 The term sidtune</A></H1>
+<P>
+Apparently, the European part of the world refers to any piece of Commodore 64 music - where
+the SID chip is used to produce sound - as <B>sidtune</B>, while some of the American part
+of the world only denote music, which is made with the C64 programs <em>Sidplayer</em>
+or <em>Stereo Sidplayer</em>, sidtunes or just <B>sids</B>.
+<P>
+In any SIDPLAY related document the term sidtune applies to any kind of SID music. This is an
+obvious decision, because almost all the music in well-known C64 games and demos was not made
+with either the two applications mentioned above, but each song is commonly called a sidtune.
+Especially it is not distinguished between ready-to-play files and music player machine code
+(and data) in a C64 program.
+<P>
+When a song is just playing through the SID chip this is called a sidtune, too. For instance,
+you can hear someone saying ``I'm listening to the Commando sidtune'' instead of
+``I'm listening to Rob Hubbard's music from Commando''.
+<P>
+<H1><A NAME="SECTION00240000000000000000">1.4 Sidtunes for SIDPLAY and compatibles</A></H1>
+<P>
+More than 7700 different sidtunes from Commodore 64 games and demos are available on the Internet.
+A lot even contain several sub-songs. These musics are still copyrighted by their original creators
+or by the company who owned the rights in the first release.
+<P>
+A lot of the sidtunes are 10 years old. Some are even older, some are not a month old. Hence,
+spreading them together with the original credits is more likely to act as advertising than
+causing any consequential damage. Additionally, the maintainers of recent sidtune collections
+are in contact with a lot of (famous) C64 music composers and get invaluable support upon
+verifying the song credits and ownerships.
+<P>
+See section <A HREF="node3.html#sidcollection">2.4</A> on where to get SID music.
+<P>
+<H1><A NAME="SECTION00250000000000000000">1.5 License Agreement</A></H1>
+<P>
+<font color=0000ff>
+<B>
+NOTE TO DISTRIBUTORS OF FREEWARE, SHAREWARE,
+<BR> 
+PUBLIC DOMAIN SOFTWARE, CD-ROMS AND OTHER
+SIMILAR SOFTWARE
+</B>
+</font>
+<P>
+<B>
+This license applies to any of the official versions of SIDPLAY unless explicitly
+stated otherwise by an official SIDPLAY author. Official versions are any releases
+of this software that have been distributed or linked from the SIDPLAY Home Page,
+respectively.
+Only official SIDPLAY authors are allowed to restrict or tighten up this license
+in either way.
+<P>
+Any official SIDPLAY software package does not need to include a copy of this
+license text. If any official version of SIDPLAY is distributed under the terms
+and conditions of a modified or different license, a copy of the license text has
+to be included.
+</B>
+<P>
+This software including all enclosed files is protected by the German and international
+copyright laws.
+<P>
+You may not modify or alter parts or the entire software package or its contents.
+<P>
+You may not publish, transfer, or otherwise make available this software, in any form, to anyone 
+without the prior written consent of the authors.
+<P>
+You are only free to use, copy and distribute this software for noncommercial use, if no fee is
+charged for copying, distribution, media (e.g. disks, streamer tapes, CD-ROMs ...), porto, package
+or electronic download services, and the software package including all original files remains
+unmodified or unchanged in any other way. It is also prohibited to give away this software as a free
+sample or promotion matter with commercial purposes.
+<P>
+However the authors are interested in the publication of this software by commercial (or private)
+distributors, e.g. by adding it to a Freeware collection or putting it on CD-ROMs. Certainly this
+requires a prior written permission from the author as already stated above.
+<P>
+Firms, companies and private distributors who like to aquire rights in the software or even
+exclusive rights in further programs are hereby asked to contact the authors.
+<P>
+<HR><A NAME="tex2html82" HREF="node3.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="./next_motif.gif"></A> <A NAME="tex2html80" HREF="sidplay.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="./up_motif.gif"></A> <A NAME="tex2html74" HREF="node1.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="./previous_motif.gif"></A> <A NAME="tex2html84" HREF="node1.html"><IMG WIDTH=65 HEIGHT=24 ALIGN=BOTTOM ALT="contents" SRC="./contents_motif.gif"></A>  <BR>
+<B> Next:</B> <A NAME="tex2html83" HREF="node3.html">2 Frequently asked questions</A>
+<B>Up:</B> <A NAME="tex2html81" HREF="http://www.geocities.com/SiliconValley/Lakes/5147/index.html">SIDPLAY Home Page</A>
+<B> Previous:</B> <A NAME="tex2html75" HREF="node1.html">Contents</A>
+</BODY>
+</HTML>
