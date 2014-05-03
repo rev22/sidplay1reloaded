@@ -1,0 +1,57 @@
+# This file is a shell script that caches the results of configure
+# tests run on this system so they can be shared between configure
+# scripts and configure runs.  It is not useful on other systems.
+# If it contains results you don't want to keep, you may remove or edit it.
+#
+# By default, configure uses ./config.cache as the cache file,
+# creating it if it does not exist already.  You can give configure
+# the --cache-file=FILE option to use a different cache file; that is
+# what configure does when it calls configure scripts in
+# subdirectories, so they share the cache.
+# Giving --cache-file=/dev/null disables caching, for debugging configure.
+# config.status only pays attention to the cache file if you give it the
+# --recheck option to rerun configure.
+#
+ac_cv_c_bigendian=${ac_cv_c_bigendian=no}
+ac_cv_func_strcasecmp=${ac_cv_func_strcasecmp=yes}
+ac_cv_func_stricmp=${ac_cv_func_stricmp=no}
+ac_cv_func_strncasecmp=${ac_cv_func_strncasecmp=yes}
+ac_cv_func_strnicmp=${ac_cv_func_strnicmp=no}
+ac_cv_have_bool=${ac_cv_have_bool=yes}
+ac_cv_header_audio_h=${ac_cv_header_audio_h=no}
+ac_cv_header_dmedia_audio_h=${ac_cv_header_dmedia_audio_h=no}
+ac_cv_header_fstream_h=${ac_cv_header_fstream_h=yes}
+ac_cv_header_iomanip_h=${ac_cv_header_iomanip_h=yes}
+ac_cv_header_iostream_h=${ac_cv_header_iostream_h=yes}
+ac_cv_header_limits_h=${ac_cv_header_limits_h=yes}
+ac_cv_header_linux_soundcard_h=${ac_cv_header_linux_soundcard_h=yes}
+ac_cv_header_machine_soundcard_h=${ac_cv_header_machine_soundcard_h=no}
+ac_cv_header_stdc=${ac_cv_header_stdc=yes}
+ac_cv_header_strstrea_h=${ac_cv_header_strstrea_h=no}
+ac_cv_header_strstream_h=${ac_cv_header_strstream_h=yes}
+ac_cv_header_sun_audioio_h=${ac_cv_header_sun_audioio_h=no}
+ac_cv_header_sun_dbriio_h=${ac_cv_header_sun_dbriio_h=no}
+ac_cv_header_sys_audio_h=${ac_cv_header_sys_audio_h=no}
+ac_cv_header_sys_audioio_h=${ac_cv_header_sys_audioio_h=no}
+ac_cv_header_sys_ioctl_h=${ac_cv_header_sys_ioctl_h=yes}
+ac_cv_lib_iostream_main=${ac_cv_lib_iostream_main=no}
+ac_cv_lib_m_main=${ac_cv_lib_m_main=yes}
+ac_cv_path_AR=${ac_cv_path_AR=/usr/bin/ar}
+ac_cv_path_CP=${ac_cv_path_CP=/bin/cp}
+ac_cv_path_RM=${ac_cv_path_RM=/bin/rm}
+ac_cv_path_install=${ac_cv_path_install='/usr/bin/install -c'}
+ac_cv_prog_CXX=${ac_cv_prog_CXX=c++}
+ac_cv_prog_CXXCPP=${ac_cv_prog_CXXCPP='c++ -E'}
+ac_cv_prog_LN_S=${ac_cv_prog_LN_S='ln -s'}
+ac_cv_prog_MAKE=${ac_cv_prog_MAKE=make}
+ac_cv_prog_MAKE2=${ac_cv_prog_MAKE2=make}
+ac_cv_prog_MAKEDEP=${ac_cv_prog_MAKEDEP=makedepend}
+ac_cv_prog_RANLIB=${ac_cv_prog_RANLIB=ranlib}
+ac_cv_prog_cxx_cross=${ac_cv_prog_cxx_cross=no}
+ac_cv_prog_cxx_g=${ac_cv_prog_cxx_g=yes}
+ac_cv_prog_cxx_works=${ac_cv_prog_cxx_works=yes}
+ac_cv_prog_gxx=${ac_cv_prog_gxx=yes}
+ac_cv_sizeof_int=${ac_cv_sizeof_int=4}
+ac_cv_sizeof_long_int=${ac_cv_sizeof_long_int=4}
+ac_cv_sizeof_short_int=${ac_cv_sizeof_short_int=2}
+ac_cv_sys_long_file_names=${ac_cv_sys_long_file_names=yes}

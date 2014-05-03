@@ -1,0 +1,112 @@
+AC_INIT(libsidplay/sidtune.cpp)
+AC_CONFIG_HEADER(libsidplay/include/config.h)
+AC_CANONICAL_SYSTEM
+AC_PREFIX_DEFAULT(/usr)
+
+AC_PROG_CXX
+AC_LANG_CPLUSPLUS
+
+AC_DEFUN(AC_CHECK_BOOL,
+[
+	AC_MSG_CHECKING([for bool])
+        AC_CACHE_VAL(ac_cv_have_bool,
+        [
+		AC_LANG_CPLUSPLUS
+          	AC_TRY_COMPILE([],
+                 [bool aBool = true;],
+                 [ac_cv_have_bool="yes"],
+                 [ac_cv_have_bool="no"])
+        ]) dnl end AC_CHECK_VAL
+        AC_MSG_RESULT($ac_cv_have_bool)
+        if test "$ac_cv_have_bool" = "yes"; then
+        	AC_DEFINE(HAVE_BOOL)
+        fi 
+])
+
+dnl Check whether the compiler has bool.
+AC_CHECK_BOOL
+
+AC_CHECK_SIZEOF(short int)
+AC_CHECK_SIZEOF(int)
+AC_CHECK_SIZEOF(long int)
+
+AC_C_BIGENDIAN
+
+AC_SYS_LONG_FILE_NAMES
+AC_HEADER_STDC
+AC_CHECK_FUNCS(strcasecmp stricmp strncasecmp strnicmp)
+AC_CHECK_HEADERS(limits.h)
+AC_CHECK_HEADERS(strstream.h strstrea.h fstream.h iostream.h iomanip.h)
+AC_CHECK_HEADERS(sys/ioctl.h linux/soundcard.h machine/soundcard.h  \
+  sys/audio.h sun/audioio.h sun/dbriio.h sys/audioio.h  \
+  audio.h dmedia/audio.h)
+
+AC_CHECK_LIB(m,main,[LIBM=-lm],) dnl For FreeBSD.
+AC_SUBST(LIBM)
+AC_CHECK_LIB(iostream,main,[LIBIOS=-liostream],) dnl For old systems.
+AC_SUBST(LIBIOS)
+
+AC_CHECK_PROG(MAKE,gmake,gmake,make)
+if test "$MAKE" = "make"; then
+  AC_CHECK_PROG(MAKE2,gnumake,gnumake,make)
+  MAKE=$MAKE2
+fi;
+AC_SUBST(MAKE)
+
+AC_CHECK_PROG(MAKEDEP,makedepend,makedepend,nomakedep)
+if test "$MAKEDEP" = "nomakedep"; then
+  AC_MSG_ERROR(No ``makedepend'' found.)
+fi;
+AC_SUBST(MAKEDEP)
+
+AC_PROG_RANLIB
+AC_PATH_PROG(AR,ar,ar)
+AC_PATH_PROG(CP,cp,cp)
+AC_PATH_PROG(RM,rm,rm)
+AC_PROG_LN_S
+AC_PROG_INSTALL
+
+AC_MSG_CHECKING(which audio driver to install)
+case "$host" in 
+  *linux*) AC_DEFINE(HAVE_LINUX,1)
+    $CP console/audio/linux/* console
+    AC_MSG_RESULT(linux)
+       ;;
+  *freebsd*) AC_DEFINE(HAVE_FREEBSD,1)
+    $CP console/audio/linux/* console
+    AC_MSG_RESULT(freebsd)
+       ;;
+  *hpux*) AC_DEFINE(HAVE_HPUX,1)
+    $CP console/audio/hpux/* console
+    AC_MSG_RESULT(hpux)
+       ;;
+  *sgi*) AC_DEFINE(HAVE_SGI,1)
+    $CP console/audio/sgi/* console
+    AC_MSG_RESULT(sgi)
+       ;;
+  *solaris*) AC_DEFINE(HAVE_SOLARIS,1)
+    $CP console/audio/sparc/* console
+    AC_MSG_RESULT(sparc)
+       ;;
+  *sunos*) AC_DEFINE(HAVE_SUNOS,1)
+    $CP console/audio/sparc/* console
+    AC_MSG_RESULT(sparc)
+       ;;
+esac
+
+AC_MSG_CHECKING(whether standard member ios::binary is available)
+AC_CACHE_VAL(have_member_ios_binary,
+	AC_TRY_COMPILE(
+	    [#include <fstream.h>],
+		[ifstream myTest(ios::in|ios::binary)],
+		[have_member_ios_binary=yes],
+		[have_member_ios_binary=no]))
+AC_MSG_RESULT($have_member_ios_binary)
+if test "$have_member_ios_binary" = no; then
+  AC_DEFINE(HAVE_IOS_BIN)
+fi
+
+AC_OUTPUT(console/Makefile libsidplay/Makefile Makefile)
+
+dnl Build dependencies.
+$MAKE depend

@@ -1,0 +1,17 @@
+diff -urN sidplay-1.36.25-orig/libsidplay/include/config.h.in sidplay-1.36.25/libsidplay/include/config.h.in
+--- sidplay-1.36.25-orig/libsidplay/include/config.h.in	Sat Jun 27 12:00:37 1998
++++ sidplay-1.36.25/libsidplay/include/config.h.in	Sat Jun 27 12:01:51 1998
+@@ -105,11 +105,11 @@
+  *
+  * This option is highly used and tested. A failing little endian system
+  * has not been reported so far.  */
+-#undef DIRECT_FIXPOINT
++#define DIRECT_FIXPOINT
+ 
+ /* This will cause little(big) endian machines to directly access little(big)
+  * endian values in memory structures or arrays, disregarding alignment.  */
+-#undef OPTIMIZE_ENDIAN_ACCESS
++#define OPTIMIZE_ENDIAN_ACCESS
+ 	
+ /* --------------------------------------------------------------------------
+  * Don't touch these!
