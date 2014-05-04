@@ -66,7 +66,7 @@ bool sidTune::MUS_fileSupport(const void* musBuffer, udword musLength)
     for ( int line = 0; line < 5; line++ )
     {
         char c;
-        char si = 0;  // count copied characters
+        int si = 0;  // count copied characters
         do
         {
             // ASCII CHR$ conversion
