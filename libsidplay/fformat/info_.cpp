@@ -230,8 +230,8 @@ bool sidTune::INFO_fileSupport(const void* dataBuffer, udword dataLength,
         // Now check all possible keywords.
         if ( myStrNcaseCmp(cmpBuf,keyword_address) == 0 )
         {
-            istrstream addrIn(cmpBuf + strlen(keyword_address),
-                              toolLen - strlen(keyword_address));
+	  std::istringstream addrIn(std::string(cmpBuf + strlen(keyword_address),
+						toolLen - strlen(keyword_address)));
             info.loadAddr = (uword)readHex( addrIn );
             info.initAddr = (uword)readHex( addrIn );
             info.playAddr = (uword)readHex( addrIn );
@@ -243,8 +243,8 @@ bool sidTune::INFO_fileSupport(const void* dataBuffer, udword dataLength,
         }
         else if ( myStrNcaseCmp(cmpBuf,keyword_songs) == 0 )
         {
-            istrstream numIn( cmpBuf + strlen(keyword_songs),
-                              toolLen - strlen(keyword_songs) );
+	  std::istringstream numIn(std::string( cmpBuf + strlen(keyword_songs),
+						toolLen - strlen(keyword_songs) ));
             if ( !numIn )
             {
                 return false;
@@ -255,8 +255,8 @@ bool sidTune::INFO_fileSupport(const void* dataBuffer, udword dataLength,
         }
         else if ( myStrNcaseCmp(cmpBuf,keyword_speed) == 0 )
         {
-            istrstream speedIn( cmpBuf + strlen(keyword_speed),
-                                toolLen - strlen(keyword_speed) );
+	  std::istringstream speedIn(std::string( cmpBuf + strlen(keyword_speed),
+						  toolLen - strlen(keyword_speed) ));
             if ( !speedIn )
             {
                 return false;

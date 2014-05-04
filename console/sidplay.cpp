@@ -2,13 +2,21 @@
 // /home/ms/source/sidplay/RCS/sidplay.cpp,v
 //
 
-#include <iostream.h>
-#include <iomanip.h>
-#include <fstream.h>
+#include <iostream>
+#include <iomanip>
+#include <fstream>
 #include <signal.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+
+using std::cerr;
+using std::cout;
+using std::endl;
+using std::hex;
+using std::setw;
+using std::setfill;
+using std::dec;
 
 #include "player.h"
 #include "myendian.h"

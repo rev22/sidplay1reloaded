@@ -6,9 +6,9 @@
 #define PSID__H
 
 
-#include <fstream.h>
-#include <iostream.h>
-#include <iomanip.h>
+#include <fstream>
+#include <iostream>
+#include <iomanip>
 #include <string.h>
 
 #include "mytypes.h"

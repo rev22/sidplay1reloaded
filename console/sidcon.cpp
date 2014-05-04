@@ -8,8 +8,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <iostream.h>
-#include <iomanip.h>
+#include <iostream>
+#include <iomanip>
 
 #include "sidtune.h"
 #include "fformat.h"
@@ -25,6 +25,12 @@ static bool isDir(const char* file);
 static void recurseDir(DIR* directory, const char* path);
 static void handleFile(const char* file);
 static void printUsage();
+
+using std::cin;
+using std::cerr;
+using std::cout;
+using std::endl;
+using std::flush;
 
 int main(int argc, char* argv[])
 {

@@ -7,14 +7,10 @@
 
 
 #include "compconf.h"
-#include <fstream.h>
-#include <iostream.h>
-#include <iomanip.h>
-#if defined(HAVE_STRSTREA_H)
-  #include <strstrea.h>
-#else
-  #include <strstream.h>
-#endif
+#include <fstream>
+#include <iostream>
+#include <iomanip>
+#include <sstream>
 #include <ctype.h>
 #include <string.h>
 #include "mytypes.h"

@@ -35,9 +35,20 @@
 // POSSIBILITY OF SUCH DAMAGE.
 // --------------------------------------------------------------------------
 
-#include <iostream.h>
-#include <iomanip.h>
-#include <fstream.h>
+#include <iostream>
+#include <iomanip>
+#include <fstream>
+
+using std::cout;
+using std::cerr;
+using std::dec;
+using std::setw;
+using std::endl;
+using std::hex;
+using std::ofstream;
+using std::setfill;
+using std::ios;
+using std::flush;
 
 #include <stdlib.h>
 #include <string.h>
@@ -510,11 +521,7 @@ int main(int argc, char *argv[])
 	cout << endl;
 
 	// Open output file stream.
-#if defined(HAVE_IOS_BIN)
-    ofstream waveFile( waveFileName, ios::out | ios::bin | ios::noreplace );
-#else
-	ofstream waveFile( waveFileName, ios::out | ios::binary | ios::noreplace );
-#endif
+	ofstream waveFile( waveFileName, ios::out | ios::binary );
 	if ( !waveFile )
 	{
         cerr << "ERROR: Cannot create output file " << "``" << waveFileName << "'', "
@@ -537,7 +544,7 @@ int main(int argc, char *argv[])
 #endif
 		sampleBufferSize = myEmuConfig.frequency * 2;
 		headerSize = sizeof(au_hdr);
-        waveFile.write( (unsigned char*)&my_au_hdr, headerSize );
+        waveFile.write( (char*)&my_au_hdr, headerSize );
 	}
 	else
 	{
@@ -563,7 +570,7 @@ int main(int argc, char *argv[])
 		my_wav_hdr.length = convertEndianess (dataLength + headerSize - 8);
 		my_wav_hdr.data_length = convertEndianess (dataLength);
 #endif
-        waveFile.write( (unsigned char*)&my_wav_hdr, headerSize );
+        waveFile.write( (char*)&my_wav_hdr, headerSize );
 	}
 
 	// Make a buffer that holds 1 second of audio data.
@@ -630,7 +637,7 @@ int main(int argc, char *argv[])
 		if (flags & FLAG_ULAW)
 		{
 			buffer2ulaw(sampleBuffer, sampleBufferSize);
-			waveFile.write( sampleBuffer, sampleBufferSize / 2 );
+			waveFile.write( (char*)sampleBuffer, sampleBufferSize / 2 );
 		}
 		else
 		{
@@ -640,7 +647,7 @@ int main(int argc, char *argv[])
 				endianswitch_buffer( sampleBuffer, sampleBufferSize );
 			}
 #endif
-			waveFile.write( sampleBuffer, sampleBufferSize );
+			waveFile.write( (char*)sampleBuffer, sampleBufferSize );
 		}
 
 		// Print progress report.

@@ -10,11 +10,7 @@
 #include "mytypes.h"
 
 #include <string.h>
-#if defined(HAVE_STRSTREA_H)
-  #include <strstrea.h>
-#else
-  #include <strstream.h>
-#endif
+#include <sstream>
 
 #if defined(HAVE_STRCASECMP)
   #undef stricmp
@@ -48,18 +44,18 @@ extern char* fileExtOfPath(char* s);
 
 // Parse input string stream. Read and convert a hexa-decimal number up 
 // to a ``,'' or ``:'' or ``\0'' or end of stream.
-extern udword readHex(istrstream& parseStream);
+extern udword readHex(std::istringstream& parseStream);
 
 // Parse input string stream. Read and convert a decimal number up 
 // to a ``,'' or ``:'' or ``\0'' or end of stream.
-extern udword readDec(istrstream& parseStream);
+extern udword readDec(std::istringstream& parseStream);
 
 // Search terminated string for next newline sequence.
 // Skip it and return pointer to start of next line.
 extern const char* returnNextLine(const char* pBuffer);
 
 // Skip any characters in an input string stream up to '='.
-extern void skipToEqu(istrstream& parseStream);
+extern void skipToEqu(std::istringstream& parseStream);
 
 // Start at first character behind '=' and copy rest of string.
 extern void copyStringValueToEOL(const char* pSourceStr, char* pDestStr, int destMaxLen);

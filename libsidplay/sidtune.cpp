@@ -4,8 +4,8 @@
 // Information on usage of this class in "include/sidtune.h".
 //
 
-#include <iostream.h>
-#include <iomanip.h>
+#include <iostream>
+#include <iomanip>
 #include <string.h>
 #include <limits.h>
 
@@ -283,11 +283,7 @@ udword sidTune::loadFile(const char* fileName, ubyte** bufferRef)
 	udword fileLen = 0;
 	status = false;
 	// Open binary input file stream at end of file.
-#if defined(HAVE_IOS_BIN)
-	ifstream myIn( fileName, ios::in | ios::bin | ios::ate | ios::nocreate );
-#else
-	ifstream myIn( fileName, ios::in | ios::binary | ios::ate | ios::nocreate );
-#endif
+	std::ifstream myIn( fileName, std::ios::in | std::ios::binary | std::ios::ate );
 	// As a replacement for !is_open(), bad() and the NOT-operator don't seem
 	// to work on all systems.
 #if defined(DONT_HAVE_IS_OPEN)
@@ -316,9 +312,9 @@ udword sidTune::loadFile(const char* fileName, ubyte** bufferRef)
 		else  // should be uncompressed file
 		{
 #if defined(HAVE_SEEKG_OFFSET)
-			fileLen = (myIn.seekg(0,ios::end)).offset();
+			fileLen = (myIn.seekg(0,std::ios::end)).offset();
 #else
-			myIn.seekg(0, ios::end);
+			myIn.seekg(0, std::ios::end);
 			fileLen = (udword)myIn.tellg();
 #endif
 			if ( *bufferRef != 0 )
@@ -336,16 +332,16 @@ udword sidTune::loadFile(const char* fileName, ubyte** bufferRef)
 				*(*bufferRef+fileLen) = 0;
 			}
 			// Load uncompressed file.
-			myIn.seekg(0, ios::beg);
+			myIn.seekg(0, std::ios::beg);
 			udword restFileLen = fileLen;
 			while ( restFileLen > INT_MAX )
 			{
-				myIn.read( (ubyte*)*bufferRef + (fileLen - restFileLen), INT_MAX );
+				myIn.read( (char*)*bufferRef + (fileLen - restFileLen), INT_MAX );
 				restFileLen -= INT_MAX;
 			}
 			if ( restFileLen > 0 )
 			{
-				myIn.read( (ubyte*)*bufferRef + (fileLen - restFileLen), restFileLen );
+				myIn.read( (char*)*bufferRef + (fileLen - restFileLen), restFileLen );
 			}
 			if ( myIn.bad() )
 			{
@@ -532,11 +528,11 @@ void sidTune::stdinConstructor()
 	if (( fileBuf = new ubyte[maxSidtuneFileLen] ) == 0 )
 		return;
 	udword i = 0;
-	ubyte datb;
+	char datb;
 	// We only read as much as fits in the buffer.
 	// This way we avoid choking on huge data.
-	while (cin.get(datb) && i<maxSidtuneFileLen)
-		fileBuf[i++] = datb;
+	while (std::cin.get(datb) && i<maxSidtuneFileLen)
+	  fileBuf[i++] = (ubyte)datb;
 	info.dataFileLen = i;
     getSidtuneFromFileBuffer(fileBuf,info.dataFileLen);
 }
@@ -867,16 +863,16 @@ void sidTune::convertOldStyleSpeedToTables(udword oldStyleSpeed)
 // File format conversion ---------------------------------------------------
 //
 				
-bool sidTune::saveToOpenFile( ofstream& toFile, const ubyte* buffer, udword bufLen )
+bool sidTune::saveToOpenFile( std::ofstream& toFile, const ubyte* buffer, udword bufLen )
 {
 	udword lenToWrite = bufLen;
 	while ( lenToWrite > INT_MAX )
 	{
-		toFile.write( buffer + (bufLen - lenToWrite), INT_MAX );
+		toFile.write( (char*)buffer + (bufLen - lenToWrite), INT_MAX );
 		lenToWrite -= INT_MAX;
 	}
 	if ( lenToWrite > 0 )
-		toFile.write( buffer + (bufLen - lenToWrite), lenToWrite );
+		toFile.write( (char*)buffer + (bufLen - lenToWrite), lenToWrite );
 	if ( toFile.bad() )
 	{
 		info.statusString = text_fileIoError;
@@ -897,17 +893,11 @@ bool sidTune::saveC64dataFile( const char* fileName, bool overWriteFlag )
 	if ( status )
 	{
 		// Open binary output file stream.
-		long int createAttr;
-#if defined(HAVE_IOS_BIN)
-		createAttr = ios::out | ios::bin;
-#else
-		createAttr = ios::out | ios::binary;
-#endif
+		std::ios_base::openmode createAttr;
+		createAttr = std::ios::out | std::ios::binary;
 		if ( overWriteFlag )
-			createAttr |= ios::trunc;
-		else
-			createAttr |= ios::noreplace;
-		ofstream fMyOut( fileName, createAttr );
+			createAttr |= std::ios::trunc;
+		std::ofstream fMyOut( fileName, createAttr );
 		if ( !fMyOut )
 		{ 
 			info.statusString = text_cantCreateFile;
@@ -918,7 +908,7 @@ bool sidTune::saveC64dataFile( const char* fileName, bool overWriteFlag )
 			ubyte saveAddr[2];
 			saveAddr[0] = info.loadAddr & 255;
 			saveAddr[1] = info.loadAddr >> 8;
-			fMyOut.write( saveAddr, 2 );
+			fMyOut.write( (char*)saveAddr, 2 );
 			// Data starts at: bufferaddr + fileOffset
 			// Data length: info.dataFileLen - fileOffset
 			if ( !saveToOpenFile( fMyOut, cachePtr + fileOffset, info.dataFileLen - fileOffset ) )
@@ -944,13 +934,11 @@ bool sidTune::saveSIDfile( const char* fileName, bool overWriteFlag )
 	if ( status )
 	{
 		// Open ASCII output file stream.
-		long int createAttr;
-		createAttr = ios::out;
+		std::ios_base::openmode createAttr;
+		createAttr = std::ios::out;
 		if ( overWriteFlag )
-			createAttr |= ios::trunc;
-		else
-			createAttr |= ios::noreplace;
-		ofstream fMyOut( fileName, createAttr );
+			createAttr |= std::ios::trunc;
+		std::ofstream fMyOut( fileName, createAttr );
 		if ( !fMyOut )
 		{ 
 			info.statusString = text_cantCreateFile;
@@ -980,17 +968,11 @@ bool sidTune::savePSIDfile( const char* fileName, bool overWriteFlag )
 	if ( status )
 	{
 		// Open binary output file stream.
-		long int createAttr;
-#if defined(HAVE_IOS_BIN)
-		createAttr = ios::out | ios::bin;
-#else
-		createAttr = ios::out | ios::binary;
-#endif
-	  if ( overWriteFlag )
-			createAttr |= ios::trunc;
-		else
-			createAttr |= ios::noreplace;
-		ofstream fMyOut( fileName, createAttr );
+		std::ios_base::openmode createAttr;
+		createAttr = std::ios::out | std::ios::binary;
+		if ( overWriteFlag )
+			createAttr |= std::ios::trunc;
+		std::ofstream fMyOut( fileName, createAttr );
 		if ( !fMyOut )
 		{
 			info.statusString = text_cantCreateFile;

@@ -8,11 +8,7 @@
 
 #include "compconf.h"
 #include <string.h>
-#if defined(HAVE_STRSTREA_H)
-  #include <strstrea.h>
-#else
-  #include <strstream.h>
-#endif
+#include <sstream>
 #include "mytypes.h"
 #include "myendian.h"
 #include "fformat.h"

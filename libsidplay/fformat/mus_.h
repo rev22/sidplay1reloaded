@@ -6,14 +6,9 @@
 #define MUS__H
 
 
-#include <iostream.h>
-#include <iomanip.h>
+#include <iostream>
 #include "compconf.h"
-#if defined(HAVE_STRSTREA_H)
-#include <strstrea.h>
-#else
-#include <strstream.h>
-#endif
+#include <sstream>
 #include "mytypes.h"
 #include "myendian.h"
 #include "smart.h"

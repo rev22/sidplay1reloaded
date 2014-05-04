@@ -93,9 +93,9 @@ bool sidTune::SID_fileSupport(const void* dataBuffer, udword dataBufLen,
 				restLen = sidBufLen - (udword)(pParseBuf - (char*)sidBuffer);
 			}
 			// Create whitespace eating (!) input string stream.
-			istrstream parseStream( pParseBuf, restLen );
+			std::istringstream parseStream(std::string( pParseBuf, restLen ));
 			// A second one just for copying.
-			istrstream parseCopyStream( pParseBuf, restLen );
+			std::istringstream parseCopyStream(std::string( pParseBuf, restLen ));
 			if ( !parseStream || !parseCopyStream )
 			{
 				break;
@@ -205,13 +205,13 @@ bool sidTune::SID_fileSupport(const void* dataBuffer, udword dataBufLen,
 }
 
 
-bool sidTune::SID_fileSupportSave( ofstream& fMyOut )
+bool sidTune::SID_fileSupportSave( std::ofstream& fMyOut )
 {
-	fMyOut << keyword_id << endl
-		<< keyword_address << hex << setw(4) << setfill('0') << 0 << ','
-		<< hex << setw(4) << info.initAddr << ","
-		<< hex << setw(4) << info.playAddr << endl
-		<< keyword_songs << dec << (int)info.songs << "," << (int)info.startSong << endl;
+	fMyOut << keyword_id << std::endl
+		<< keyword_address << std::hex << std::setw(4) << std::setfill('0') << 0 << ','
+		<< std::hex << std::setw(4) << info.initAddr << ","
+		<< std::hex << std::setw(4) << info.playAddr << std::endl
+		<< keyword_songs << std::dec << (int)info.songs << "," << (int)info.startSong << std::endl;
 
 	udword oldStyleSpeed = 0;
 	int maxBugSongs = ((info.songs <= 32) ? info.songs : 32);
@@ -224,13 +224,13 @@ bool sidTune::SID_fileSupportSave( ofstream& fMyOut )
 	}
 
 	fMyOut
-		<< keyword_speed << hex << setw(8) << oldStyleSpeed << endl
-		<< keyword_name << info.nameString << endl
-		<< keyword_author << info.authorString << endl
-		<< keyword_copyright << info.copyrightString << endl;
+		<< keyword_speed << std::hex << std::setw(8) << oldStyleSpeed << std::endl
+		<< keyword_name << info.nameString << std::endl
+		<< keyword_author << info.authorString << std::endl
+		<< keyword_copyright << info.copyrightString << std::endl;
 	if ( info.musPlayer )
 	{
-		fMyOut << keyword_musPlayer << endl;
+		fMyOut << keyword_musPlayer << std::endl;
 	}
 	if ( !fMyOut )
 	{

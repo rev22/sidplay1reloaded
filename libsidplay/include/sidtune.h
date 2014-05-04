@@ -9,8 +9,7 @@
 #ifndef SIDTUNE_H
 #define SIDTUNE_H
 
-
-#include <fstream.h>
+#include <fstream>
 #include "mytypes.h"
 
 const uint classMaxSongs = 256;   // also file format limit
@@ -216,7 +215,7 @@ class sidTune
 	bool placeSidTuneInC64mem( ubyte* c64buf );
 
 	udword loadFile(const char* fileName, ubyte** bufferRef);
-	bool saveToOpenFile( ofstream& toFile, const ubyte* buffer, udword bufLen );
+	bool saveToOpenFile( std::ofstream& toFile, const ubyte* buffer, udword bufLen );
 
 	// Data caching.
 	bool cacheRawData(const void* sourceBuffer, udword sourceBufLen);
@@ -225,7 +224,7 @@ class sidTune
 	// Support for various file formats.
 
 	virtual bool PSID_fileSupport(const void* buffer, udword bufLen);
-	virtual bool PSID_fileSupportSave(ofstream& toFile, const ubyte* dataBuffer);
+	virtual bool PSID_fileSupportSave(std::ofstream& toFile, const ubyte* dataBuffer);
 
         virtual bool MUS_fileSupport(const void* buffer, udword bufLen);
         virtual void MUS_installPlayer(ubyte *c64buf);
@@ -235,7 +234,7 @@ class sidTune
 
 	virtual bool SID_fileSupport(const void* dataBuffer, udword dataBufLen,
                                      const void* sidBuffer, udword sidBufLen);
-	virtual bool SID_fileSupportSave(ofstream& toFile);
+	virtual bool SID_fileSupportSave(std::ofstream& toFile);
 
 	
  private:  // ---------------------------------------------------------------

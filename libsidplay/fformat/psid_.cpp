@@ -89,7 +89,7 @@ bool sidTune::PSID_fileSupport(const void* buffer, udword bufLen)
 }
 
 
-bool sidTune::PSID_fileSupportSave(ofstream& fMyOut, const ubyte* dataBuffer)
+bool sidTune::PSID_fileSupportSave(std::ofstream& fMyOut, const ubyte* dataBuffer)
 {
 	psidHeader myHeader;
 	writeBEdword((ubyte*)myHeader.id,0x50534944);  // 'PSID'
@@ -134,10 +134,10 @@ bool sidTune::PSID_fileSupportSave(ofstream& fMyOut, const ubyte* dataBuffer)
 	ubyte saveAddr[2];
 	saveAddr[0] = info.loadAddr & 255;
 	saveAddr[1] = info.loadAddr >> 8;
-	fMyOut.write( saveAddr, 2 );
+	fMyOut.write( (char*)saveAddr, 2 );
 	// Data starts at: bufferaddr + fileoffset
 	// Data length: datafilelen - fileoffset
-	fMyOut.write( dataBuffer + fileOffset, info.dataFileLen - fileOffset );
+	fMyOut.write( (char*)dataBuffer + fileOffset, info.dataFileLen - fileOffset );
 	if ( !fMyOut )
 	{
 		return false;

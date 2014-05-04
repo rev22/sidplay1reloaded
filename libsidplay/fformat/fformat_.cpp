@@ -78,7 +78,7 @@ char* fileExtOfPath(char* s)
 
 // Parse input string stream. Read and convert a hexa-decimal number up 
 // to a ``,'' or ``:'' or ``\0'' or end of stream.
-udword readHex( istrstream& hexin )
+udword readHex( std::istringstream& hexin )
 {
 	udword hexLong = 0;
 	char c;
@@ -107,7 +107,7 @@ udword readHex( istrstream& hexin )
 
 // Parse input string stream. Read and convert a decimal number up 
 // to a ``,'' or ``:'' or ``\0'' or end of stream.
-udword readDec( istrstream& decin )
+udword readDec( std::istringstream& decin )
 {
 	udword hexLong = 0;
 	char c;
@@ -164,7 +164,7 @@ const char* returnNextLine(const char* s)
 }
 
 // Skip any characters in an input string stream up to '='.
-void skipToEqu( istrstream& parseStream )
+void skipToEqu( std::istringstream& parseStream )
 {
 	char c;
 	do

@@ -6,10 +6,10 @@
 #define PP_H
 
 
-#include <fstream.h>
+#include <fstream>
 #include "mytypes.h"
 
-extern bool depp(ifstream& inputFile, ubyte** destBufRef);
+extern bool depp(std::ifstream& inputFile, ubyte** destBufRef);
 extern bool ppIsCompressed();
 extern udword ppUncompressedLen();
 extern const char* ppErrorString;

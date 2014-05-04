@@ -8,172 +8,6 @@ typedef unsigned long int ulint;
 template <class T>
 class smartPtrBase
 {
- public:  // ----------------------------------------------------------------
-    
-    // --- constructors ---
-    
-    smartPtrBase(T* buffer, ulint bufferLen, bool bufOwner = false) : dummy(0)
-    {
-        doFree = bufOwner;
-        if ( bufferLen >= 1 )
-        {
-            pBufCurrent = ( bufBegin = buffer );
-            bufEnd = bufBegin + bufferLen;
-            bufLen = bufferLen;
-            status = true;
-        }
-        else
-        {
-            pBufCurrent = ( bufBegin = ( bufEnd = 0 ));
-            bufLen = 0;
-            status = false;
-        }
-    }
-    
-    // --- destructor ---
-    
-    virtual ~smartPtrBase()
-    {
-        if ( doFree && (bufBegin != 0) )
-        {
-            delete[] bufBegin;
-        }
-    }
-    
-    // --- public member functions ---
-    
-    virtual T* tellBegin()  { return bufBegin; }
-    virtual ulint tellLength()  { return bufLen; }
-    virtual ulint tellPos()  { return (ulint)(pBufCurrent-bufBegin); }
-
-    virtual bool checkIndex(ulint index)
-    {
-        return ((pBufCurrent+index)<bufEnd);
-    }
-    
-    virtual bool reset()
-    {
-        if ( bufLen >= 1 )
-        {
-            pBufCurrent = bufBegin;
-            return (status = true);
-        }
-        else
-        {
-            return (status = false);
-        }
-    }
-
-    virtual bool good()
-    {
-        return (pBufCurrent<bufEnd);
-    }
-    
-    virtual bool fail()  
-    {
-        return (pBufCurrent==bufEnd);
-    }
-    
-    virtual void operator ++()
-    {
-        if ( good() )
-        {
-            pBufCurrent++;
-        }
-        else
-        {
-            status = false;
-        }
-    }
-    
-    virtual void operator ++(int)
-    {
-        if ( good() )
-        {
-            pBufCurrent++;
-        }
-        else
-        {
-            status = false;
-        }
-    }
-    
-    virtual void operator --()
-    {
-        if ( !fail() )
-        {
-            pBufCurrent--;
-        }
-        else
-        {
-            status = false;
-        }
-    }
-    
-    virtual void operator --(int)
-    {
-        if ( !fail() )
-        {
-            pBufCurrent--;
-        }
-        else
-        {
-            status = false;
-        }
-    }
-    
-    virtual void operator +=(ulint offset)
-    {
-        if (checkIndex(offset))
-        {
-            pBufCurrent += offset;
-        }
-        else
-        {
-            status = false;
-        }
-    }
-    
-    virtual void operator -=(ulint offset)
-    {
-        if ((pBufCurrent-offset) >= bufBegin)
-        {
-            pBufCurrent -= offset;
-        }
-        else
-        {
-            status = false;
-        }
-    }
-    
-    T operator*()
-    {
-        if ( good() )
-        {
-            return *pBufCurrent;
-        }
-        else
-        {
-            status = false;
-            return dummy;
-        }
-    }
-
-    T& operator [](ulint index)
-    {
-        if (checkIndex(index))
-        {
-            return pBufCurrent[index];
-        }
-        else
-        {
-            status = false;
-            return dummy;
-        }
-    }
-
-    virtual operator bool()  { return status; }
-    
  protected:  // -------------------------------------------------------------
     
     T* bufBegin;
@@ -183,6 +17,173 @@ class smartPtrBase
     bool status;
     bool doFree;
     T dummy;
+
+ public:  // ----------------------------------------------------------------
+    
+    // --- constructors ---
+    
+    smartPtrBase(T* buffer, ulint bufferLen, bool bufOwner = false) : dummy(0)
+    {
+        doFree = bufOwner;
+        if ( bufferLen >= 1 )
+        {
+            this->pBufCurrent = ( this->bufBegin = buffer );
+            this->bufEnd = this->bufBegin + bufferLen;
+            this->bufLen = bufferLen;
+            this->status = true;
+        }
+        else
+        {
+            this->pBufCurrent = ( this->bufBegin = ( this->bufEnd = 0 ));
+            this->bufLen = 0;
+            this->status = false;
+        }
+    }
+    
+    // --- destructor ---
+    
+    virtual ~smartPtrBase()
+    {
+        if ( doFree && (this->bufBegin != 0) )
+        {
+            delete[] this->bufBegin;
+        }
+    }
+    
+    // --- public member functions ---
+    
+    virtual T* tellBegin()  { return this->bufBegin; }
+    virtual ulint tellLength()  { return this->bufLen; }
+    virtual ulint tellPos()  { return (ulint)(this->pBufCurrent-bufBegin); }
+
+    virtual bool checkIndex(ulint index)
+    {
+        return ((this->pBufCurrent+index)<this->bufEnd);
+    }
+    
+    virtual bool reset()
+    {
+        if ( this->bufLen >= 1 )
+        {
+            this->pBufCurrent = this->bufBegin;
+            return (this->status = true);
+        }
+        else
+        {
+            return (this->status = false);
+        }
+    }
+
+    virtual bool good()
+    {
+        return (this->pBufCurrent<this->bufEnd);
+    }
+    
+    virtual bool fail()  
+    {
+        return (this->pBufCurrent==this->bufEnd);
+    }
+    
+    virtual void operator ++()
+    {
+        if ( good() )
+        {
+            this->pBufCurrent++;
+        }
+        else
+        {
+            this->status = false;
+        }
+    }
+    
+    virtual void operator ++(int)
+    {
+        if ( good() )
+        {
+            this->pBufCurrent++;
+        }
+        else
+        {
+            this->status = false;
+        }
+    }
+    
+    virtual void operator --()
+    {
+        if ( !fail() )
+        {
+            this->pBufCurrent--;
+        }
+        else
+        {
+            this->status = false;
+        }
+    }
+    
+    virtual void operator --(int)
+    {
+        if ( !fail() )
+        {
+            this->pBufCurrent--;
+        }
+        else
+        {
+            this->status = false;
+        }
+    }
+    
+    virtual void operator +=(ulint offset)
+    {
+        if (checkIndex(offset))
+        {
+            this->pBufCurrent += offset;
+        }
+        else
+        {
+            this->status = false;
+        }
+    }
+    
+    virtual void operator -=(ulint offset)
+    {
+        if ((pBufCurrent-offset) >= this->bufBegin)
+        {
+            this->pBufCurrent -= offset;
+        }
+        else
+        {
+            this->status = false;
+        }
+    }
+    
+    T operator*()
+    {
+        if ( good() )
+        {
+	  return *(this->pBufCurrent);
+        }
+        else
+        {
+            this->status = false;
+            return dummy;
+        }
+    }
+
+    T& operator [](ulint index)
+    {
+        if (checkIndex(index))
+        {
+            return this->pBufCurrent[index];
+        }
+        else
+        {
+            this->status = false;
+            return dummy;
+        }
+    }
+
+    virtual operator bool()  { return this->status; }
+    
 };
 
 
@@ -207,16 +208,16 @@ class smartPtr : public smartPtrBase<T>
     {
         if ( bufferLen >= 1 )
         {
-            pBufCurrent = ( bufBegin = buffer );
-            bufEnd = bufBegin + bufferLen;
-            bufLen = bufferLen;
-            status = true;
+            this->pBufCurrent = ( this->bufBegin = buffer );
+            this->bufEnd = this->bufBegin + bufferLen;
+            this->bufLen = bufferLen;
+            this->status = true;
         }
         else
         {
-            pBufCurrent = bufBegin = bufEnd = 0;
-            bufLen = 0;
-            status = false;
+            this->pBufCurrent = this->bufBegin = this->bufEnd = 0;
+            this->bufLen = 0;
+            this->status = false;
         }
     }
 };

@@ -7,7 +7,7 @@
 
 
 // exports
-bool depp(ifstream& source, ubyte** destRef);
+bool depp(std::ifstream& source, ubyte** destRef);
 bool ppIsCompressed();
 udword ppUncompressedLen();  // return the length of the uncompressed data
 const char* ppErrorString;
@@ -158,14 +158,14 @@ bool ppIsCompressed()
 //                  or some error (=> ppErrorString) has occured
 //          true  = successful return (size via ppUncompressedLen())           
 
-bool depp( ifstream& source, ubyte** destRef )
+bool depp( std::ifstream& source, ubyte** destRef )
 {
 	globalError = false;  // assume no error
 	isCompressed = false;
 	outputLen = 0;
 
 	// Check for header signature.
-	source.seekg(0,ios::beg);
+	source.seekg(0,std::ios::beg);
 	char sig[5];
 	source.read(sig,4);
 	sig[4] = 0;
@@ -176,7 +176,7 @@ bool depp( ifstream& source, ubyte** destRef )
 	}
 	
 	// Load efficiency table.
-	source.read(efficiency,4);
+	source.read((char*)efficiency,4);
 	udword eff = readEndian(efficiency[0],efficiency[1],efficiency[2],efficiency[3]);
 	if (( eff != PP_BITS_FAST ) &&
 		( eff != PP_BITS_MEDIOCRE ) &&
@@ -195,12 +195,12 @@ bool depp( ifstream& source, ubyte** destRef )
 
 	// Uncompressed size is stored at end of source file.
 #if defined(HAVE_SEEKG_OFFSET)
-	udword inputlen = (source.seekg(0,ios::end)).offset();
+	udword inputlen = (source.seekg(0,std::ios::end)).offset();
 #else
-	source.seekg( 0, ios::end );
+	source.seekg( 0, std::ios::end );
 	udword inputlen = (udword)source.tellg();
 #endif
-	source.seekg( 0, ios::beg );
+	source.seekg( 0, std::ios::beg );
 
 	// Get memory for source file.
 	if (( sourceBuf = new ubyte[inputlen]) == 0 )
@@ -213,14 +213,14 @@ bool depp( ifstream& source, ubyte** destRef )
 	// this to be able to load beyond the 64KB segment boundary.
 	udword restfilelen = inputlen;
 	while ( restfilelen > INT_MAX )  {
-		source.read( (ubyte*)sourceBuf + (inputlen - restfilelen), INT_MAX );
+		source.read( (char*)sourceBuf + (inputlen - restfilelen), INT_MAX );
 		restfilelen -= INT_MAX;
 	}
 	if ( restfilelen > 0 )
-		source.read( (ubyte*)sourceBuf + (inputlen - restfilelen), restfilelen );
+		source.read( (char*)sourceBuf + (inputlen - restfilelen), restfilelen );
 
 	// reset file pointer
-	source.seekg( 0, ios::beg );
+	source.seekg( 0, std::ios::beg );
 
 	// backwards decompression
 	readPtr = sourceBuf + inputlen -4;
